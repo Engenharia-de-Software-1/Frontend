@@ -28,3 +28,9 @@ a {
     background: black;
   }
 }
+
+input {
+  outline: none;
+  outline-style: none;
+  outline-color: transparent;
+}

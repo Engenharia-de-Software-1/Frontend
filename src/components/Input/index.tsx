@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import { inputStyle, mainStyle } from './styles';
+import { inputStyle, mainStyle, legendStyle } from './styles';
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement>{
     haslabel?: boolean;
@@ -14,26 +14,18 @@ function Input({
     top = "mt-0",
     ...rest
 }: IInputProps) {
-    return (        
-    <div className={`${mainStyle}`}>
-        { haslabel && (
-            <label>{label}</label>
-        )}
-        <input className= {`
-            ${inputStyle}   
-            ${top}         
-            appearance-none 
-            border 
-            rounded             
-            text-gray-700 
-            leading-tight 
-            focus:outline-none 
-            focus:shadow-outline
-            `} 
-            {...rest}
-            />
-    </div>
-    
-)}
+    if(haslabel) {
+        return (
+            <fieldset className={`${mainStyle} ${top}`}>
+                <legend className={legendStyle}>{label}</legend>
+                <input className={inputStyle} {...rest}/>
+            </fieldset> 
+        )
+    } 
+
+    return (
+        <input {...rest} />
+    )
+}
 
 export {Input};

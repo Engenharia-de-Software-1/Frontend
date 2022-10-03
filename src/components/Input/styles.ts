@@ -1,4 +1,5 @@
 // Estilização do componente Div
-export const mainStyle = 'w-462';
 export const textStyle = 'italic text-sm';
-export const inputStyle = 'w-462 h-20 bg-optionWhite text-sm  py-2 px-3  '
+export const mainStyle = 'w-full h-10 bg-optionWhite text-sm rounded-[5px]';
+export const inputStyle = 'w-full h-10 bg-optionWhite text-sm px-4 pb-2 rounded-lg outline-none';
+export const legendStyle = 'ml-4 text-grayText';

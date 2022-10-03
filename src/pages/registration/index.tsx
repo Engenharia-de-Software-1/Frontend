@@ -1,69 +1,94 @@
 import React, { useState } from 'react';
-import { Buttons } from '../../components/Buttons/Buttons';
+import Image from 'next/image'
+import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
+import { selectStyle } from './styles';
 
 export default function Registration() {    
-    const [buttom1, setButton1] = useState(true);
-    const [buttom2, setButton2] = useState(true);
-    const [buttom3, setButton3] = useState(true);
+    const [buttonStartup, setButtonStartup] = useState(true);
+    const [buttonInvestor, setButtonInvestor] = useState(false);
+    const [buttonClient, setButtonClient] = useState(false);
 
-    function useButton1() {
-        setButton1(true);
-        setButton2(false);
-        setButton3(false);
+    function useStartupButton() {
+        setButtonStartup(true);
+        setButtonInvestor(false);
+        setButtonClient(false);
     }
 
-    function useButton2() {
-        setButton1(false);
-        setButton2(true);
-        setButton3(false);
+    function useInvestorButton() {
+        setButtonStartup(false);
+        setButtonInvestor(true);
+        setButtonClient(false);
     }
-    function useButton3() {
-        setButton1(false);
-        setButton2(false);
-        setButton3(true);
+    function useClientButton() {
+        setButtonStartup(false);
+        setButtonInvestor(false);
+        setButtonClient(true);
     }
-// não consegui colocar as imagens ainda
-// problema no h do input
-// falta fazer funcionar os botões para eles ficarem verdes quando clicado
+
     return ( 
         <Stack bg='bg-white'>
-            <div className="bg-black h-screen w-559">
-                
-            </div>
+            <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
-            <div className="flex justify-center items-center bg-white h-screen w-screen grid direction-column">
+            <div className="flex justify-center items-center bg-white h-screen w-full grid direction-column">
                 <div>
-                    <h1 className="font-semibold text-4xl">Cadastro</h1>
+                
+                    <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
-                    <div className="flex bg-optionWhite h-12 w-471 rounded-full direction-row items-center justify-center mt-5">                    
-                        <Buttons bg='bg-optionWhite' rounded='rounded-full' w='w-36' h='h-8' onClick={useButton1}>
+                    <h1 className="font-semibold text-4xl mt-3">Cadastro</h1>
+
+                    <div className={selectStyle}>                    
+                        <Button 
+                            bg={buttonStartup ? 'bg-greenLight' : undefined} 
+                            textColor={buttonStartup ? 'text-greenText' : undefined} 
+                            textWeight={buttonStartup ? 'font-semibold' : undefined}
+                            rounded='rounded-full' 
+                            w='w-36' 
+                            h='h-8' 
+                            onClick={useStartupButton}
+                        >
                             Startup
-                        </Buttons>  
+                        </Button>  
 
-                        <Buttons bg='bg-optionWhite' rounded='rounded-full' w='w-36' h='h-8' onClick={useButton2}>
+                        <Button 
+                            bg={buttonInvestor ? 'bg-greenLight' : undefined} 
+                            textColor={buttonInvestor ? 'text-greenText' : undefined} 
+                            textWeight={buttonInvestor ? 'font-semibold' : undefined}
+                            rounded='rounded-full' 
+                            w='w-36' 
+                            h='h-8' 
+                            onClick={useInvestorButton}
+                        >
                             Investidor
-                        </Buttons>
-
-                        <Buttons bg='bg-optionWhite' rounded='rounded-full' w='w-36' h='h-8' onClick={useButton3}>
+                        </Button>  
+                    
+                        <Button 
+                            bg={buttonClient ? 'bg-greenLight' : undefined} 
+                            textColor={buttonClient ? 'text-greenText' : undefined} 
+                            textWeight={buttonClient ? 'font-semibold' : undefined}
+                            rounded='rounded-full' 
+                            w='w-36' 
+                            h='h-8' 
+                            onClick={useClientButton}
+                        >
                             Cliente
-                        </Buttons>
+                        </Button>  
                     </div>
 
                     <div className=" w-462  mt-5">
-                        <Input haslabel label='Nome' placeholder='Ex: José da Silva' top='mt-1'/>
-                        <Input haslabel label='E-mail' placeholder='Ex: jose@hotmail.com' top='mt-1'/>
-                        <Input haslabel label='Senha' placeholder='Sua senha tem que ser maior que 7 digitos' type='password' top='mt-1'/>
-                        <Input haslabel label='Confirmação de senha' placeholder='Digite sua senha novamente' type='password' top='mt-1'/>                
+                        <Input haslabel label='Nome' placeholder='Ex: José da Silva'/>
+                        <Input haslabel label='E-mail' placeholder='Ex: jose@hotmail.com' top='mt-10'/>
+                        <Input haslabel label='Senha' placeholder='Sua senha tem que ser maior que 7 digitos' type='password' top='mt-10'/>
+                        <Input haslabel label='Confirmação de senha' placeholder='Digite sua senha novamente' type='password' top='mt-10'/>                
                     </div>
 
-                    <div className='pt-7'>
-                        <Buttons bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12'>
+                    <div className='pt-12'>
+                        <Button bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
                             CADASTRAR
-                        </Buttons>
+                        </Button>
                         
-                        <button className='text-greenText font-bold text-xs underline mt-2'>
+                        <button className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
                             Já tenho uma conta na Incubadora Agro I9
                         </button>
                     </div>                        
