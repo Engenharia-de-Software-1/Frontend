@@ -33,7 +33,7 @@ export default function Registration() {
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
-            <div className="flex justify-center items-center bg-white h-screen w-full grid direction-column">
+            <div className="flex justify-center items-center bg-white h-screen w-full grid direction-column text-black">
                 <div>
                 
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
