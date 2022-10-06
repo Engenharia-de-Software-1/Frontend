@@ -9,26 +9,37 @@ export default function Registration() {
     const [buttonStartup, setButtonStartup] = useState(true);
     const [buttonInvestor, setButtonInvestor] = useState(false);
     const [buttonClient, setButtonClient] = useState(false);
+    const [buttonAdmin, setButtonAdmin] = useState(false);
 
     function useStartupButton() {
         setButtonStartup(true);
         setButtonInvestor(false);
         setButtonClient(false);
+        setButtonAdmin(false);
     }
 
     function useInvestorButton() {
         setButtonStartup(false);
         setButtonInvestor(true);
         setButtonClient(false);
+        setButtonAdmin(false);
     }
     function useClientButton() {
         setButtonStartup(false);
         setButtonInvestor(false);
         setButtonClient(true);
+        setButtonAdmin(false);
     }
-    function goLoginPage(){
-        router.push('/login')
+    function useAdminButton() {
+        setButtonStartup(false);
+        setButtonInvestor(false);
+        setButtonClient(false);
+        setButtonAdmin(true);
     }
+    function goRegisterPage(){
+        router.push('/cadastro')
+    }
+
     return ( 
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
@@ -38,7 +49,7 @@ export default function Registration() {
                 
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
-                    <h1 className="font-semibold text-4xl mt-3">Cadastro</h1>
+                    <h1 className="font-semibold text-4xl mt-3">Login</h1>
 
                     <div className={selectStyle}>                    
                         <Button 
@@ -76,23 +87,33 @@ export default function Registration() {
                         >
                             Cliente
                         </Button>  
+
+                        <Button 
+                            bg={buttonAdmin ? 'bg-greenLight' : undefined} 
+                            textColor={buttonAdmin ? 'text-greenText' : undefined} 
+                            textWeight={buttonAdmin ? 'font-semibold' : undefined}
+                            rounded='rounded-full' 
+                            w='w-48' 
+                            h='h-8' 
+                            onClick={useAdminButton}
+                        >
+                            Administrador
+                        </Button> 
                     </div>
 
-                    <div className=" w-462  mt-5">
-                        <Input haslabel label='Nome' placeholder='Ex: José da Silva'/>
-                        <Input haslabel label='E-mail' placeholder='Ex: jose@hotmail.com' top='mt-10'/>
-                        <Input haslabel label='Senha' placeholder='Sua senha tem que ser maior que 7 digitos' type='password' top='mt-10'/>
-                        <Input haslabel label='Confirmação de senha' placeholder='Digite sua senha novamente' type='password' top='mt-10'/>                
-                    </div>
+                    <div className=" w-462  mt-5">                        
+                        <Input haslabel label='E-mail' placeholder='e-mail' top='mt-10'/>
+                        <Input haslabel label='Senha' placeholder='*******' type='password' top='mt-10'/>
+                     </div>
 
                     <div className='pt-12'>
                         <Button bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
-                            CADASTRAR
-                        </Button>
-                        
-                        <button onClick={goLoginPage} className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
-                            Já tenho uma conta na Incubadora Agro I9
-                        </button>
+                            ENTRAR
+                        </Button>  
+
+                        <button onClick={goRegisterPage} className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
+                            Quero me cadastrar na Incubadora Agro I9
+                        </button> 
                     </div>                        
 
                 </div>
