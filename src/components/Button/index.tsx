@@ -20,7 +20,7 @@ function Button({
 }: IButtonProps) {
     return (           
         <button className={`${buttonStyle} ${bg} ${rounded} ${textColor} ${w} ${h} ${textWeight}`}
-            {...rest}
+        {...rest}
         />        
     );
 }

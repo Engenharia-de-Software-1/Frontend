@@ -5,7 +5,7 @@ import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { selectStyle } from './styles';
 
-export default function Registration() {    
+export default function Login() {    
     const [buttonStartup, setButtonStartup] = useState(true);
     const [buttonInvestor, setButtonInvestor] = useState(false);
     const [buttonClient, setButtonClient] = useState(false);
