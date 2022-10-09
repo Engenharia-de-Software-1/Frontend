@@ -13,7 +13,10 @@ module.exports = {
         "optionWhite": "#FAFAFA",
         "Input2": "#F5F5F5",
         "grayText": "#626562",
-        "Input":  "rgba(67, 65, 88, 0.13)"
+        "grayBg": "#EFEFEF",
+        "warning": "#F46262",
+        "Input":  "rgba(67, 65, 88, 0.13)",
+        "textBlack13": "rgba(0, 0, 0, 0.23);"
       },
       fontSize: {
         
@@ -23,14 +26,16 @@ module.exports = {
         "953": "59.5625rem",
         "559": "34.9375rem",
         "471": "29.4375rem",
-        "462": "28.875rem"
+        "462": "28.875rem",
+        "90": "5.625rem"
       },
       height: {
         "982": "61.375rem",
         "953": "59.5625rem",
         "559": "34.9375rem",
         "471": "29.4375rem",
-        "462": "28.875rem"
+        "462": "28.875rem",
+        "90": "5.625rem"
       },
       backgroundImage: {
         "agro": "url(/images/agro.png)",
