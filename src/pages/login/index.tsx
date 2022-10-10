@@ -39,6 +39,20 @@ export default function Login() {
     function goRegisterPage(){
         router.push('/cadastro')
     }
+    function goLoginPage() {
+        if (buttonStartup == true) {
+            router.push('/startup')
+        }
+        else if (buttonInvestor == true) {
+            router.push('/investidor')
+        }
+        else if (buttonClient == true) {
+            router.push('/cliente')
+        }
+        else {
+            router.push('/administrador')
+        }
+    }
 
     return ( 
         <Stack bg='bg-white'>
@@ -106,10 +120,13 @@ export default function Login() {
                      </div>
 
                     <div className='pt-12'>
-                        <Button bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
+                        <Button onClick={goLoginPage} bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
                             ENTRAR
                         </Button>  
-
+                        
+                        <button  className='flex items-center justify-center w-full text-warning font-bold text-xs underline mt-4'>
+                            Esqueci minha senha!
+                        </button> 
                         <button onClick={goRegisterPage} className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
                             Quero me cadastrar na Incubadora Agro I9
                         </button> 
