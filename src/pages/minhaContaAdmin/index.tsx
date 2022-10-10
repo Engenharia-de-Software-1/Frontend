@@ -4,6 +4,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
+import { textStyle3 } from '../minhaContaStartup/styles';
 
 export default function ProfileAdmin() {     
     const [buttonEdit, setButtonEdit] = useState(false);
@@ -55,7 +56,7 @@ export default function ProfileAdmin() {
                 </div>
 
                 <div>   
-                    <h1 className="font-semibold text-3xl">Mudar senha</h1>
+                    <h1 className={textStyle3}>Mudar senha</h1>
 
                     <div className=" w-462">                        
                         <Input haslabel label='Senha atual' placeholder='******' type='password' top='mt-5'/>
@@ -78,7 +79,7 @@ export default function ProfileAdmin() {
                 </div>
 
                 <div>   
-                    <h1 className="font-semibold text-3xl">Área de perigo</h1>
+                    <h1 className={textStyle3}>Área de perigo</h1>
                     <div className='pt-5 pb-10'>
                         <Button 
                             bg='bg-warning' 
