@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
-import { divGeneral, selectStyle, textTitle } from './styles';
+import { buttonForgotPassword, buttonRegister, divGeneral, selectStyle, textTitle } from './styles';
 
 export default function Login() {    
     const [buttonStartup, setButtonStartup] = useState(true);
@@ -124,10 +124,10 @@ export default function Login() {
                             ENTRAR
                         </Button>  
                         
-                        <button  className='flex items-center justify-center w-full text-warning font-bold text-xs underline mt-4'>
+                        <button  className={buttonForgotPassword}>
                             Esqueci minha senha!
                         </button> 
-                        <button onClick={goRegisterPage} className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
+                        <button onClick={goRegisterPage} className={buttonRegister}>
                             Quero me cadastrar na Incubadora Agro I9
                         </button> 
                     </div>                        
