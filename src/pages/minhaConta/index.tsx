@@ -15,6 +15,7 @@ export default function ProfileAdmin() {
         setButtonChangePassword(false);
         setButtonDelete(false);
     }
+    
     function goChangePassword() {
         setButtonEdit(false);
         setButtonChangePassword(true);
