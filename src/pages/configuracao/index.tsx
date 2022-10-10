@@ -5,18 +5,18 @@ import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { divGeneral, textStyle3, textTitle } from './styles';
+import router from 'next/router';
 
 export default function ProfileAdmin() {    
     const [buttonChangePassword, setButtonChangePassword] = useState(false);
-    const [buttonDelete, setButtonDelete] = useState(false);
 
     function goChangePassword() {
         setButtonChangePassword(true);
-        setButtonDelete(false);
     }
     function goDelete() {
-        setButtonChangePassword(false);
-        setButtonDelete(true);
+        if (window.confirm("Tem certeza que deseja deletar sua conta?")) {
+            router.push("./cadastro");
+          }
     }
 
     return ( 
@@ -48,8 +48,10 @@ export default function ProfileAdmin() {
                             MUDAR SENHA
                         </Button>
                     </div> 
+
                     <div >   
                         <h1 className={textStyle3}>Área de perigo</h1>
+                        
                         <div className='pt-5 pb-10'>
                             <Button 
                                 bg='bg-warning' 
@@ -65,7 +67,6 @@ export default function ProfileAdmin() {
                         </div> 
                     </div>
                 </div>
-
             </div>  
         </Stack>
     );
