@@ -13,6 +13,7 @@ export default function Sidebar() {
     const [buttonPendingIdeas, setButtonPendingIdeas] = useState(false);
     const [buttonAdmin, setButtonAdmin] = useState(false);
     const [buttonProfile, setbuttonProfile] = useState(false);
+    const [buttonConfiguration, setButtonConfiguration] = useState(false);
    
     function goStartupButton() {
         setButtonStartup(true);
@@ -22,6 +23,7 @@ export default function Sidebar() {
         setButtonPendingIdeas(false);
         setButtonAdmin(false);
         setbuttonProfile(false); 
+        setButtonConfiguration(false);
         router.push('/startup');       
     }
     function goRuralProducerButton() {
@@ -31,7 +33,8 @@ export default function Sidebar() {
         setButtonPendingProjects(false);
         setButtonPendingIdeas(false);
         setButtonAdmin(false);
-        setbuttonProfile(false);    
+        setbuttonProfile(false); 
+        setButtonConfiguration(false);   
         router.push('/produtorRural');     
     }
 
@@ -43,6 +46,7 @@ export default function Sidebar() {
         setButtonPendingIdeas(false);
         setButtonAdmin(false);
         setbuttonProfile(false);  
+        setButtonConfiguration(false);
         router.push('/investidor');        
     }
     function goPendingProjectsButton() {
@@ -53,6 +57,7 @@ export default function Sidebar() {
         setButtonPendingIdeas(false);
         setButtonAdmin(false);
         setbuttonProfile(false);  
+        setButtonConfiguration(false);
         router.push('/projetosPendentes');        
     }
     function goPendingIdeasButton() {
@@ -63,6 +68,7 @@ export default function Sidebar() {
         setButtonPendingIdeas(true);
         setButtonAdmin(false);
         setbuttonProfile(false);
+        setButtonConfiguration(false);
         router.push('/ideiasPendentes');    
     }
     function goAdminButton() {
@@ -73,6 +79,7 @@ export default function Sidebar() {
         setButtonPendingIdeas(false);
         setButtonAdmin(true);
         setbuttonProfile(false);
+        setButtonConfiguration(false);
         router.push('/administradores');       
     }
     function goProfileButton() {
@@ -83,7 +90,19 @@ export default function Sidebar() {
         setButtonPendingIdeas(false);
         setButtonAdmin(false);
         setbuttonProfile(true);  
-        router.push('/minhaConta')      
+        setButtonConfiguration(false);
+        router.push('/minhaContaAdmin')      
+    }
+    function goConfigurationButton() {
+        setButtonStartup(false);
+        setButtonRuralProducer(false);
+        setButtonInvestor(false);
+        setButtonPendingProjects(false);
+        setButtonPendingIdeas(false);
+        setButtonAdmin(false);
+        setbuttonProfile(false);  
+        setButtonConfiguration(true);
+        router.push('/configuracao')      
     }
     function goOut() {
         router.push('./login')
@@ -187,12 +206,12 @@ export default function Sidebar() {
                         </Button>
 
                         <Button 
-                            bg={buttonProfile ? 'bg-greenText' : undefined} 
-                            textColor={buttonProfile ? 'text-white' : undefined} 
-                            textWeight={buttonProfile ? 'font-semibold' : undefined}
-                            onClick={goProfileButton}
+                            bg={buttonConfiguration ? 'bg-greenText' : undefined} 
+                            textColor={buttonConfiguration ? 'text-white' : undefined} 
+                            textWeight={buttonConfiguration ? 'font-semibold' : undefined}
+                            onClick={goConfigurationButton}
                             > 
-                            <i className="ri-user-smile-line px-3"></i>
+                            <i className="ri-tools-fill px-3"></i>
                             Configuração
                         </Button>
                     </div>
