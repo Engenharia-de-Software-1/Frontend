@@ -4,7 +4,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
-import { textStyle3, textTitle } from './styles';
+import { divGeneral, textStyle3, textTitle } from './styles';
 
 export default function ProfileAdmin() {    
     const [buttonChangePassword, setButtonChangePassword] = useState(false);
@@ -23,7 +23,7 @@ export default function ProfileAdmin() {
         <Stack bg=' bg-white'>
             <Sidebar/>
 
-            <div className="flex bg-white h-screen w-full items-center flex-col px-28 py-20">
+            <div className={divGeneral}>
                
                 <div>   
                     <h1 className={textTitle}>Configurações</h1>

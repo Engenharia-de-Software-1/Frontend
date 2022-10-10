@@ -1,11 +1,10 @@
 import 'remixicon/fonts/remixicon.css';
 import React, { useState } from 'react';
 import { Stack } from '../Stack';
-import { belowStyle, buttonStyle, textStyle, textStyle2, textTitle } from './styles';
+import { belowStyle, buttonStyle, divGeneral, textStyle, textStyle2, textTitle } from './styles';
 import { Button } from './button';
 import router from 'next/router';
 
-//por enquanto deixei tudo falso
 export default function Sidebar() { 
     const [buttonStartup, setButtonStartup] = useState(false);
     const [buttonRuralProducer, setButtonRuralProducer] = useState(false);
@@ -84,14 +83,15 @@ export default function Sidebar() {
         setButtonPendingIdeas(false);
         setButtonAdmin(false);
         setbuttonProfile(true);  
-        router.push('/minhaConta')       
+        router.push('/minhaConta')      
     }
-
-
+    function goOut() {
+        router.push('./login')
+    }
 
     return ( 
         <Stack bg=' bg-white'>
-            <div className="flex h-screen w-80 bg-Input2 flex-col  "> 
+            <div className={divGeneral}> 
                 <div>
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo m-9"/>
                     
@@ -208,7 +208,7 @@ export default function Sidebar() {
                         </text>
                     </div>
 
-                    <button className={buttonStyle}>
+                    <button className={buttonStyle} onClick={goOut}>
                         <i className="ri-logout-box-r-line px-3"></i>
                     </button>
                 </div>

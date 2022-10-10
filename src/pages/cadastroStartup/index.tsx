@@ -1,5 +1,5 @@
 import router from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';

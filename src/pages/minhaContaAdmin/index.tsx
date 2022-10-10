@@ -4,7 +4,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
-import { textStyle3 } from '../minhaContaStartup/styles';
+import { divGeneral, textStyle3, textTitle } from './styles';
 
 export default function ProfileAdmin() {     
     const [buttonEdit, setButtonEdit] = useState(false);
@@ -31,9 +31,9 @@ export default function ProfileAdmin() {
         <Stack bg=' bg-white'>
             <Sidebar/>
 
-            <div className="flex justify-center items-center bg-white h-screen w-full grid direction-column pt-8">
+            <div className={divGeneral}>
                 <div>   
-                    <h1 className="font-semibold text-4xl">Minha conta</h1>
+                    <h1 className={textTitle}>Minha conta</h1>
 
                     <div className=" w-462">                        
                         <Input haslabel label='Nome' placeholder='Nome completo' top='mt-5'/>
