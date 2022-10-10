@@ -15,7 +15,6 @@ export default function Registration() {
         setButtonInvestor(false);
         setButtonClient(false);
     }
-
     function useInvestorButton() {
         setButtonStartup(false);
         setButtonInvestor(true);
@@ -29,6 +28,18 @@ export default function Registration() {
     function goLoginPage(){
         router.push('/login')
     }
+    function goRegister(){
+        if (buttonStartup == true){
+            router.push('/cadastroStartup')
+        }
+        else if (buttonInvestor == true){
+            router.push('./cadastroInvestidor')
+        }
+        else { 
+            router.push('/cadastroCliente')
+        }
+    }
+     
     return ( 
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
@@ -86,17 +97,23 @@ export default function Registration() {
                     </div>
 
                     <div className='pt-12'>
-                        <Button bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
+                        <Button  
+                            bg='bg-greenDark' 
+                            rounded='rounded-lg' 
+                            w='w-full' 
+                            h='h-12' 
+                            textColor='text-white' 
+                            textWeight='font-bold'
+                            onClick={goRegister}
+                            >
                             CADASTRAR
                         </Button>
                         
                         <button onClick={goLoginPage} className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
                             Já tenho uma conta na Incubadora Agro I9
                         </button>
-                    </div>                        
-
+                    </div>        
                 </div>
-
             </div>  
         </Stack>
     );
