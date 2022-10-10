@@ -114,26 +114,27 @@ export default function Login() {
                         </Button> 
                     </div>
 
-                    <div className=" w-462  mt-5">                        
-                        <Input haslabel label='E-mail' placeholder='e-mail' top='mt-10'/>
+                    <div>                        
+                        <Input haslabel label='E-mail' placeholder='e-mail' top='mt-5'/>
                         <Input haslabel label='Senha' placeholder='*******' type='password' top='mt-10'/>
-                     </div>
+                    </div>
 
-                    <div className='pt-12'>
+                    <div className="pt-3 ">
+                        <button  className={buttonForgotPassword}>
+                            Esqueci minha senha!
+                        </button> 
+                    </div>
+
+                    <div className='pt-5'>
                         <Button onClick={goLoginPage} bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
                             ENTRAR
                         </Button>  
                         
-                        <button  className={buttonForgotPassword}>
-                            Esqueci minha senha!
-                        </button> 
                         <button onClick={goRegisterPage} className={buttonRegister}>
                             Quero me cadastrar na Incubadora Agro I9
                         </button> 
-                    </div>                        
-
+                    </div>   
                 </div>
-
             </div>  
         </Stack>
     );
