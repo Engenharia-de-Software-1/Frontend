@@ -1,0 +1,1 @@
+export const selectStyle = 'flex bg-optionWhite h-12 w-471 rounded-full direction-row items-center justify-between px-[.5rem] mt-5';
