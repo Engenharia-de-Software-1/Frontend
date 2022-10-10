@@ -6,23 +6,15 @@ import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { textStyle3, textTitle } from './styles';
 
-export default function ProfileAdmin() {     
-    const [buttonEdit, setButtonEdit] = useState(false);
+export default function ProfileAdmin() {    
     const [buttonChangePassword, setButtonChangePassword] = useState(false);
     const [buttonDelete, setButtonDelete] = useState(false);
 
-    function goEdit() {
-        setButtonEdit(true);
-        setButtonChangePassword(false);
-        setButtonDelete(false);
-    }
     function goChangePassword() {
-        setButtonEdit(false);
         setButtonChangePassword(true);
         setButtonDelete(false);
     }
     function goDelete() {
-        setButtonEdit(false);
         setButtonChangePassword(false);
         setButtonDelete(true);
     }
