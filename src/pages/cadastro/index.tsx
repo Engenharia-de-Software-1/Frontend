@@ -49,6 +49,7 @@ export default function Registration() {
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
             <div className={divGeneral}>
+
                 <div>
                 
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
