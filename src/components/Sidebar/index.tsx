@@ -185,6 +185,16 @@ export default function Sidebar() {
                             <i className="ri-user-smile-line px-3"></i>
                             Minha conta
                         </Button>
+
+                        <Button 
+                            bg={buttonProfile ? 'bg-greenText' : undefined} 
+                            textColor={buttonProfile ? 'text-white' : undefined} 
+                            textWeight={buttonProfile ? 'font-semibold' : undefined}
+                            onClick={goProfileButton}
+                            > 
+                            <i className="ri-user-smile-line px-3"></i>
+                            Configuração
+                        </Button>
                     </div>
                 </div>
 
