@@ -10,6 +10,8 @@ module.exports = {
         "greenDark": "#429453",
         "greenLight": "#DFF0E7",
         "greenText": "#1A662A",
+        "green65": "rgba(66, 148, 83, 0.65)",
+        "greenText65": "rgba(26, 102, 42, 0.65)",
         "optionWhite": "#FAFAFA",
         "Input2": "#F5F5F5",
         "grayText": "#626562",
