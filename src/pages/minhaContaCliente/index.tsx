@@ -52,6 +52,7 @@ export default function ProfileAdmin() {
                         <Input haslabel label='Nome' placeholder='nome completo' top='mt-5'/>
                         <Input haslabel label='Telefone celular' placeholder='(00) 0 0000-0000)' top='mt-5'/>
                     </div>
+
                         <Input haslabel label='E-mail' placeholder='e-mail' top='mt-10'/>
 
                     <div className='pt-12'>
@@ -71,7 +72,11 @@ export default function ProfileAdmin() {
                     <div >   
                         <h1 className={textStyle3}>Dados do produtor rural</h1>
                         
-                        <Input haslabel label='Nome da propriedade rural ou empresa rural' placeholder='nome' top='mt-5'/>
+                        <div className={divInput}>                        
+                            <Input haslabel label='Nome da propriedade rural ou empresa rural' placeholder='nome' top='mt-5'/>
+                            <Input haslabel label='Formações em quais áreas (membros/sócios)' placeholder='formações' top='mt-5'/>
+                        </div>
+
                         
                         <div className='pt-12'>
                             <Button 
