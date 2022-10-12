@@ -9,8 +9,8 @@ import { divGeneral, textTitle } from './styles';
 
 export default function Registration() {    
     const [state, setState] = useState("");
-    const [city, setCity] = useState("");   
-
+    const [city, setCity] = useState("");
+   
     const handleUF = useCallback((state:string) => {
         setState(state)
     }, [])
@@ -29,17 +29,14 @@ export default function Registration() {
 
             <div className={divGeneral}>
                 <div>
-                
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
-                    <h1 className={textTitle}>Cadastro startup</h1>
+                    <h1 className={textTitle}>Cadastro cliente</h1>
 
                     <div className="w-462 mt-5">
-                        <Input haslabel label='Nome do representante' placeholder='Ex: José da Silva'/>
-                        <Input haslabel label='Nome da startup' placeholder='Ex: Doe sangue' top='mt-10'/>
+                        <Input haslabel label='Nome da propriedade rural ou empresa rural' placeholder='Ex: José da Silva'/>
                         <Input haslabel label='Némero de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
                         <Input haslabel label='CNPJ' placeholder='00000000000000' top='mt-10'/>
-                        <Input haslabel label='Quantidade de pessoas na startup' placeholder='0' type='number' min='0' top='mt-10'/>                
 
                         <div className='flex space-x-10'>
                             <Select onChange = {(e) => handleUF(e.target.value)} value = {state} 
