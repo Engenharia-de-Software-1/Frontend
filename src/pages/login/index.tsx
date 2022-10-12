@@ -58,8 +58,9 @@ export default function Login() {
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
+
             <div className={divGeneral}>
-                <div>                
+                <div>    
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
                     <h1 className={textTitle}>Login</h1>

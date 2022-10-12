@@ -50,6 +50,7 @@ export default function Registration() {
 
 
             <div className={divGeneral}>
+
                 <div>
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
