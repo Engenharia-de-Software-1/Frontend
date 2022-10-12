@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
-import { selectStyle } from './styles';
+import { buttonForgotPassword, buttonRegister, divGeneral, selectStyle, textTitle } from './styles';
 
 export default function Login() {    
     const [buttonStartup, setButtonStartup] = useState(true);
@@ -39,17 +39,31 @@ export default function Login() {
     function goRegisterPage(){
         router.push('/cadastro')
     }
+    function goLoginPage() {
+        if (buttonStartup == true) {
+            router.push('/startup')
+        }
+        else if (buttonInvestor == true) {
+            router.push('/investidor')
+        }
+        else if (buttonClient == true) {
+            router.push('/cliente')
+        }
+        else {
+            router.push('/administrador')
+        }
+    }
 
     return ( 
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
-            <div className="flex justify-center items-center bg-white h-screen w-full grid direction-column">
-                <div>
-                
+
+            <div className={divGeneral}>
+                <div>    
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
-                    <h1 className="font-semibold text-4xl mt-3">Login</h1>
+                    <h1 className={textTitle}>Login</h1>
 
                     <div className={selectStyle}>                    
                         <Button 
@@ -101,23 +115,27 @@ export default function Login() {
                         </Button> 
                     </div>
 
-                    <div className=" w-462  mt-5">                        
-                        <Input haslabel label='E-mail' placeholder='e-mail' top='mt-10'/>
+                    <div>                        
+                        <Input haslabel label='E-mail' placeholder='e-mail' top='mt-5'/>
                         <Input haslabel label='Senha' placeholder='*******' type='password' top='mt-10'/>
-                     </div>
+                    </div>
 
-                    <div className='pt-12'>
-                        <Button bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
+                    <div className="pt-3 ">
+                        <button  className={buttonForgotPassword}>
+                            Esqueci minha senha!
+                        </button> 
+                    </div>
+
+                    <div className='pt-5'>
+                        <Button onClick={goLoginPage} bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
                             ENTRAR
                         </Button>  
-
-                        <button onClick={goRegisterPage} className='flex items-center justify-center w-full text-greenText font-bold text-xs underline mt-4'>
+                        
+                        <button onClick={goRegisterPage} className={buttonRegister}>
                             Quero me cadastrar na Incubadora Agro I9
                         </button> 
-                    </div>                        
-
+                    </div>   
                 </div>
-
             </div>  
         </Stack>
     );
