@@ -8,17 +8,16 @@ import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 
 export default function Registration() {    
-    const [state, setState] = useState();
-    const [city, setCity] = useState();
+    const [state, setState] = useState("");
+    const [city, setCity] = useState("");
    
+    const handleUF = useCallback((state:string) => {
+        setState(state)
+    }, [])
 
-    const handleUF = useCallback((estado: React.SetStateAction<undefined>) => {
-        setState(estado)
-    }, [state])
-
-    const handleCity = useCallback((city: React.SetStateAction<undefined>) => {
+    const handleCity = useCallback((city:string) => {
         setCity(city)
-    }, [city])
+    }, [])
     
     function goBack() {
         router.push('/cadastro') 
@@ -30,7 +29,6 @@ export default function Registration() {
 
             <div className={divGeneral}>
                 <div>
-                
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
 
                     <h1 className={textTitle}>Cadastro cliente</h1>

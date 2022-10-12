@@ -8,17 +8,16 @@ import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 
 export default function Registration() {    
-    const [state, setState] = useState();
-    const [city, setCity] = useState();
-   
+    const [state, setState] = useState("");
+    const [city, setCity] = useState("");   
 
-    const handleUF = useCallback((estado: React.SetStateAction<undefined>) => {
-        setState(estado)
-    }, [state])
+    const handleUF = useCallback((state:string) => {
+        setState(state)
+    }, [])
 
-    const handleCity = useCallback((city: React.SetStateAction<undefined>) => {
+    const handleCity = useCallback((city:string) => {
         setCity(city)
-    }, [city])
+    }, [])
     
     function goBack() {
         router.push('/cadastro') 
