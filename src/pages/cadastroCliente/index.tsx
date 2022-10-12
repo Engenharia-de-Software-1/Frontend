@@ -37,7 +37,8 @@ export default function Registration() {
                         <Input haslabel label='Nome da propriedade rural ou empresa rural' placeholder='Ex: José da Silva'/>
                         <Input haslabel label='Némero de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
                         <Input haslabel label='CNPJ' placeholder='00000000000000' top='mt-10'/>
-
+                        <Input haslabel label='Formações em quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>
+                        
                         <div className='flex space-x-10'>
                             <Select onChange = {(e) => handleUF(e.target.value)} value = {state} 
                                 haslabel label='Estado' top='mt-10'
