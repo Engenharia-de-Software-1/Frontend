@@ -4,12 +4,27 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { buttonForgotPassword, buttonRegister, divGeneral, selectStyle, textTitle } from './styles';
+import axiosInstance from '../axiosInstance';
+
+interface login {
+    email: string;
+    password: string;
+}
 
 export default function Login() {    
     const [buttonStartup, setButtonStartup] = useState(true);
     const [buttonInvestor, setButtonInvestor] = useState(false);
     const [buttonClient, setButtonClient] = useState(false);
     const [buttonAdmin, setButtonAdmin] = useState(false);
+
+    const [login, setLogin] = useState({email:'', password:''} as login);
+
+    const handleChange = (e: any) => {
+        setLogin({
+          ...login,
+          [e.target.name]: e.target.value //edit
+        });
+    };
 
     function useStartupButton() {
         setButtonStartup(true);
@@ -42,20 +57,28 @@ export default function Login() {
     function goRegisterPage(){
         router.push('/cadastro')
     }
-
-    function goLoginPage() {
-        if (buttonStartup === true) {
-            router.push('/startup')
+    async function goLoginPage(e: any) {
+        e.preventDefault();
+        try {
+            const { data } = await axiosInstance.post('/login', login)
+            const { token } = data;
+            localStorage.setItem('token', token);
+            router.push('/')
+        } catch (error) {
+            console.log(error)
         }
-        else if (buttonInvestor === true) {
-            router.push('/investidor')
-        }
-        else if (buttonClient === true) {
-            router.push('/cliente')
-        }
-        else {
-            router.push('/administrador')
-        }
+        // if (buttonStartup == true) {
+        //     router.push('/startup')
+        // }
+        // else if (buttonInvestor == true) {
+        //     router.push('/investidor')
+        // }
+        // else if (buttonClient == true) {
+        //     router.push('/cliente')
+        // }
+        // else {
+        //     router.push('/administrador')
+        // }
     }
 
     return ( 
@@ -118,26 +141,28 @@ export default function Login() {
                         </Button> 
                     </div>
 
-                    <div>                        
-                        <Input haslabel label='E-mail' placeholder='e-mail' top='mt-5'/>
-                        <Input haslabel label='Senha' placeholder='*******' type='password' top='mt-10'/>
-                    </div>
+                    <form onSubmit={goLoginPage}>
+                        <div>
+                            <Input haslabel name="email" label='E-mail' placeholder='e-mail' top='mt-5' value={login.email || ''} onChange={(e) => handleChange(e)}/>
+                            <Input haslabel name="password" label='Senha' placeholder='*******' type='password' top='mt-10' value={login.password || ''} onChange={(e) => handleChange(e)}/>
+                        </div>
 
-                    <div className="pt-3 ">
-                        <button  className={buttonForgotPassword}>
-                            Esqueci minha senha!
-                        </button> 
-                    </div>
+                        <div className="pt-3 ">
+                            <button  className={buttonForgotPassword}>
+                                Esqueci minha senha!
+                            </button> 
+                        </div>
 
-                    <div className='pt-5'>
-                        <Button onClick={goLoginPage} bg='bg-greenDark' rounded='rounded' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
-                            ENTRAR
-                        </Button>  
-                        
-                        <button onClick={goRegisterPage} className={buttonRegister}>
-                            Quero me cadastrar na Incubadora Agro I9
-                        </button> 
-                    </div>   
+                        <div className='pt-5'>
+                            <Button type="submit" bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
+                                ENTRAR
+                            </Button>  
+                            
+                            <button onClick={goRegisterPage} className={buttonRegister}>
+                                Quero me cadastrar na Incubadora Agro I9
+                            </button> 
+                        </div> 
+                    </form>                     
                 </div>
             </div>  
         </Stack>
