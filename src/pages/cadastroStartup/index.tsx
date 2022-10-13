@@ -7,6 +7,15 @@ import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 
+class IStartupUpdate {
+    phone?: string = '';
+    startupName?: string = '';
+    cnpj?: string = '';
+    employees?: number = 0;
+    city?: string = '';
+    state?: string = '';
+}
+
 export default function Registration() {    
     const [state, setState] = useState("");
     const [city, setCity] = useState("");   
