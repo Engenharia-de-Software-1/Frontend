@@ -16,30 +16,33 @@ export default function Registration() {
         setButtonInvestor(false);
         setButtonClient(false);
     }
+    
     function useInvestorButton() {
         setButtonStartup(false);
         setButtonInvestor(true);
         setButtonClient(false);
     }
+
     function useClientButton() {
         setButtonStartup(false);
         setButtonInvestor(false);
         setButtonClient(true);
     }
+
     function useButtonCheck() {
         setButtonCheck(!buttonCheck);
     }
+
     function goLoginPage(){
         router.push('/login')
     }
+
     function goRegister(){
         if (buttonStartup == true){
             router.push('/cadastroStartup')
-        }
-        else if (buttonInvestor == true){
+        } else if (buttonInvestor == true){
             router.push('./cadastroInvestidor')
-        }
-        else { 
+        } else { 
             router.push('/cadastroCliente')
         }
     }
@@ -111,7 +114,7 @@ export default function Registration() {
                     <div className='pt-8'>
                         <Button  
                             bg='bg-greenDark' 
-                            rounded='rounded-lg' 
+                            rounded='rounded' 
                             w='w-full' 
                             h='h-12' 
                             textColor='text-white' 

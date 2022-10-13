@@ -9,9 +9,9 @@ import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 
 export default function ProfileAdmin() {    
-    const [buttonEditMyAccount, setButtonEditMyAccount] = useState(false);
-    const [buttonEditStartup, setButtonEditStartup] = useState(false);
-    const [buttonEditAddress, setButtonEditAddress] = useState(false);
+    const [_buttonEditMyAccount, setButtonEditMyAccount] = useState(false);
+    const [_buttonEditStartup, setButtonEditStartup] = useState(false);
+    const [_buttonEditAddress, setButtonEditAddress] = useState(false);
     const [state, setState] = useState("");
     const [city, setCity] = useState("");   
 
@@ -40,7 +40,7 @@ export default function ProfileAdmin() {
     }
 
     return ( 
-        <Stack bg=' bg-white'>
+        <Stack bg='bg-white'>
             <Sidebar/>
 
             <div className={divGeneral}>
@@ -57,7 +57,7 @@ export default function ProfileAdmin() {
                     <div className='pt-12'>
                         <Button 
                             bg='bg-greenDark' 
-                            rounded='rounded-lg' 
+                            rounded='rounded' 
                             w='w-full' 
                             h='h-12' 
                             textColor='text-white' 
@@ -68,70 +68,66 @@ export default function ProfileAdmin() {
                         </Button>
                     </div> 
 
-                    <div >   
-                        <h1 className={textStyle3}>Dados do investidor</h1>
-                        
-                        <div className={divInput}>
-                            <Input haslabel label='Nome da startup ou equipe' placeholder='nome' top='mt-5'/>
-                            <Input haslabel label='CNPJ' placeholder='00000000000000' top='mt-5'/>                            
-                        </div>
-
-                        <div className={divInput}>
-                            <Input haslabel label='Quantidade de membros/sócios' placeholder='0' type="number" min='0' top='mt-10'/>
-                            <Input haslabel label='Formação em quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>                            
-                        </div>
-                        
-                        <div className='pt-12'>
-                            <Button 
-                                bg='bg-greenDark' 
-                                rounded='rounded-lg' 
-                                w='w-full' 
-                                h='h-12' 
-                                textColor='text-white' 
-                                textWeight='font-bold'
-                                onClick={goEditStartup}
-                                >
-                                EDITAR
-                            </Button>
-                        </div> 
+                    <h1 className={textStyle3}>Dados do investidor</h1>
+                    
+                    <div className={divInput}>
+                        <Input haslabel label='Nome da startup ou equipe' placeholder='nome' top='mt-5'/>
+                        <Input haslabel label='CNPJ' placeholder='00000000000000' top='mt-5'/>                            
                     </div>
 
-                    <div >   
-                        <h1 className={textStyle3}>Endereço</h1>
-
-                        <div className='flex space-x-10'>
-                            <Select onChange = {(e) => handleUF(e.target.value)} value = {state} 
-                                haslabel label='Estado' top='mt-5'
-                                >
-                                <option key = 'init'>Selecione o Estado</option>
-                                {CityValues.estados.map((uf, index) => (
-                                    <option key ={index.toString()} value = {uf.sigla}>{uf.nome}</option>
-                                ))}
-                            </Select>
-                            <Select onChange = {(e) => handleCity(e.target.value)} value = {city} 
-                                haslabel label='Cidade' top='mt-5'
-                                >
-                                <option key = 'init'>Selecione a cidade</option>
-                                {CityValues.estados.find((city) => city.sigla == state)?.cidades.map((cities, index) => (
-                                    <option key ={index.toString()}  value = {cities}>{cities} </option>
-                                ))}
-                            </Select>
-                        </div>
-                        
-                        <div className='pt-12'>
-                            <Button 
-                                bg='bg-greenDark' 
-                                rounded='rounded-lg' 
-                                w='w-full' 
-                                h='h-12' 
-                                textColor='text-white' 
-                                textWeight='font-bold'
-                                onClick={goEditAddress}
-                                >
-                                EDITAR 
-                            </Button>
-                        </div> 
+                    <div className={divInput}>
+                        <Input haslabel label='Quantidade de membros/sócios' placeholder='0' type="number" min='0' top='mt-10'/>
+                        <Input haslabel label='Formação em quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>                            
                     </div>
+                    
+                    <div className='pt-12'>
+                        <Button 
+                            bg='bg-greenDark' 
+                            rounded='rounded' 
+                            w='w-full' 
+                            h='h-12' 
+                            textColor='text-white' 
+                            textWeight='font-bold'
+                            onClick={goEditStartup}
+                            >
+                            EDITAR
+                        </Button>
+                    </div> 
+
+                    <h1 className={textStyle3}>Endereço</h1>
+
+                    <div className='flex space-x-10'>
+                        <Select onChange = {(e) => handleUF(e.target.value)} value = {state} 
+                            haslabel label='Estado' top='mt-5'
+                            >
+                            <option key = 'init'>Selecione o Estado</option>
+                            {CityValues.estados.map((uf, index) => (
+                                <option key ={index.toString()} value = {uf.sigla}>{uf.nome}</option>
+                            ))}
+                        </Select>
+                        <Select onChange = {(e) => handleCity(e.target.value)} value = {city} 
+                            haslabel label='Cidade' top='mt-5'
+                            >
+                            <option key = 'init'>Selecione a cidade</option>
+                            {CityValues.estados.find((city) => city.sigla == state)?.cidades.map((cities, index) => (
+                                <option key ={index.toString()}  value = {cities}>{cities} </option>
+                            ))}
+                        </Select>
+                    </div>
+                    
+                    <div className='pt-12'>
+                        <Button 
+                            bg='bg-greenDark' 
+                            rounded='rounded' 
+                            w='w-full' 
+                            h='h-12' 
+                            textColor='text-white' 
+                            textWeight='font-bold'
+                            onClick={goEditAddress}
+                            >
+                            EDITAR 
+                        </Button>
+                    </div> 
                 </div>
             </div>  
         </Stack>

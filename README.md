@@ -6,12 +6,14 @@
 
 ## Stack
 - React
+- NextJS
 - Typescript
 - Tailwind CSS
 
 ## Dependências
 - Next/router
 - Remix icon
+- Tailwind CSS
 
 ## Executar aplicação
 Comece instalando as dependências com o comando:
@@ -31,4 +33,4 @@ yarn dev
 | Getulio Coimbra               |  ----                                   |
 | Gustavo Favaro                |  ----                                   |
 | Igor Lara                     |  ----                                   |
-| Yuri Baza                     |  ----                                   |
+| Yuri Baza                     | yuribaza@alunos.utfpr.edu.br            |

@@ -63,7 +63,7 @@ export default function Registration() {
                     <div className='pt-12 flex space-x-10'>
                         <Button 
                             bg='bg-green65' 
-                            rounded='rounded-lg' 
+                            rounded='rounded' 
                             w='w-full' 
                             h='h-12' 
                             textColor='text-white' 
@@ -74,7 +74,7 @@ export default function Registration() {
                         </Button> 
                         <Button 
                             bg='bg-greenDark' 
-                            rounded='rounded-lg' 
+                            rounded='rounded' 
                             w='w-full' 
                             h='h-12' 
                             textColor='text-white' 

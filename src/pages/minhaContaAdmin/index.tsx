@@ -29,72 +29,66 @@ export default function ProfileAdmin() {
     }
 
     return ( 
-        <Stack bg=' bg-white'>
+        <Stack bg='bg-white'>
             <Sidebar/>
 
             <div className={divGeneral}>
-                <div>   
-                    <h1 className={textTitle}>Minha conta</h1>
+                <h1 className={textTitle}>Minha conta</h1>
 
-                    <div className=" w-462">                        
-                        <Input haslabel label='Nome' placeholder='Nome completo' top='mt-5'/>
-                        <Input haslabel label='E-mail' placeholder='e-mail' type='password' top='mt-10'/>
-                    </div>
-
-                    <div className='pt-12'>
-                        <Button 
-                            bg='bg-greenDark' 
-                            rounded='rounded-lg' 
-                            w='w-full'
-                            h='h-12' 
-                            textColor='text-white' 
-                            textWeight='font-bold'
-                            onClick={goEdit}
-                            >
-                            EDITAR
-                        </Button>
-                    </div> 
+                <div className=" w-462">                        
+                    <Input haslabel label='Nome' placeholder='Nome completo' top='mt-5'/>
+                    <Input haslabel label='E-mail' placeholder='e-mail' type='password' top='mt-10'/>
                 </div>
 
-                <div>   
-                    <h1 className={textStyle3}>Mudar senha</h1>
+                <div className='pt-12 w-462'>
+                    <Button 
+                        bg='bg-greenDark' 
+                        rounded='rounded' 
+                        w='w-full'
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                        onClick={goEdit}
+                        >
+                        EDITAR
+                    </Button>
+                </div> 
 
-                    <div className=" w-462">                        
-                        <Input haslabel label='Senha atual' placeholder='******' type='password' top='mt-5'/>
-                        <Input haslabel label='Nova senha' placeholder='******' type='password' top='mt-10'/>
-                    </div>
+                <h1 className={textStyle3}>Mudar senha</h1>
 
-                    <div className='pt-12'>
-                        <Button 
-                            bg='bg-greenDark' 
-                            rounded='rounded-lg' 
-                            w='w-full' 
-                            h='h-12' 
-                            textColor='text-white' 
-                            textWeight='font-bold'
-                            onClick={goChangePassword}
-                            >
-                            MUDAR SENHA
-                        </Button>
-                    </div> 
+                <div className=" w-462">                        
+                    <Input haslabel label='Senha atual' placeholder='******' type='password' top='mt-5'/>
+                    <Input haslabel label='Nova senha' placeholder='******' type='password' top='mt-10'/>
                 </div>
 
-                <div>   
-                    <h1 className={textStyle3}>Área de perigo</h1>
-                    <div className='pt-5 pb-10'>
-                        <Button 
-                            bg='bg-warning' 
-                            rounded='rounded-lg' 
-                            w='w-full' 
-                            h='h-12' 
-                            textColor='text-white' 
-                            textWeight='font-bold'
-                            onClick={goDelete}
-                            >
-                            DELETAR CONTA
-                        </Button>
-                    </div> 
-                </div>
+                <div className='pt-12 w-462'>
+                    <Button 
+                        bg='bg-greenDark' 
+                        rounded='rounded' 
+                        w='w-full' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                        onClick={goChangePassword}
+                        >
+                        MUDAR SENHA
+                    </Button>
+                </div> 
+
+                <h1 className={textStyle3}>Área de perigo</h1>
+                <div className='pt-5 w-462 pb-10'>
+                    <Button 
+                        bg='bg-warning' 
+                        rounded='rounded' 
+                        w='w-full' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                        onClick={goDelete}
+                        >
+                        DELETAR CONTA
+                    </Button>
+                </div> 
             </div>  
         </Stack>
     );
