@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes } from "react";
-import { buttonStyleSidebar } from './styles';
+import { buttonStyle } from './styles';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     bg?: string; 
@@ -14,7 +14,7 @@ function Button({
     ...rest 
 }: IButtonProps) {
     return (           
-        <button className={`${buttonStyleSidebar} ${bg} ${textColor} ${textWeight}
+        <button className={`${buttonStyle} ${bg} ${textColor} ${textWeight}
         flex 
         justify-start
         text-base 

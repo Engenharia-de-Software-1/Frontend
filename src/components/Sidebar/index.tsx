@@ -135,7 +135,7 @@ export default function Sidebar() {
                             textWeight={buttonRuralProducer ? 'font-semibold' : undefined}
                             onClick={goRuralProducerButton}
                             > 
-                            <i className="ri-plant-line px-3"></i>
+                            <i className="ri-plant-line px-3"/>
                             Produtor rural
                         </Button>
                     
@@ -145,7 +145,7 @@ export default function Sidebar() {
                             textWeight={buttonInvestor ? 'font-semibold' : undefined}
                             onClick={goInvestorButton}
                             > 
-                            <i className="ri-user-2-line px-3"></i>
+                            <i className="ri-user-2-line px-3"/>
                             Investidor
                         </Button>
                     </div>
@@ -163,7 +163,7 @@ export default function Sidebar() {
                             textWeight={buttonPendingProjects ? 'font-semibold' : undefined}
                             onClick={goPendingProjectsButton}
                             > 
-                            <i className="ri-booklet-line px-3"></i> 
+                            <i className="ri-booklet-line px-3"/>
                             Projetos pendentes
                         </Button>
                     
@@ -173,7 +173,7 @@ export default function Sidebar() {
                             textWeight={buttonPendingIdeas ? 'font-semibold' : undefined}
                             onClick={goPendingIdeasButton}
                             > 
-                            <i className="ri-lightbulb-line px-3"></i>
+                            <i className="ri-lightbulb-line px-3"/>
                             Ideias pendentes
                         </Button>
                     </div>

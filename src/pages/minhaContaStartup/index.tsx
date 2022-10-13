@@ -9,9 +9,9 @@ import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 
 export default function ProfileAdmin() {    
-    const [buttonEditMyAccount, setButtonEditMyAccount] = useState(false);
-    const [buttonEditStartup, setButtonEditStartup] = useState(false);
-    const [buttonEditAddress, setButtonEditAddress] = useState(false);
+    const [_buttonEditMyAccount, setButtonEditMyAccount] = useState(false);
+    const [_buttonEditStartup, setButtonEditStartup] = useState(false);
+    const [_buttonEditAddress, setButtonEditAddress] = useState(false);
     const [state, setState] = useState("");
     const [city, setCity] = useState("");   
 
