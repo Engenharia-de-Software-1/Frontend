@@ -1,30 +1,35 @@
-import React, { ButtonHTMLAttributes } from "react";
-import { buttonStyleSidebar } from './styles';
+import { useRouter } from "next/router";
+import React, { AnchorHTMLAttributes, cloneElement, ReactElement } from "react";
+import { buttonStyle } from './styles';
 
-interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    bg?: string; 
-    textColor?: string;
-    textWeight?: string;
+interface IButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+    shouldMatchExactHref?: boolean;
+    children: ReactElement;
 }
 function Button({
-    bg='bg-transparent',
-    textColor='text-greenText',
-    textWeight='font-semibold',    
-    
+    shouldMatchExactHref = false, 
+    children,  
     ...rest 
 }: IButtonProps) {
+    const { asPath } = useRouter();
+    let isActive = false;
+
+    if(shouldMatchExactHref && asPath === rest.href) {
+        isActive = true;
+    }
+
+    if(!shouldMatchExactHref && (asPath.startsWith(String(rest.href)))) {
+        isActive = true;
+    }
+
     return (           
-        <button className={`${buttonStyleSidebar} ${bg} ${textColor} ${textWeight}
-        flex 
-        justify-start
-        text-base 
-        rounded-normal
-        px-7
-        w-full
-        h-8
-        `}
-        {...rest}
-        />        
+        <a {...rest}>
+            {cloneElement(children, {
+                className: isActive 
+                ? `bg-greenText text-white font-semibold ${buttonStyle}` 
+                : `bg-transparent text-greenText font-regular ${buttonStyle}`
+            })}
+        </a>
     );
 }
 

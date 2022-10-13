@@ -38,7 +38,7 @@ export default function ProfileAdmin() {
                     <div className='pt-12'>
                         <Button 
                             bg='bg-greenDark' 
-                            rounded='rounded-lg' 
+                            rounded='rounded' 
                             w='w-full' 
                             h='h-12' 
                             textColor='text-white' 
@@ -55,7 +55,7 @@ export default function ProfileAdmin() {
                         <div className='pt-5 pb-10'>
                             <Button 
                                 bg='bg-warning' 
-                                rounded='rounded-lg' 
+                                rounded='rounded' 
                                 w='w-full' 
                                 h='h-12' 
                                 textColor='text-white' 
