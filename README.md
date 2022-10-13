@@ -30,7 +30,7 @@ yarn dev
 | Nome                          | Contato                                |
 | ----------------------------- |:--------------------------------------:|
 | Gabriela Marangoni Radigonda  | gabrielaradigonda@alunos.utfpr.edu.br   |
-| Getulio Coimbra               |  ----                                   |
-| Gustavo Favaro                |  ----                                   |
-| Igor Lara                     |  ----                                   |
+| Getulio Coimbra Regis         | getulioregis@alunos.utfpr.edu.br        |
+| Gustavo Sengling Favaro       | gusfav@alunos.utfpr.edu.br              |
+| Igor de Lara Oliveira         | igooli@alunos.utfpr.edu.br              |
 | Yuri Baza                     | yuribaza@alunos.utfpr.edu.br            |

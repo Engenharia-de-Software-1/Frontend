@@ -6,7 +6,7 @@ import { Stack } from '../../components/Stack';
 import { buttonForgotPassword, buttonRegister, divGeneral, selectStyle, textTitle } from './styles';
 import axiosInstance from '../axiosInstance';
 
-interface login {
+interface ILogin {
     email: string;
     password: string;
 }
@@ -17,7 +17,7 @@ export default function Login() {
     const [buttonClient, setButtonClient] = useState(false);
     const [buttonAdmin, setButtonAdmin] = useState(false);
 
-    const [login, setLogin] = useState({email:'', password:''} as login);
+    const [login, setLogin] = useState<ILogin>({} as ILogin);
 
     const handleChange = (e: any) => {
         setLogin({
