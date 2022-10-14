@@ -39,18 +39,21 @@ export default function Login() {
         setButtonClient(false);
         setButtonAdmin(false);
     }
+
     function useClientButton() {
         setButtonStartup(false);
         setButtonInvestor(false);
         setButtonClient(true);
         setButtonAdmin(false);
     }
+
     function useAdminButton() {
         setButtonStartup(false);
         setButtonInvestor(false);
         setButtonClient(false);
         setButtonAdmin(true);
     }
+
     function goRegisterPage(){
         router.push('/cadastro')
     }
@@ -82,10 +85,9 @@ export default function Login() {
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
-
             <div className={divGeneral}>
                 <div>    
-                    <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
+                    <div className="w-36 h-8 bg-no-repeat bg-agroLogo"/>
 
                     <h1 className={textTitle}>Login</h1>
 

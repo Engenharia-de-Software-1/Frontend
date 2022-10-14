@@ -18,6 +18,15 @@ interface ICadastroStartup{
 }
 
 
+class IStartupUpdate {
+    phone?: string = '';
+    startupName?: string = '';
+    cnpj?: string = '';
+    employees?: number = 0;
+    city?: string = '';
+    state?: string = '';
+}
+
 export default function Registration() {    
     const [cadastro,setCadastro] = useState<ICadastroStartup>({} as ICadastroStartup);
     

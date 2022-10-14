@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from '../../components/Sidebar';
-import { Stack } from '../../components/Stack';
+import Sidebar from '../../../components/Sidebar';
+import { Stack } from '../../../components/Stack';
 
 export default function Admin() {  
 

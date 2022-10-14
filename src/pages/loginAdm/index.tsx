@@ -29,7 +29,7 @@ export default function Login() {
                     </div>
 
                     <div className='pt-5'>
-                        <Button  bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
+                        <Button  bg='bg-greenDark' rounded='rounded' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
                             ENTRAR
                         </Button>                          
                     </div>   
