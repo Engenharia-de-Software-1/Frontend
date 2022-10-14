@@ -12,6 +12,7 @@ class ICadastro {
     password: string = '';
     confirmPassword: string = '';
     phone: string = '-';
+    profession: string = '-';
     city: string = '';
     state: string = '';
 }
@@ -69,19 +70,35 @@ export default function Registration() {
 
     async function handleSubmit(e: any) {
         e.preventDefault();
-        let registerRoute = '';
-        if(buttonClient) registerRoute = '/client';
-        if(buttonStartup) registerRoute = '/startup';
-        if(buttonInvestor) registerRoute = '/investor';
+        let pathname = '';
+        if(buttonClient) pathname = '/client';
+        if(buttonStartup) pathname = '/startup';
+        if(buttonInvestor) pathname = '/investor';
         if(cadastro.password !== cadastro.confirmPassword) return;
+        if(!buttonCheck) return;
         let userId = '';
         console.log(cadastro)
         try {
-            
+            const { data } = await axiosInstance.post(pathname, cadastro);
+            userId = data.id;
+            const { data: loginData } = await axiosInstance.post('/login', cadastro);
+            const { token } = loginData;
+            localStorage.setItem('token', token);
         } catch (error) {
-            
+            console.error(error);
+            return;
         }
+
+        if(buttonClient) pathname = '/cadastroCliente';
+        if(buttonStartup) pathname = '/cadastroStartup';
+        if(buttonInvestor) pathname = '/cadastroInvestidor';
         
+        router.push({
+            pathname,
+            query: {
+                userId,
+            }
+        });
 
         // axiosInstance.post
     }
@@ -146,30 +163,11 @@ export default function Registration() {
                     
                         <div className="pt-8 px-1 ">
                             <label className="flex items-center">
-                                <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" checked={buttonCheck} />
+                                <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" defaultChecked={buttonCheck} />
                                 <span className="ml-5 text-gray-600">Autorização para tratamento de dados</span>
                             </label>
                         </div>   
 
-<<<<<<< HEAD
-                    <div className='pt-8'>
-                        <Button  
-                            bg='bg-greenDark' 
-                            rounded='rounded' 
-                            w='w-full' 
-                            h='h-12' 
-                            textColor='text-white' 
-                            textWeight='font-bold'
-                            onClick={goRegister}
-                            >
-                            CADASTRAR
-                        </Button>
-                        
-                        <button onClick={goLoginPage} className={buttonStyle}>
-                            Já tenho uma conta na Incubadora Agro I9
-                        </button>
-                    </div>        
-=======
                         <div className='pt-8'>
                             <Button  
                                 bg='bg-greenDark' 
@@ -188,7 +186,6 @@ export default function Registration() {
                             </button>
                         </div>
                     </form>        
->>>>>>> 96a3b67 (feat: start registration page)
                 </div>
             </div>  
         </Stack>
