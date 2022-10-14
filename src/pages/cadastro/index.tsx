@@ -4,12 +4,26 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { buttonStyle, divGeneral, selectStyle, textTitle } from './styles';
+import axiosInstance from '../axiosInstance';
+
+class ICadastro {
+    name: string = '';
+    email: string = '';
+    password: string = '';
+    confirmPassword: string = '';
+    phone: string = '-';
+    profession: string = '-';
+    city: string = '';
+    state: string = '';
+}
 
 export default function Registration() {    
     const [buttonStartup, setButtonStartup] = useState(true);
     const [buttonInvestor, setButtonInvestor] = useState(false);
     const [buttonClient, setButtonClient] = useState(false);
     const [buttonCheck, setButtonCheck] = useState(false);
+
+    const [cadastro, setCadastro] = useState<ICadastro>(new ICadastro());
 
     function useStartupButton() {
         setButtonStartup(true);
@@ -45,6 +59,48 @@ export default function Registration() {
         } else { 
             router.push('/cadastroCliente')
         }
+    }
+
+    const handleChange = (e: any) => {
+        setCadastro({
+          ...cadastro,
+          [e.target.name]: e.target.value //edit
+        });
+    };
+
+    async function handleSubmit(e: any) {
+        e.preventDefault();
+        let pathname = '';
+        if(buttonClient) pathname = '/client';
+        if(buttonStartup) pathname = '/startup';
+        if(buttonInvestor) pathname = '/investor';
+        if(cadastro.password !== cadastro.confirmPassword) return;
+        if(!buttonCheck) return;
+        let userId = '';
+        console.log(cadastro)
+        try {
+            const { data } = await axiosInstance.post(pathname, cadastro);
+            userId = data.id;
+            const { data: loginData } = await axiosInstance.post('/login', cadastro);
+            const { token } = loginData;
+            localStorage.setItem('token', token);
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+
+        if(buttonClient) pathname = '/cadastroCliente';
+        if(buttonStartup) pathname = '/cadastroStartup';
+        if(buttonInvestor) pathname = '/cadastroInvestidor';
+        
+        router.push({
+            pathname,
+            query: {
+                userId,
+            }
+        });
+
+        // axiosInstance.post
     }
      
     return ( 
@@ -97,37 +153,39 @@ export default function Registration() {
                         </Button>  
                     </div>
 
-                    <div className=" w-462  mt-5">
-                        <Input haslabel label='Nome' placeholder='Ex: José da Silva'/>
-                        <Input haslabel label='E-mail' placeholder='Ex: jose@hotmail.com' top='mt-8'/>
-                        <Input haslabel label='Senha' placeholder='Sua senha tem que ser maior que 7 digitos' type='password' top='mt-8'/>
-                        <Input haslabel label='Confirmação de senha' placeholder='Digite sua senha novamente' type='password' top='mt-8'/>                
-                    </div>
-                   
-                    <div className="pt-8 px-1 ">
-                        <label className="flex items-center">
-                            <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" checked={buttonCheck} />
-                            <span className="ml-5 text-gray-600">Autorização para tratamento de dados</span>
-                        </label>
-                    </div>   
+                    <form onSubmit={handleSubmit}>
+                        <div className=" w-462  mt-5">
+                            <Input haslabel onChange={(e) => handleChange(e)} value={cadastro.name} name='name' label='Nome' placeholder='Ex: José da Silva'/>
+                            <Input haslabel onChange={(e) => handleChange(e)} value={cadastro.email} name='email' label='E-mail' placeholder='Ex: jose@hotmail.com' top='mt-8'/>
+                            <Input haslabel onChange={(e) => handleChange(e)} value={cadastro.password} name='password' label='Senha' placeholder='Sua senha tem que ser maior que 7 digitos' type='password' top='mt-8'/>
+                            <Input haslabel onChange={(e) => handleChange(e)} value={cadastro.confirmPassword} name='confirmPassword' label='Confirmação de senha' placeholder='Digite sua senha novamente' type='password' top='mt-8'/>                
+                        </div>
+                    
+                        <div className="pt-8 px-1 ">
+                            <label className="flex items-center">
+                                <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" defaultChecked={buttonCheck} />
+                                <span className="ml-5 text-gray-600">Autorização para tratamento de dados</span>
+                            </label>
+                        </div>   
 
-                    <div className='pt-8'>
-                        <Button  
-                            bg='bg-greenDark' 
-                            rounded='rounded' 
-                            w='w-full' 
-                            h='h-12' 
-                            textColor='text-white' 
-                            textWeight='font-bold'
-                            onClick={goRegister}
-                            >
-                            CADASTRAR
-                        </Button>
-                        
-                        <button onClick={goLoginPage} className={buttonStyle}>
-                            Já tenho uma conta na Incubadora Agro I9
-                        </button>
-                    </div>        
+                        <div className='pt-8'>
+                            <Button  
+                                bg='bg-greenDark' 
+                                rounded='rounded-lg' 
+                                w='w-full' 
+                                h='h-12' 
+                                textColor='text-white' 
+                                textWeight='font-bold'
+                                formAction='submit'
+                                >
+                                CADASTRAR
+                            </Button>
+                            
+                            <button onClick={goLoginPage} className={buttonStyle}>
+                                Já tenho uma conta na Incubadora Agro I9
+                            </button>
+                        </div>
+                    </form>        
                 </div>
             </div>  
         </Stack>
