@@ -6,17 +6,47 @@ import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { divGeneral, textStyle3, textTitle } from './styles';
 import router from 'next/router';
+import api from '../../services/api';
+import { IUser } from '../../models/IUser';
 
-export default function ProfileAdmin() {    
-    const [buttonChangePassword, setButtonChangePassword] = useState(false);
+export default function Settings() {  
+    //const userId = '1688aa32-6569-44aa-9ea3-e083a98350a1'; 
+    const userId = '8ba30cae-67f9-46ab-96a3-216b2d05d3c1'; 
+    const userType = 'client'; 
+    const [password, setPassword] = useState<string>('');
+    const [newPassword, setNewPassword] = useState<string>('');
 
-    function goChangePassword() {
-        setButtonChangePassword(true);
+    async function goChangePassword() {
+        if(password !== '' && newPassword !== '') {
+            try {
+                const output = await api.put<IUser>(`${userType}/${userId}`, {
+                    password,
+                    confirmPassword: newPassword
+                });
+                if(output.data && output.data.id) {
+                    alert('Senha alterada com sucesso!');
+                } else {
+                    console.log(output);
+                    alert('Erro ao alterar senha!');
+                }
+            } catch (error) {
+                alert('Error retornado!');
+            }
+        } else {
+            alert('Preencha todos os campos!');
+        }
     }
+    
     function goDelete() {
         if (window.confirm("Tem certeza que deseja deletar sua conta?")) {
-            router.push("./cadastro");
-          }
+            try {
+                api.delete(`${userType}/${userId}`);
+                alert('Conta deletada com sucesso!');
+                router.push("./cadastro");
+            } catch (error) {
+                alert('Erro retornado!');
+            }
+        }
     }
 
     return ( 
@@ -31,8 +61,24 @@ export default function ProfileAdmin() {
                     <h1 className={textStyle3}>Mudar senha</h1>
 
                     <div className=" w-462">                        
-                        <Input haslabel label='Senha atual' placeholder='******' type='password' top='mt-5'/>
-                        <Input haslabel label='Nova senha' placeholder='******' type='password' top='mt-10'/>
+                        <Input 
+                            haslabel 
+                            label='Nova senha' 
+                            placeholder='******' 
+                            type='password' 
+                            top='mt-5'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <Input 
+                            haslabel 
+                            label='Confirmação de senha' 
+                            placeholder='******' 
+                            type='password' 
+                            top='mt-10'
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                        />
                     </div>
 
                     <div className='pt-12'>
@@ -44,7 +90,7 @@ export default function ProfileAdmin() {
                             textColor='text-white' 
                             textWeight='font-bold'
                             onClick={goChangePassword}
-                            >
+                        >
                             MUDAR SENHA
                         </Button>
                     </div> 
@@ -61,7 +107,7 @@ export default function ProfileAdmin() {
                                 textColor='text-white' 
                                 textWeight='font-bold'
                                 onClick={goDelete}
-                                >
+                            >
                                 DELETAR CONTA
                             </Button>
                         </div> 

@@ -4,7 +4,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { buttonForgotPassword, buttonRegister, divGeneral, selectStyle, textTitle } from './styles';
-import axiosInstance from '../axiosInstance';
+import api from '../../services/api';
 
 interface ILogin {
     email: string;
@@ -60,7 +60,7 @@ export default function Login() {
     async function goLoginPage(e: any) {
         e.preventDefault();
         try {
-            const { data } = await axiosInstance.post('/login', login)
+            const { data } = await api.post('/login', login)
             const { token } = data;
             localStorage.setItem('token', token);
             router.push('/')

@@ -7,7 +7,7 @@ import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import { useRouter } from 'next/router';
-import axiosInstance from '../axiosInstance';
+import api from '../../services/api';
 
 class ICadastroInvestidor {
     phone?: string = '';
@@ -34,7 +34,7 @@ export default function Registration() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await axiosInstance.put(`/investor/${userId}`, cadastro);
+            await api.put(`/investor/${userId}`, cadastro);
             router.push('/minhaContaInvestidor');
         } catch (error) {
             console.error(error);
