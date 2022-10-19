@@ -1,32 +1,46 @@
 import 'remixicon/fonts/remixicon.css';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
-import { divGeneral, textStyle3, textTitle } from './styles';
+import { divGeneral, textTitle } from './styles';
+import api from '../../services/api';
+import { IUser } from '../../models/IUser';
 
 export default function ProfileAdmin() {     
-    const [buttonEdit, setButtonEdit] = useState(false);
-    const [buttonChangePassword, setButtonChangePassword] = useState(false);
-    const [buttonDelete, setButtonDelete] = useState(false);
+    const userId = '1688aa32-6569-44aa-9ea3-e083a98350a1'; 
 
-    function goEdit() {
-        setButtonEdit(true);
-        setButtonChangePassword(false);
-        setButtonDelete(false);
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+
+    const [buttonEdit, setButtonEdit] = useState(false);
+
+    const getUserInfo = useCallback(async () => {
+        const response = await api.get<IUser>(`/admin/${userId}`);
+        setName(response.data.name);
+        setEmail(response.data.email);
+    }, []);
+
+    async function handleEdit() {
+        try {
+            const output = await api.put<IUser>(`admin/${userId}`, {
+                name,
+                email
+            });
+            if(output.data && output.data.id) {
+                alert('Dados atualizados com sucesso!');
+            } else {
+                alert('Erro ao atualizar dados!');
+            }
+        } catch (error) {
+            alert('Erro retornado!');
+        }
     }
-    
-    function goChangePassword() {
-        setButtonEdit(false);
-        setButtonChangePassword(true);
-        setButtonDelete(false);
-    }
-    function goDelete() {
-        setButtonEdit(false);
-        setButtonChangePassword(false);
-        setButtonDelete(true);
-    }
+
+    useEffect(() => {
+        getUserInfo();
+    }, [getUserInfo]);
 
     return ( 
         <Stack bg='bg-white'>
@@ -36,8 +50,22 @@ export default function ProfileAdmin() {
                 <h1 className={textTitle}>Minha conta</h1>
 
                 <div className=" w-462">                        
-                    <Input haslabel label='Nome' placeholder='Nome completo' top='mt-5'/>
-                    <Input haslabel label='E-mail' placeholder='e-mail' type='password' top='mt-10'/>
+                    <Input 
+                        haslabel 
+                        label='Nome'
+                        placeholder='Nome completo' 
+                        top='mt-5'
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}                        
+                    />
+                    <Input 
+                        haslabel 
+                        label='E-mail' 
+                        placeholder='e-mail' 
+                        top='mt-10'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)} 
+                    />
                 </div>
 
                 <div className='pt-12 w-462'>
@@ -48,47 +76,11 @@ export default function ProfileAdmin() {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
-                        onClick={goEdit}
+                        onClick={handleEdit}
                         >
                         EDITAR
                     </Button>
-                </div> 
-
-                <h1 className={textStyle3}>Mudar senha</h1>
-
-                <div className=" w-462">                        
-                    <Input haslabel label='Senha atual' placeholder='******' type='password' top='mt-5'/>
-                    <Input haslabel label='Nova senha' placeholder='******' type='password' top='mt-10'/>
-                </div>
-
-                <div className='pt-12 w-462'>
-                    <Button 
-                        bg='bg-greenDark' 
-                        rounded='rounded' 
-                        w='w-full' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={goChangePassword}
-                        >
-                        MUDAR SENHA
-                    </Button>
-                </div> 
-
-                <h1 className={textStyle3}>Área de perigo</h1>
-                <div className='pt-5 w-462 pb-10'>
-                    <Button 
-                        bg='bg-warning' 
-                        rounded='rounded' 
-                        w='w-full' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={goDelete}
-                        >
-                        DELETAR CONTA
-                    </Button>
-                </div> 
+                </div>                
             </div>  
         </Stack>
     );
