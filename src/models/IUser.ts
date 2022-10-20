@@ -20,3 +20,22 @@ export interface IUserClient {
     city: string;
   }
 }
+
+export interface IUserInvestor {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+
+  investor: {
+    companyName: string;
+    profession: string;
+    cnpj: string;
+    qtdMembers: number;
+  };
+
+  address: {
+    state: string;
+    city: string;
+  }
+}
