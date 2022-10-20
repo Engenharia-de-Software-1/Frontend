@@ -4,7 +4,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { buttonStyle, divGeneral, selectStyle, textTitle } from './styles';
-import axiosInstance from '../axiosInstance';
+import api from '../../services/api';
 
 class ICadastro {
     name: string = '';
@@ -79,9 +79,9 @@ export default function Registration() {
         let userId = '';
         console.log(cadastro)
         try {
-            const { data } = await axiosInstance.post(pathname, cadastro);
+            const { data } = await api.post(pathname, cadastro);
             userId = data.id;
-            const { data: loginData } = await axiosInstance.post('/login', cadastro);
+            const { data: loginData } = await api.post('/login', cadastro);
             const { token } = loginData;
             localStorage.setItem('token', token);
         } catch (error) {
@@ -100,7 +100,7 @@ export default function Registration() {
             }
         });
 
-        // axiosInstance.post
+        // api.post
     }
      
     return ( 

@@ -6,7 +6,7 @@ import { Input } from '../../components/Input';
 import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
-import axiosInstance from '../axiosInstance';
+import api from '../../services/api';
 
 class ICadastroStartup{
     startupName: string = '';
@@ -33,7 +33,7 @@ export default function Registration() {
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
         try {
-            await axiosInstance.put(`/startup/${userId}`, cadastro)
+            await api.put(`/startup/${userId}`, cadastro)
             router.push('/minhaContaStartup')
         }
         catch (error) {
