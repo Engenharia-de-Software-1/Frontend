@@ -17,14 +17,14 @@ export default function ProfileAdmin() {
     const [buttonEdit, setButtonEdit] = useState(false);
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUser>(`/admin/${userId}`);
+        const response = await api.get<IUser>(`/admin/`);
         setName(response.data.name);
         setEmail(response.data.email);
     }, []);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUser>(`admin/${userId}`, {
+            const output = await api.put<IUser>(`admin/`, {
                 name,
                 email
             });

@@ -34,7 +34,7 @@ export default function Registration() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await api.put(`/investor/${userId}`, cadastro);
+            await api.put(`/investor/`, cadastro);
             router.push('/minhaContaInvestidor');
         } catch (error) {
             console.error(error);
