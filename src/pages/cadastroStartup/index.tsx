@@ -33,7 +33,7 @@ export default function Registration() {
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
         try {
-            await api.put(`/startup/${userId}`, cadastro)
+            await api.put(`/startup/`, cadastro)
             router.push('/minhaContaStartup')
         }
         catch (error) {

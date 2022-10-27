@@ -33,7 +33,7 @@ export default function ProfileStartup() {
     }, [])
     
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserStartup>(`/startup/${userId}`);
+        const response = await api.get<IUserStartup>(`/startup/`);
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -46,7 +46,7 @@ export default function ProfileStartup() {
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserStartup>(`startup/${userId}`, {
+            const output = await api.put<IUserStartup>(`startup/`, {
                 name,
                 email,
                 phone,

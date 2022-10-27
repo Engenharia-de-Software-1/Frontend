@@ -31,7 +31,7 @@ export default function ProfileClient() {
     }, [])
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserClient>(`/client/${userId}`);
+        const response = await api.get<IUserClient>(`/client/`);
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -43,7 +43,7 @@ export default function ProfileClient() {
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserClient>(`client/${userId}`, {
+            const output = await api.put<IUserClient>(`client/`, {
                 name,
                 email,
                 phone,

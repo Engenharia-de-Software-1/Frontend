@@ -35,7 +35,7 @@ export default function ProfileInvestor() {
     }, [])
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserInvestor>(`/investor/${userId}`);
+        const response = await api.get<IUserInvestor>(`/investor/`);
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -49,7 +49,7 @@ export default function ProfileInvestor() {
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserInvestor>(`investor/${userId}`, {
+            const output = await api.put<IUserInvestor>(`investor/`, {
                 name,
                 email,
                 phone,

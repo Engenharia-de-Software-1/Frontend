@@ -19,7 +19,7 @@ export default function Settings() {
     async function goChangePassword() {
         if(password !== '' && newPassword !== '') {
             try {
-                const output = await api.put<IUser>(`${userType}/${userId}`, {
+                const output = await api.put<IUser>(`${userType}/`, {
                     password,
                     confirmPassword: newPassword
                 });
@@ -40,7 +40,7 @@ export default function Settings() {
     function goDelete() {
         if (window.confirm("Tem certeza que deseja deletar sua conta?")) {
             try {
-                api.delete(`${userType}/${userId}`);
+                api.delete(`${userType}/`);
                 alert('Conta deletada com sucesso!');
                 router.push("./cadastro");
             } catch (error) {
