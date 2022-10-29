@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 
 export default function Sidebar() { 
     // O tipo deve ser adquirido de alguma forma. Podemos criar um contexto sobre isso.
-    const [userType, setUserType] = useState('admin');
+    const [userType, setUserType] = useState('startup');
     const router = useRouter();
 
     const goToByLogo = () => {
@@ -53,7 +53,7 @@ export default function Sidebar() {
 
                 {userType === 'startup' && (
                     <NavSection title="Projetos">
-                        <NavButton icon="ri-pencil-ruler-line" title="Meus projetos" href="/meusProjetos"/>
+                        <NavButton icon="ri-pencil-ruler-line" title="Meus projetos" href="/meusProjetosStartup"/>
                         <NavButton icon="ri-money-dollar-circle-line" title="Investimentos" href="/investimentos"/>
                         <NavButton icon="ri-chat-smile-2-line" title="Consultoria" href="/consultoria"/>
                     </NavSection>
@@ -62,7 +62,6 @@ export default function Sidebar() {
                 {userType === 'investidor' && (
                     <NavSection title="Projetos">
                         <NavButton icon="ri-search-line" title="Encontrar projetos" href="/encontrar/projetos"/>
-                        <NavButton icon="ri-star-line" title="Favoritos" href="/projetos/favoritos"/>
                     </NavSection>
                 )}
                 
@@ -76,7 +75,6 @@ export default function Sidebar() {
                 {userType === 'startup' && (
                     <NavSection title="Ideias">
                         <NavButton icon="ri-search-line" title="Encontrar ideias" href="/encontrar/ideias"/>
-                        <NavButton icon="ri-star-line" title="Favoritos" href="/ideias/favoritos"/>
                     </NavSection>
                 )}
 
