@@ -1,4 +1,5 @@
-import React, { ButtonHTMLAttributes } from "react";
+import 'remixicon/fonts/remixicon.css';
+import React from "react";
 import { format } from 'date-fns';
 import { IProject } from "../../models/IProject";
 
@@ -7,15 +8,18 @@ interface IProjectProps {
 }
 
 
-function ButtonProject({ project }: IProjectProps) {
-   
+function ButtonProject({ project }: IProjectProps) {   
    
     return (          
         <button className='bg-transparent text-black'>
             
-            <h1 className="text-start text-2xl font-semibold pt-8">
-                {project.nameProject}
-            </h1>
+            <div className='flex justify-between w-full '>
+                <h1 className="text-start text-2xl font-semibold pt-8">
+                    {project.nameProject}
+                </h1>
+
+                <button icon="ri-start-line" className='w-12 h-12 bg-black'/>
+            </div>
               
             <h1 className="text-start text-justify pt-5">
                 {project.description}    
