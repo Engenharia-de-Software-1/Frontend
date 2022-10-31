@@ -12,23 +12,22 @@ function ButtonProject({ project }: IProjectProps) {
 
     function useButtonStar() {
         setStarButton(!starButton);
-}
+    }
+
     return (          
-        <button className='relative bg-transparent text-black'>
+        <button className='bg-transparent text-black'>
             
-            <div className='flex justify-between w-full '>
-                <h1 className="text-start text-2xl font-semibold pt-8">
+            <div className='rel flex justify-between mt-8 w-full '>
+                <h1 className="text-start text-2xl font-semibold">
                     {project.nameProject}
                 </h1>
 
-                <div className='absolute bottom-[170px] top-0 left-full'>
-                    <button onClick={useButtonStar}  className='ri-star-line ri-2x'/>
-                    {/* console.log(starButton) */}
-                    <button onClick={useButtonStar} className='ri-star-fill ri-2x'/>
+                <div className='abs'>
+                    <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
                 </div>
             </div>
               
-            <h1 className="text-start text-justify pt-5">
+            <h1 className="text-justify pt-5">
                 {project.description}    
             </h1>     
 

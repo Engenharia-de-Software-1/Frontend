@@ -9,15 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.3.6",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "autoprefixer": "^10.4.12",
     "axios": "^1.1.2",
+    "date-fns": "^2.27.0",
+    "framer-motion": "^6",
     "next": "12.3.1",
     "postcss": "^8.4.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "remixicon": "^2.5.0",
-    "tailwindcss": "^3.1.8",
-    "date-fns": "^2.27.0"
+    "tailwindcss": "^3.1.8"
   },
   "devDependencies": {
     "@types/node": "18.7.23",

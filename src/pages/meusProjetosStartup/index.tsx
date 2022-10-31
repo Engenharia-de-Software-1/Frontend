@@ -5,9 +5,18 @@ import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
 import { IProject } from '../../models/IProject';
 import { ButtonProject } from '../../components/ButtonProject';
+import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
+import { Input } from '../../components/Input';
+import { TextArea } from '../../components/TextArea';
 
 export default function ProfileAdmin() {    
     const [project, setProject] = useState<IProject[]>([] as IProject[]); 
+    const [buttonAddProject, setButtonAddProject] = useState(false);
+
+    function useButtonAddProject(){
+        setButtonAddProject(true);
+    }
    
     function getProjects() {
         setTimeout(() => {
@@ -40,14 +49,67 @@ export default function ProfileAdmin() {
             <Sidebar/>
 
             <div className={divGeneral}>
-                <h1 className={textTitle} >Meus Projetos</h1>
+                <div className='flex justify-between'>
+                    <h1 className={textTitle}>Meus Projetos</h1>
+
+                    <Button 
+                        bg='bg-greenDark' 
+                        rounded='rounded' 
+                        w='w-40' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                        onClick={useButtonAddProject}
+                    >
+                        Adicionar projeto
+                    </Button>
+                </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {project.map((project) => (
                         <ButtonProject project={project}/>
-
                     ))}         
                 </div>
-            </div>  
+            </div> 
+            <Modal 
+                isOpen={buttonAddProject} 
+                onClose={() => setButtonAddProject(false)} 
+                title='Adicionar projeto'
+                footer={
+                    <Button 
+                        bg='bg-greenDark' 
+                        rounded='rounded' 
+                        w='w-full' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                        onClick={() => setButtonAddProject(false)}
+                    >
+                        Salvar
+                    </Button>
+                }
+            >
+                <div className='pb-20 flex flex-col gap-8'>
+                    <Input 
+                        haslabel 
+                        label='Nome do projeto' 
+                        placeholder='ex: Agro' 
+                        bg='bg-grayBg'                 
+                    />
+
+                    <TextArea 
+                        haslabel 
+                        label='Solução' 
+                        placeholder='ex: Sistema de purificação de água'                                        
+                    />
+
+                    <TextArea  
+                        haslabel 
+                        label='Problema' 
+                        placeholder='ex: Água não putificada'
+                    />
+                </div>
+
+            </Modal>
         </Stack>
     );
 }

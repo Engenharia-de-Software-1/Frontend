@@ -6,19 +6,21 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement>{
     label?: string;    
     fontSize?: string;
     top?: string;
+    bg?: string;
 }
 
 function Input({
     haslabel = false, 
     label, 
     top = "mt-0",
+    bg = "bg-optionWhite",
     ...rest
 }: IInputProps) {
     if(haslabel) {
         return (
-            <fieldset className={`${mainStyle} ${top}`}>
+            <fieldset className={`${mainStyle} ${top} ${bg}`}>
                 <legend className={legendStyle}>{label}</legend>
-                <input className={inputStyle} {...rest}/>
+                <input className={`${inputStyle} ${bg}`} {...rest}/>
             </fieldset> 
         )
     } 
