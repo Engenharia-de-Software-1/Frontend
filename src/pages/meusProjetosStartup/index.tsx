@@ -1,4 +1,3 @@
-import 'remixicon/fonts/remixicon.css';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
