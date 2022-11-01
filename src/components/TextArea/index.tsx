@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes } from 'react';
-import { legendStyle, mainStyle } from '../Input/styles';
-import { textAreaStyles } from './styles';
+import { legendStyle } from '../Input/styles';
+import { mainStyle, textAreaStyles } from './styles';
 
 interface ITextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement>{
     haslabel?: boolean;

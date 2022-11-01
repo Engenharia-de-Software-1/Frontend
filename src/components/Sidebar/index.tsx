@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 
 export default function Sidebar() { 
     // O tipo deve ser adquirido de alguma forma. Podemos criar um contexto sobre isso.
-    const [userType, setUserType] = useState('startup');
+    const [userType, setUserType] = useState('cliente');
     const router = useRouter();
 
     const goToByLogo = () => {

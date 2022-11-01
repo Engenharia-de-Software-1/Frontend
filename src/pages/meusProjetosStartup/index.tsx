@@ -14,6 +14,10 @@ export default function ProfileAdmin() {
     const [project, setProject] = useState<IProject[]>([] as IProject[]); 
     const [buttonAddProject, setButtonAddProject] = useState(false);
 
+    const [nameProject, setNameProject] = useState<string>('');
+    const [solutionProject, setSolutionProject] = useState<string>('');
+    const [problemProject, setProblemProject] = useState<string>('');
+
     function useButtonAddProject(){
         setButtonAddProject(true);
     }
@@ -88,24 +92,32 @@ export default function ProfileAdmin() {
                     </Button>
                 }
             >
-                <div className='pb-20 flex flex-col gap-8'>
+                <div className='flex flex-col'>
                     <Input 
                         haslabel 
                         label='Nome do projeto' 
                         placeholder='ex: Agro' 
-                        bg='bg-grayBg'                 
+                        bg='bg-grayBg'     
+                        value={nameProject}
+                        onChange={(e) => setNameProject(e.target.value)}   
                     />
 
                     <TextArea 
                         haslabel 
                         label='Solução' 
-                        placeholder='ex: Sistema de purificação de água'                                        
+                        placeholder='ex: Sistema de purificação de água'
+                        value={solutionProject}
+                        onChange={(e) => setSolutionProject(e.target.value)}
+                        top='mt-2'                                        
                     />
 
                     <TextArea  
                         haslabel 
                         label='Problema' 
                         placeholder='ex: Água não putificada'
+                        value={problemProject}
+                        onChange={(e) => setProblemProject(e.target.value)}
+                        top='mt-2'
                     />
                 </div>
 

@@ -1,1 +1,2 @@
-export const textAreaStyles = 'bg-grayBg appearance-none border rounded w-full h-20 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+export const mainStyle = 'w-full text-sm rounded-[5px]';
+export const textAreaStyles = 'bg-grayBg appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
