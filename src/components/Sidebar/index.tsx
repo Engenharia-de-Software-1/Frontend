@@ -80,7 +80,6 @@ export default function Sidebar() {
 
                 {userType === 'cliente' && (
                     <NavSection title="Ideias">
-                        <NavButton icon="ri-add-circle-line" title="Cadastrar ideias" href="/ideias/cadastro"/>
                         <NavButton icon="ri-lightbulb-line" title="Minhas ideias" href="/ideias/me"/>
                     </NavSection>
                 )}
