@@ -60,10 +60,11 @@ export default function Login() {
     async function goLoginPage(e: any) {
         e.preventDefault();
         try {
-            const { data } = await api.post('/login', login)
-            const { token } = data;
+            const response = await api.post('/login', login)
+            const { token } = response.data;
             localStorage.setItem('token', token);
-            router.push('/')
+            console.log(response.data);
+            // router.push('/')
         } catch (error) {
             console.log(error)
         }
