@@ -12,6 +12,8 @@ function ButtonIdea({ idea }: IIdeaProps) {
    const [starButton, setStarButton] = useState(false);
    const [pendingButton, setPendingButton] = useState(false);
 
+   const [userType, setUserType] = useState('cliente');
+
     function useButtonStar() {
         setStarButton(!starButton);
     }
@@ -24,16 +26,19 @@ function ButtonIdea({ idea }: IIdeaProps) {
                     <h1 className="text-start text-2xl font-semibold">
                         {idea.nameIdea}
                     </h1>
-                    <Button
-                        bg='bg-warning' 
-                        rounded='rounded-full' 
-                        w='w-28' 
-                        h='h-8' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                    >
-                        Pendente
-                    </Button>
+                    {userType === 'cliente' && (
+                        <Button
+                            bg='bg-warning' 
+                            rounded='rounded-full' 
+                            w='w-28' 
+                            h='h-8' 
+                            textColor='text-white' 
+                            textWeight='font-bold'
+                        >
+                            Pendente
+                        </Button>
+                    
+                )}
 
                 </div>
 
