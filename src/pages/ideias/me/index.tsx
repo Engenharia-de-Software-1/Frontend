@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Stack } from '../../components/Stack';
-import Sidebar from '../../components/Sidebar';
+import { Stack } from '../../../components/Stack';
+import Sidebar from '../../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
-import api from '../../services/api';
-import { Button } from '../../components/Button';
-import { Modal } from '../../components/Modal';
-import { Input } from '../../components/Input';
-import { TextArea } from '../../components/TextArea';
-import { IIdea } from '../../models/IIdea';
-import { ButtonIdea } from '../../components/ButtonIdea';
+import api from '../../../services/api';
+import { Button } from '../../../components/Button';
+import { Modal } from '../../../components/Modal';
+import { Input } from '../../../components/Input';
+import { TextArea } from '../../../components/TextArea';
+import { ButtonIdea } from '../../../components/ButtonIdea';
+import { IIdea } from '../../../models/IIdea';
 
 export default function ProfileAdmin() {    
     const [idea, setIdea] = useState<IIdea[]>([] as IIdea[]); 
