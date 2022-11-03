@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
-import { buttonForgotPassword, buttonRegister, divGeneral, selectStyle, textTitle } from './styles';
-import api from '../../services/api';
+import { buttonForgotPassword, buttonRegister, divGeneral, textTitle } from './styles';
+import { useAuth } from '../../contexts/authContext';
 
 interface ILogin {
     email: string;
@@ -12,10 +12,7 @@ interface ILogin {
 }
 
 export default function Login() {    
-    const [buttonStartup, setButtonStartup] = useState(true);
-    const [buttonInvestor, setButtonInvestor] = useState(false);
-    const [buttonClient, setButtonClient] = useState(false);
-    const [buttonAdmin, setButtonAdmin] = useState(false);
+    const { signIn } = useAuth();
 
     const [login, setLogin] = useState<ILogin>({} as ILogin);
 
@@ -26,59 +23,26 @@ export default function Login() {
         });
     };
 
-    function useStartupButton() {
-        setButtonStartup(true);
-        setButtonInvestor(false);
-        setButtonClient(false);
-        setButtonAdmin(false);
-    }
-
-    function useInvestorButton() {
-        setButtonStartup(false);
-        setButtonInvestor(true);
-        setButtonClient(false);
-        setButtonAdmin(false);
-    }
-
-    function useClientButton() {
-        setButtonStartup(false);
-        setButtonInvestor(false);
-        setButtonClient(true);
-        setButtonAdmin(false);
-    }
-
-    function useAdminButton() {
-        setButtonStartup(false);
-        setButtonInvestor(false);
-        setButtonClient(false);
-        setButtonAdmin(true);
-    }
-
     function goRegisterPage(){
         router.push('/cadastro')
     }
     async function goLoginPage(e: any) {
         e.preventDefault();
         try {
-            const { data } = await api.post('/login', login)
-            const { token } = data;
-            localStorage.setItem('token', token);
-            router.push('/')
-        } catch (error) {
-            console.log(error)
+            const response = await signIn(login);
+            if(response) {
+                if(response.type === 'admin') {
+                    router.push(`/administrador?id=${response.user?.id}`)
+                } else {
+                    // Move para minha conta (Futuramente podemos fazer ir para o dashboard)
+                    router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user?.id}`);
+                }
+            } else {
+                alert('Erro ao fazer login. Por favor, verifique seus dados e tente novamente.');
+            }
+        } catch {
+            alert('Erro ao fazer login. Por favor, verifique seus dados e tente novamente.');
         }
-        // if (buttonStartup == true) {
-        //     router.push('/startup')
-        // }
-        // else if (buttonInvestor == true) {
-        //     router.push('/investidor')
-        // }
-        // else if (buttonClient == true) {
-        //     router.push('/cliente')
-        // }
-        // else {
-        //     router.push('/administrador')
-        // }
     }
 
     return ( 
@@ -91,57 +55,7 @@ export default function Login() {
 
                     <h1 className={textTitle}>Login</h1>
 
-                    <div className={selectStyle}>                    
-                        <Button 
-                            bg={buttonStartup ? 'bg-greenLight' : undefined} 
-                            textColor={buttonStartup ? 'text-greenText' : undefined} 
-                            textWeight={buttonStartup ? 'font-semibold' : undefined}
-                            rounded='rounded-full' 
-                            w='w-36' 
-                            h='h-8' 
-                            onClick={useStartupButton}
-                        >
-                            Startup
-                        </Button>  
-
-                        <Button 
-                            bg={buttonInvestor ? 'bg-greenLight' : undefined} 
-                            textColor={buttonInvestor ? 'text-greenText' : undefined} 
-                            textWeight={buttonInvestor ? 'font-semibold' : undefined}
-                            rounded='rounded-full' 
-                            w='w-36' 
-                            h='h-8' 
-                            onClick={useInvestorButton}
-                        >
-                            Investidor
-                        </Button>  
-                    
-                        <Button 
-                            bg={buttonClient ? 'bg-greenLight' : undefined} 
-                            textColor={buttonClient ? 'text-greenText' : undefined} 
-                            textWeight={buttonClient ? 'font-semibold' : undefined}
-                            rounded='rounded-full' 
-                            w='w-36' 
-                            h='h-8' 
-                            onClick={useClientButton}
-                        >
-                            Cliente
-                        </Button>  
-
-                        <Button 
-                            bg={buttonAdmin ? 'bg-greenLight' : undefined} 
-                            textColor={buttonAdmin ? 'text-greenText' : undefined} 
-                            textWeight={buttonAdmin ? 'font-semibold' : undefined}
-                            rounded='rounded-full' 
-                            w='w-48' 
-                            h='h-8' 
-                            onClick={useAdminButton}
-                        >
-                            Administrador
-                        </Button> 
-                    </div>
-
-                    <form onSubmit={goLoginPage}>
+                    <form onSubmit={goLoginPage} className='w-471'>
                         <div>
                             <Input haslabel name="email" label='E-mail' placeholder='e-mail' top='mt-5' value={login.email || ''} onChange={(e) => handleChange(e)}/>
                             <Input haslabel name="password" label='Senha' placeholder='*******' type='password' top='mt-10' value={login.password || ''} onChange={(e) => handleChange(e)}/>
@@ -158,11 +72,11 @@ export default function Login() {
                                 ENTRAR
                             </Button>  
                             
-                            <button onClick={goRegisterPage} className={buttonRegister}>
-                                Quero me cadastrar na Incubadora Agro I9
-                            </button> 
                         </div> 
                     </form>                     
+                    <button onClick={goRegisterPage} className={buttonRegister}>
+                        Quero me cadastrar na Incubadora Agro I9
+                    </button> 
                 </div>
             </div>  
         </Stack>
