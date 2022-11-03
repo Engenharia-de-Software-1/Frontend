@@ -16,10 +16,15 @@ export default function ProfileAdmin() {
 
     const [nameIdea, setNameIdea] = useState<string>('');
     const [descriptionIdea, setDescriptionIdea] = useState<string>('');
+
+    const [buttonCheck, setButtonCheck] = useState(false);
     
 
     function useButtonAddIdea(){
         setButtonAddIdea(true);
+    }
+    function useButtonCheck() {
+        setButtonCheck(!buttonCheck);
     }
    
     function getIdeas() {
@@ -79,8 +84,13 @@ export default function ProfileAdmin() {
             <Sidebar/>
 
             <div className={divGeneral}>
-                <div className='flex justify-between'>
+                <div className='flex justify-between items-center'>
                     <h1 className={textTitle}>Lista de ideias</h1>
+
+                    <label className="flex items-center ">
+                        <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" defaultChecked={buttonCheck} />
+                        <span className="ml-2 text-gray-600">visualizados por último</span>
+                    </label>
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {idea.map((idea) => (
