@@ -8,6 +8,7 @@ interface ISelectProps extends SelectHTMLAttributes<HTMLSelectElement>{
     w?: string;   
     h?: string;    
     fontSize?: string;
+    bg?: string;
 }
 
 function Select({
@@ -16,13 +17,14 @@ function Select({
     top = "mt-0",
     w = "w-full",
     h, 
+    bg = "bg-Input2",
     fontSize,
     ...rest
 }: ISelectProps) {
     return (     
-        <fieldset className={`${mainStyle} ${top}`}>
+        <fieldset className={`${mainStyle} ${top} ${bg}`}>
             <legend className={legendStyle}>{label}</legend>
-            <select className={selectStyle} {...rest}/>
+            <select className={`${selectStyle} ${bg}`} {...rest}/>
         </fieldset>        
 )}
 
