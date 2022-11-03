@@ -5,25 +5,27 @@ import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { buttonStyle, divGeneral, selectStyle, textTitle } from './styles';
 import api from '../../services/api';
+import { useAuth } from '../../contexts/authContext';
 
-class ICadastro {
-    name: string = '';
-    email: string = '';
-    password: string = '';
-    confirmPassword: string = '';
-    phone: string = '-';
-    profession: string = '-';
-    city: string = '';
-    state: string = '';
+export interface ICadastro {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    phone: string;
+    profession: string;
+    city: string;
+    state: string;
 }
 
 export default function Registration() {    
     const [buttonStartup, setButtonStartup] = useState(true);
     const [buttonInvestor, setButtonInvestor] = useState(false);
     const [buttonClient, setButtonClient] = useState(false);
-    const [buttonCheck, setButtonCheck] = useState(false);
+    const [buttonCheck, setButtonCheck] = useState(true);
+    const { signIn, signUp } = useAuth();
 
-    const [cadastro, setCadastro] = useState<ICadastro>(new ICadastro());
+    const [cadastro, setCadastro] = useState<ICadastro>({} as ICadastro);
 
     function useStartupButton() {
         setButtonStartup(true);
@@ -75,17 +77,25 @@ export default function Registration() {
         if(buttonStartup) pathname = '/startup';
         if(buttonInvestor) pathname = '/investor';
         if(cadastro.password !== cadastro.confirmPassword) return;
-        if(!buttonCheck) return;
         let userId = '';
-        console.log(cadastro)
+
+        if(!buttonCheck) {
+            alert('Você precisa aceitar a Autorização para tratamento de dados para continuar.');
+            return;
+        }
+
         try {
-            const { data } = await api.post(pathname, cadastro);
-            userId = data.id;
-            const { data: loginData } = await api.post('/login', cadastro);
-            const { token } = loginData;
-            localStorage.setItem('token', token);
-        } catch (error) {
-            console.error(error);
+            const response = await signUp({path: pathname, data: cadastro});
+            console.log(response);
+            if(response) {
+                userId = response.user.id;
+            } else {
+                alert('Erro ao fazer cadastro. Por favor, tente novamente.');
+                return;
+            }
+        } catch (err){
+            console.log(err)
+            alert('Erro ao fazer cadastro. Por favor, tente novamente.');
             return;
         }
 
@@ -99,8 +109,6 @@ export default function Registration() {
                 userId,
             }
         });
-
-        // api.post
     }
      
     return ( 
@@ -163,7 +171,7 @@ export default function Registration() {
                     
                         <div className="pt-8 px-1 ">
                             <label className="flex items-center">
-                                <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" defaultChecked={buttonCheck} />
+                                <input onChange={useButtonCheck} checked={buttonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" />
                                 <span className="ml-5 text-gray-600">Autorização para tratamento de dados</span>
                             </label>
                         </div>   
@@ -177,7 +185,7 @@ export default function Registration() {
                                 textColor='text-white' 
                                 textWeight='font-bold'
                                 formAction='submit'
-                                >
+                            >
                                 CADASTRAR
                             </Button>
                             

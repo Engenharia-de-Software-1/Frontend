@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import 'remixicon/fonts/remixicon.css';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '../../components/Button';
@@ -9,9 +10,10 @@ import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserInvestor } from '../../models/IUser';
+import { useRouter } from 'next/router';
 
 export default function ProfileInvestor() {  
-    const userId = 'c552cfdd-97bd-4b58-b698-01cf656cc02a'; 
+    const router = useRouter();
 
     const [name, setName] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
@@ -35,7 +37,7 @@ export default function ProfileInvestor() {
     }, [])
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserInvestor>(`/investor/`);
+        const response = await api.get<IUserInvestor>(`/investor/${router.asPath.split('=')[1]}`);
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -45,11 +47,11 @@ export default function ProfileInvestor() {
         setQtdMembers(response.data.investor.qtdMembers);
         setState(response.data.address.state);
         setCity(response.data.address.city);
-    }, []);
+    }, [router]);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserInvestor>(`investor/`, {
+            const output = await api.put<IUserInvestor>(`investor/${router.asPath.split('=')[1]}`, {
                 name,
                 email,
                 phone,
