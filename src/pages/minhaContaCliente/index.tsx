@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import 'remixicon/fonts/remixicon.css';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '../../components/Button';
@@ -9,9 +10,10 @@ import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
+import { useRouter } from 'next/router';
 
 export default function ProfileClient() {  
-    const userId = '5e7068ca-1835-4350-839a-ae932a3e008e';
+    const router = useRouter();
     const [name, setName] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -31,19 +33,23 @@ export default function ProfileClient() {
     }, [])
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserClient>(`/client/`);
-        setName(response.data.name);
-        setEmail(response.data.email);
-        setPhone(response.data.phone);
-        setCompanyName(response.data.client.companyName);
-        setProfession(response.data.client.profession);
-        setState(response.data.address.state);
-        setCity(response.data.address.city);
-    }, []);
+        try {
+            const resp = await api.get<IUserClient>(`/client/${router.asPath.split('=')[1]}`);
+            setName(resp.data.name);
+            setEmail(resp.data.email);
+            setPhone(resp.data.phone);
+            setCompanyName(resp.data.client.companyName);
+            setProfession(resp.data.client.profession);
+            setState(resp.data.address.state);
+            setCity(resp.data.address.city);   
+        } catch (error) {
+            
+        }
+    }, [router]);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserClient>(`client/`, {
+            const output = await api.put<IUserClient>(`client/${router.asPath.split('=')[1]}`, {
                 name,
                 email,
                 phone,
@@ -64,7 +70,7 @@ export default function ProfileClient() {
 
     useEffect(() => {
         getUserInfo();
-    }, [getUserInfo]);
+    }, []);
 
     return ( 
         <Stack bg='bg-white'>

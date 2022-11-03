@@ -6,14 +6,15 @@ import { NavSection } from './NavSection';
 import { NavButton } from './NavButton';
 import { InfoNavSection } from './InfoNavSection';
 import { useRouter } from 'next/router';
+import { useAuth } from '../../contexts/authContext';
 
 export default function Sidebar() { 
+    const { type, user, signOut } = useAuth();
     // O tipo deve ser adquirido de alguma forma. Podemos criar um contexto sobre isso.
-    const [userType, setUserType] = useState('startup');
     const router = useRouter();
 
     const goToByLogo = () => {
-        switch(userType) {
+        switch(type) {
             case 'admin':
                 return '/gerenciamento/startup';
             default:
@@ -22,11 +23,11 @@ export default function Sidebar() {
     };
 
     const goToMyAccount = () => {
-        return `/minhaConta${userType.substring(0, 1).toUpperCase() + userType.substring(1)}`;
+        return `/minhaConta${type && type.substring(0, 1).toUpperCase() + type.substring(1)}`;
     };
 
     const logout = () => {
-        // Fazer logout
+        signOut();
         router.push('/');
     }
 
@@ -37,13 +38,13 @@ export default function Sidebar() {
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo m-9"/>
                 </a>
 
-                {(userType === 'startup' || userType === 'investidor' || 'cliente') && (
+                {(type === 'startup' || type === 'investidor' || 'cliente') && (
                     <NavSection title="Geral">
                         <NavButton icon="ri-dashboard-line" title="Dashboard" href="/dashboard"/>
                     </NavSection>
                 )}
 
-                {userType === 'admin' && (
+                {type === 'admin' && (
                     <NavSection title="Gerenciamento">
                         <NavButton icon="ri-building-line" title="Startup" href="/gerenciamento/startup"/>
                         <NavButton icon="ri-plant-line" title="Produtor rural" href="/gerenciamento/cliente"/>
@@ -51,7 +52,7 @@ export default function Sidebar() {
                     </NavSection>
                 )}
 
-                {userType === 'startup' && (
+                {type === 'startup' && (
                     <NavSection title="Projetos">
                         <NavButton icon="ri-pencil-ruler-line" title="Meus projetos" href="/meusProjetosStartup"/>
                         <NavButton icon="ri-money-dollar-circle-line" title="Investimentos" href="/investimentos"/>
@@ -59,33 +60,33 @@ export default function Sidebar() {
                     </NavSection>
                 )}
 
-                {userType === 'investidor' && (
+                {type === 'investidor' && (
                     <NavSection title="Projetos">
                         <NavButton icon="ri-search-line" title="Encontrar projetos" href="/encontrar/projetos"/>
                     </NavSection>
                 )}
                 
-                {userType === 'admin' && (
+                {type === 'admin' && (
                     <NavSection title='Aprovações'>
                         <NavButton icon='ri-booklet-line' title='Projetos pendentes' href='/pendentes/projetos'/>
                         <NavButton icon='ri-lightbulb-line' title='Ideias pendentes' href='/pendentes/ideias'/>
                     </NavSection>
                 )}
 
-                {userType === 'startup' && (
+                {type === 'startup' && (
                     <NavSection title="Ideias">
                         <NavButton icon="ri-search-line" title="Encontrar ideias" href="/encontrar/ideias"/>
                     </NavSection>
                 )}
 
-                {userType === 'cliente' && (
+                {type === 'cliente' && (
                     <NavSection title="Ideias">
                         <NavButton icon="ri-lightbulb-line" title="Minhas ideias" href="/ideias/me"/>
                     </NavSection>
                 )}
 
                 <NavSection title='Outros'>
-                    {userType === 'admin' && (
+                    {type === 'admin' && (
                         <NavButton icon='ri-user-follow-line' title='Administradores' href='/administradores'/>
                     )}
                     <NavButton icon='ri-user-smile-line' title='Minha conta' href={goToMyAccount()}/>
@@ -93,7 +94,7 @@ export default function Sidebar() {
                 </NavSection>
             </div>
 
-            <InfoNavSection logout={logout}/>
+            <InfoNavSection email={user?.email as string} name={user?.name as string} logout={logout}/>
         </Stack>
     );
 }

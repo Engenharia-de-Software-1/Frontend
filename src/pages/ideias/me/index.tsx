@@ -103,7 +103,7 @@ export default function ProfileAdmin() {
             <Modal 
                 isOpen={buttonAddIdea} 
                 onClose={() => setButtonAddIdea(false)} 
-                title='Adicionar projeto'
+                title='Adicionar ideia'
                 footer={
                     <Button 
                         bg='bg-greenDark' 
@@ -137,7 +137,6 @@ export default function ProfileAdmin() {
                         top='mt-2'                                        
                     />                   
                 </div>
-
             </Modal>
         </Stack>
     );

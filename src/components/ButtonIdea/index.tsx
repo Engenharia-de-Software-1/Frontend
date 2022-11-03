@@ -12,7 +12,8 @@ function ButtonIdea({ idea }: IIdeaProps) {
    const [starButton, setStarButton] = useState(false);
    const [pendingButton, setPendingButton] = useState(false);
 
-   const [userType, setUserType] = useState('startup');
+   const [userType, setUserType] = useState('cliente');
+
 
     function useButtonStar() {
         setStarButton(!starButton);

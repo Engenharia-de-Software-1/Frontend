@@ -9,9 +9,10 @@ import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserStartup } from '../../models/IUser';
+import { useRouter } from 'next/router';
 
 export default function ProfileStartup() {    
-    const userId = 'c771c298-b51b-4901-bb32-dc963ce7411d'; 
+    const router = useRouter();
 
     const [name, setName] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
@@ -33,7 +34,7 @@ export default function ProfileStartup() {
     }, [])
     
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserStartup>(`/startup/`);
+        const response = await api.get<IUserStartup>(`/startup/${router.asPath.split('=')[1]}`);
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -42,11 +43,11 @@ export default function ProfileStartup() {
         setEmployees(response.data.startup.employees);
         setState(response.data.address.state);
         setCity(response.data.address.city);
-    }, []);
+    }, [router]);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserStartup>(`startup/`, {
+            const output = await api.put<IUserStartup>(`startup/${router.asPath.split('=')[1]}`, {
                 name,
                 email,
                 phone,
