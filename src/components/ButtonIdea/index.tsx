@@ -14,6 +14,7 @@ function ButtonIdea({ idea }: IIdeaProps) {
 
    const [userType, setUserType] = useState('cliente');
 
+
     function useButtonStar() {
         setStarButton(!starButton);
     }

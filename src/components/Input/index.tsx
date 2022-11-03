@@ -13,7 +13,7 @@ function Input({
     haslabel = false, 
     label, 
     top = "mt-0",
-    bg = "bg-optionWhite",
+    bg = "bg-Input2",
     ...rest
 }: IInputProps) {
     if(haslabel) {
