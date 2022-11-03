@@ -7,9 +7,10 @@ import Sidebar from '../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
 import { IUser } from '../../models/IUser';
+import { useRouter } from 'next/router';
 
 export default function ProfileAdmin() {     
-    const userId = '1688aa32-6569-44aa-9ea3-e083a98350a1'; 
+    const router = useRouter();
 
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -17,14 +18,14 @@ export default function ProfileAdmin() {
     const [buttonEdit, setButtonEdit] = useState(false);
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUser>(`/admin/`);
+        const response = await api.get<IUser>(`/admin/${router.asPath.split('=')[1]}`);
         setName(response.data.name);
         setEmail(response.data.email);
-    }, []);
+    }, [router]);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUser>(`admin/`, {
+            const output = await api.put<IUser>(`admin/${router.asPath.split('=')[1]}`, {
                 name,
                 email
             });
