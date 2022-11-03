@@ -89,7 +89,7 @@ export default function ProfileAdmin() {
 
                     <label className="flex items-center ">
                         <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" defaultChecked={buttonCheck} />
-                        <span className="ml-2 text-gray-600">visualizados por último</span>
+                        <span className="ml-2 text-gray-600">filtrar por visualizados por último</span>
                     </label>
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
