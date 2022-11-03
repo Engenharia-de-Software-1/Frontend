@@ -19,7 +19,7 @@ function ButtonProject({ project }: IProjectProps) {
             
             <div className='rel flex justify-between mt-8 w-full '>
                 <h1 className="text-start text-2xl font-semibold">
-                    {project.nameProject}
+                    {project.title}
                 </h1>
 
                 <div className='abs'>
@@ -28,11 +28,11 @@ function ButtonProject({ project }: IProjectProps) {
             </div>
               
             <h1 className="text-justify pt-5">
-                {project.description}    
+                {project.solution}    
             </h1>     
 
             <h2 className='text-black62 text-sm text-right pb-5'> 
-                Criado em {format(project.created_at, "dd/mm/yyyy")}
+                Criado em {format(new Date(), "dd/MM/yyyy")}
             </h2>
         </button>       
     );

@@ -9,9 +9,11 @@ import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { Input } from '../../components/Input';
 import { TextArea } from '../../components/TextArea';
+import { useProjects } from '../../services/queryClient/useProject';
 
 export default function ProfileAdmin() {    
-    const [project, setProject] = useState<IProject[]>([] as IProject[]); 
+    const { isLoading, isFetching, data } = useProjects()
+    const [project, setProject] = useState<IProject[] | any[]>([{}, {}] as IProject[]); 
     const [buttonAddProject, setButtonAddProject] = useState(false);
 
     const [nameProject, setNameProject] = useState<string>('');
@@ -21,33 +23,11 @@ export default function ProfileAdmin() {
     function useButtonAddProject(){
         setButtonAddProject(true);
     }
-   
-    function getProjects() {
-        setTimeout(() => {
-            setProject([
-        {
-            id: '1',
-            nameProject: 'Projeto 1',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-        },
-        {
-            id: '2',
-            nameProject: 'Projeto 2',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-        }
-
-        ])
-        })
-    }
-
-    useEffect(() => {
-        getProjects();
-    }, []);
     
+    useEffect(() => {
+
+    }, [data, isLoading, isFetching])
+
     return ( 
         <Stack bg='bg-white'>
             <Sidebar/>
@@ -69,8 +49,8 @@ export default function ProfileAdmin() {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
-                    {project.map((project) => (
-                        <ButtonProject project={project}/>
+                    {!isLoading && !isFetching && data?.map((project) => (
+                        <ButtonProject key={project.id} project={project}/>
                     ))}         
                 </div>
             </div> 
