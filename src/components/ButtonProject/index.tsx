@@ -6,12 +6,13 @@ import { Button } from '../Button';
 
 interface IProjectProps {
     project: IProject;
+    userType: string;
+    recuseProject?: () => void;
+    acceptProject?: () => void;
 }
 
-function ButtonProject({ project }: IProjectProps) {   
+function ButtonProject({ project, userType, recuseProject, acceptProject }: IProjectProps) {   
    const [starButton, setStarButton] = useState(false);
-
-   const [userType, setUserType] = useState('admin');
 
     function useButtonStar() {
         setStarButton(!starButton);
@@ -35,6 +36,18 @@ function ButtonProject({ project }: IProjectProps) {
                             textWeight='font-bold'
                         >
                             Pendente
+                        </Button> 
+                    ) }  
+                    { project.situation === 'recused' && (
+                        <Button
+                            bg='bg-warning' 
+                            rounded='rounded-full' 
+                            w='w-28' 
+                            h='h-8' 
+                            textColor='text-white' 
+                            textWeight='font-bold'
+                        >
+                            Recusado
                         </Button> 
                     ) }  
                 </div>
@@ -64,6 +77,7 @@ function ButtonProject({ project }: IProjectProps) {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
+                        onClick={() => acceptProject && acceptProject()}
                     >
                         APROVAR
                     </Button>
@@ -75,6 +89,7 @@ function ButtonProject({ project }: IProjectProps) {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
+                        onClick={() => recuseProject && recuseProject()}
                     >
                         RECUSAR
                     </Button>

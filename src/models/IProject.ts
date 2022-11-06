@@ -4,4 +4,5 @@ export interface IProject {
     solution: string;
     problem: string;
     situation: string;
+    userId: string;
   }

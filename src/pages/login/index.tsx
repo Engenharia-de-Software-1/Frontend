@@ -32,7 +32,7 @@ export default function Login() {
             const response = await signIn(login);
             if(response) {
                 if(response.type === 'admin') {
-                    router.push(`/administrador?id=${response.user}`)
+                    router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user}`)
                 } else {
                     // Move para minha conta (Futuramente podemos fazer ir para o dashboard)
                     router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user}`);

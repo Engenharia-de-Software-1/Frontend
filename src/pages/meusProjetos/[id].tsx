@@ -76,7 +76,7 @@ export default function ProfileAdmin() {
                     {isLoading || isFetching && (<h1>Carregando projetos...</h1>)}
                     {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum projeto aqui</h1>)}
                     {!isLoading && !isFetching && data?.map((project) => (
-                        <ButtonProject key={project.id} project={project}/>
+                        <ButtonProject key={project.id} project={project} userType={myData.data?.type as string}/>
                     ))}         
                 </div>
             </div> 
