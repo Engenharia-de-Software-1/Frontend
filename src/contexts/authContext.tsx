@@ -1,10 +1,9 @@
 import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
-import { IUser } from '../models/IUser';
 import * as auth from '../services/auth';
 import {clear, get, set} from './store';
 
 interface AuthContextData {
-  user: IUser | null;
+  user: string;
   signIn(data: auth.ISignIn): Promise<auth.IResponseSignIn | undefined>;
   signUp(data: auth.ISignUp): Promise<auth.IResponseSignUp | undefined>;
   signOut(): void;
@@ -14,7 +13,7 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider = ({children}: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<string>('');
   const [type, setType] = useState<string | null>(null);
 
   async function signIn({
@@ -52,15 +51,15 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
   }
 
   async function signOut() {
-    await clear();
-    setUser(null);
+    clear();
+    setUser('');
   }
 
   useEffect(() => {
     async function loadStorageData() {
-      const storagedUser = await get('@agroi9:user');
-      const storagedToken = await get('@agroi9:token');
-      const storagedType = await get('@agroi9:type');
+      const storagedUser = get('@agroi9:user');
+      const storagedToken = get('@agroi9:token');
+      const storagedType = get('@agroi9:type');
 
       if (storagedUser && storagedToken && storagedType) {
         setUser(JSON.parse(storagedUser));
@@ -69,7 +68,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     }
 
     loadStorageData();
-  }, [user]);
+  }, []);
 
   return (
     <AuthContext.Provider

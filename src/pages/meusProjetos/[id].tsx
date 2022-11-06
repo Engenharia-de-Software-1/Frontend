@@ -1,36 +1,60 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
-import api from '../../services/api';
-import { IProject } from '../../models/IProject';
 import { ButtonProject } from '../../components/ButtonProject';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { Input } from '../../components/Input';
 import { TextArea } from '../../components/TextArea';
-import { useProjects } from '../../services/queryClient/useProject';
+import { useMyProjects } from '../../services/queryClient/useMyProject';
+import { useRouter } from 'next/router';
+import api from '../../services/api';
+import { useMyData } from '../../services/queryClient/useMyData';
 
-export default function ProfileAdmin() {    
-    const { isLoading, isFetching, data } = useProjects()
-    const [project, setProject] = useState<IProject[] | any[]>([{}, {}] as IProject[]); 
-    const [buttonAddProject, setButtonAddProject] = useState(false);
+type ProjectType = {
+    title: string;
+    solution: string;
+    problem: string;
+    openAddModal: boolean;
+}
 
-    const [nameProject, setNameProject] = useState<string>('');
-    const [solutionProject, setSolutionProject] = useState<string>('');
-    const [problemProject, setProblemProject] = useState<string>('');
+export default function ProfileAdmin() {  
+    const router = useRouter();  
+    const myData = useMyData();
+    const { isLoading, isFetching, data, refetch } = useMyProjects(router.query.id as string);
 
-    function useButtonAddProject(){
-        setButtonAddProject(true);
+    const [projectStates, setProjectStates] = useState<ProjectType>({ } as ProjectType);
+
+    function handleButtonAddProject(){
+        setProjectStates({...projectStates, openAddModal: !projectStates.openAddModal});
     }
-    
-    useEffect(() => {
 
-    }, [data, isLoading, isFetching])
+    async function handleAddNewProject() {
+        if(projectStates.title && projectStates.problem && projectStates.solution){
+            const response = await api.post('/project', {
+                ...projectStates,
+                userId: router.query.id
+            });
+            if(response.status.toString().startsWith('2')){
+                setProjectStates({} as ProjectType);
+                refetch();
+            } else {
+                alert('Erro ao cadastrar projeto. Tente novamente mais tarde.');
+            }
+        } else {
+            alert('Por favor, preencha todos os campos.');
+        }
+        handleButtonAddProject();
+    }
+
+    useEffect(() => {
+        refetch();
+    }, [router, refetch])
 
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar/>
+            <Sidebar data={myData.data}/>
 
             <div className={divGeneral}>
                 <div className='flex justify-between'>
@@ -43,20 +67,22 @@ export default function ProfileAdmin() {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
-                        onClick={useButtonAddProject}
+                        onClick={handleButtonAddProject}
                     >
                         Adicionar projeto
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
+                    {isLoading || isFetching && (<h1>Carregando projetos...</h1>)}
+                    {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum projeto aqui</h1>)}
                     {!isLoading && !isFetching && data?.map((project) => (
                         <ButtonProject key={project.id} project={project}/>
                     ))}         
                 </div>
             </div> 
             <Modal 
-                isOpen={buttonAddProject} 
-                onClose={() => setButtonAddProject(false)} 
+                isOpen={projectStates.openAddModal} 
+                onClose={handleButtonAddProject} 
                 title='Adicionar projeto'
                 footer={
                     <Button 
@@ -66,7 +92,7 @@ export default function ProfileAdmin() {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
-                        onClick={() => setButtonAddProject(false)}
+                        onClick={handleAddNewProject}
                     >
                         Salvar
                     </Button>
@@ -78,16 +104,16 @@ export default function ProfileAdmin() {
                         label='Nome do projeto' 
                         placeholder='ex: Agro' 
                         bg='bg-grayBg'     
-                        value={nameProject}
-                        onChange={(e) => setNameProject(e.target.value)}   
+                        value={projectStates.title}
+                        onChange={(e) => setProjectStates({...projectStates, title: e.target.value})}   
                     />
 
                     <TextArea 
                         haslabel 
                         label='Solução' 
                         placeholder='ex: Sistema de purificação de água'
-                        value={solutionProject}
-                        onChange={(e) => setSolutionProject(e.target.value)}
+                        value={projectStates.solution}
+                        onChange={(e) => setProjectStates({...projectStates, solution: e.target.value})}  
                         top='mt-2'                                        
                     />
 
@@ -95,12 +121,11 @@ export default function ProfileAdmin() {
                         haslabel 
                         label='Problema' 
                         placeholder='ex: Água não putificada'
-                        value={problemProject}
-                        onChange={(e) => setProblemProject(e.target.value)}
+                        value={projectStates.problem}
+                        onChange={(e) => setProjectStates({...projectStates, problem: e.target.value})}  
                         top='mt-2'
                     />
                 </div>
-
             </Modal>
         </Stack>
     );

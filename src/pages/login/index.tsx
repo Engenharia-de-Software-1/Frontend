@@ -32,10 +32,10 @@ export default function Login() {
             const response = await signIn(login);
             if(response) {
                 if(response.type === 'admin') {
-                    router.push(`/administrador?id=${response.user?.id}`)
+                    router.push(`/administrador?id=${response.user}`)
                 } else {
                     // Move para minha conta (Futuramente podemos fazer ir para o dashboard)
-                    router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user?.id}`);
+                    router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user}`);
                 }
             } else {
                 alert('Erro ao fazer login. Por favor, verifique seus dados e tente novamente.');

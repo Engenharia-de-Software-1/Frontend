@@ -86,9 +86,9 @@ export default function Registration() {
 
         try {
             const response = await signUp({path: pathname, data: cadastro});
-            console.log(response);
+
             if(response) {
-                userId = response.user.id;
+                userId = response.user;
             } else {
                 alert('Erro ao fazer cadastro. Por favor, tente novamente.');
                 return;

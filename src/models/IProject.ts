@@ -3,4 +3,5 @@ export interface IProject {
     title: string;
     solution: string;
     problem: string;
+    situation: string;
   }
