@@ -57,6 +57,24 @@ export default function ProfileAdmin() {
         handleButtonEditProject();
     }
 
+    async function handleDeleteProject() {
+        if(window.confirm('Tem certeza que deseja excluir este projeto?')){
+            if(myData.data?.user.id === data?.userId){
+                const response = await api.delete(`/project/${myData.data?.user.id}/${router.query.id}`);
+                if(response.status.toString().startsWith('2')){
+                    setProjectStates({} as ProjectType);
+                    refetch();
+                    alert('Projeto excluído com sucesso!');
+                    router.back();
+                } else {
+                    alert('Erro ao excluir projeto. Tente novamente mais tarde.');
+                }
+            } else {
+                alert('Você não pode deletar este projeto.');
+            }
+        }
+    }
+
     useEffect(() => {
         if(isFetched && data){
             setProjectStates({
@@ -111,6 +129,7 @@ export default function ProfileAdmin() {
                                     h='h-12' 
                                     textColor='text-white' 
                                     textWeight='font-bold'
+                                    onClick={handleDeleteProject}
                                 >
                                     EXCLUIR
                                 </Button>
