@@ -11,6 +11,8 @@ interface IProjectProps {
 function ButtonProject({ project }: IProjectProps) {   
    const [starButton, setStarButton] = useState(false);
 
+   const [userType, setUserType] = useState('admin');
+
     function useButtonStar() {
         setStarButton(!starButton);
     }
@@ -37,9 +39,12 @@ function ButtonProject({ project }: IProjectProps) {
                     ) }  
                 </div>
 
-                <div className='abs'>
-                    <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
-                </div>
+                {userType !== 'admin' && (
+                    <div className='abs'>
+                        <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
+                    </div>                  
+                
+            )}   
             </div>
               
             <h1 className="text-justify pt-5">
@@ -49,7 +54,34 @@ function ButtonProject({ project }: IProjectProps) {
             <h2 className='text-black62 text-sm text-right pb-5'> 
                 Criado em {format(new Date(), "dd/MM/yyyy")}
             </h2>
-        </button>       
+
+            {userType === 'admin' && (
+                <div className='pb-5 text-right space-x-5'>
+                    <Button
+                        bg='bg-greenDark' 
+                        rounded='rounded-lg' 
+                        w='w-36' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                    >
+                        APROVAR
+                    </Button>
+
+                    <Button
+                        bg='bg-warning' 
+                        rounded='rounded-lg' 
+                        w='w-36' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                    >
+                        RECUSAR
+                    </Button>
+                </div>                       
+                
+            )}  
+        </button>         
     );
 }
 
