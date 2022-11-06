@@ -1,5 +1,5 @@
-import router, { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import CityValues from '../../contents/city';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -33,8 +33,8 @@ export default function Registration() {
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
         try {
-            await api.put(`/startup/`, cadastro)
-            router.push('/minhaContaStartup')
+            await api.put(`/startup/${userId}`, cadastro)
+            router.push(`/minhaContaStartup?id=${userId}`)
         }
         catch (error) {
             console.log(error);

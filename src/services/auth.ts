@@ -2,7 +2,6 @@ import { IUser } from '../models/IUser';
 import api from './api';
 import jwtDecode, {JwtPayload} from 'jwt-decode';
 import { ICadastro } from '../pages/cadastro';
-import { get } from '../contexts/store';
 
 export interface ISignIn {
   email: string;
@@ -16,13 +15,13 @@ export interface ISignUp {
 
 export interface IResponseSignIn {
   token: string;
-  user: IUser;
+  user: string;
   type: string;
 }
 
 export interface IResponseSignUp {
   token: string;
-  user: IUser;
+  user: string;
   type: string;
   completed: boolean;
 }
@@ -65,20 +64,20 @@ export async function signIn({
     if (respUser.data.startup) {
       type = 'startup';
     } else if(respUser.data.investor) {
-      type = 'investor';
+      type = 'investidor';
     } else if(respUser.data.client) {
       type = 'cliente';
     } else {
       const respUser = await api.get<IType>(`/admin/${user}`);
       return {
         token: response.data.token,
-        user: respUser.data,
+        user: respUser.data.id,
         type: 'admin',
       };
     }
     return {
       token: response.data.token,
-      user: respUser.data,
+      user: respUser.data.id,
       type
     };
   }
@@ -105,14 +104,14 @@ export async function signUp({
       const respUser = await api.get<IType>(`/admin/${user}`);
       return {
         token: response.data.token,
-        user: respUser.data,
+        user: respUser.data.id,
         type: 'admin',
         completed: false
       };
     }
     return {
       token: response.data.token,
-      user: respUser.data,
+      user: respUser.data.id,
       type,
       completed: false
     };

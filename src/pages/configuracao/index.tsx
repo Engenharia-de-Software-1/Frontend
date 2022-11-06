@@ -8,18 +8,18 @@ import { divGeneral, textStyle3, textTitle } from './styles';
 import router from 'next/router';
 import api from '../../services/api';
 import { IUser } from '../../models/IUser';
+import { useMyData } from '../../services/queryClient/useMyData';
 
 export default function Settings() {  
-    //const userId = '1688aa32-6569-44aa-9ea3-e083a98350a1'; 
-    const userId = '8ba30cae-67f9-46ab-96a3-216b2d05d3c1'; 
-    const userType = 'client'; 
+    const { data } = useMyData();
+
     const [password, setPassword] = useState<string>('');
     const [newPassword, setNewPassword] = useState<string>('');
 
     async function goChangePassword() {
         if(password !== '' && newPassword !== '') {
             try {
-                const output = await api.put<IUser>(`${userType}/`, {
+                const output = await api.put<IUser>(`${data?.type}/`, {
                     password,
                     confirmPassword: newPassword
                 });
@@ -40,7 +40,7 @@ export default function Settings() {
     function goDelete() {
         if (window.confirm("Tem certeza que deseja deletar sua conta?")) {
             try {
-                api.delete(`${userType}/`);
+                api.delete(`${data?.type}/`);
                 alert('Conta deletada com sucesso!');
                 router.push("./cadastro");
             } catch (error) {
@@ -51,7 +51,7 @@ export default function Settings() {
 
     return ( 
         <Stack bg=' bg-white'>
-            <Sidebar/>
+            <Sidebar data={data}/>
 
             <div className={divGeneral}>
                

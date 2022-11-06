@@ -11,9 +11,12 @@ import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
 import { useRouter } from 'next/router';
+import { useMyData } from '../../services/queryClient/useMyData';
 
 export default function ProfileClient() {  
     const router = useRouter();
+    const { data, refetch } = useMyData();
+
     const [name, setName] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -60,6 +63,7 @@ export default function ProfileClient() {
             });
             if(output.data && output.data.id) {
                 alert('Dados atualizados com sucesso!');
+                refetch();
             } else {
                 alert('Erro ao atualizar dados!');
             }
@@ -74,7 +78,7 @@ export default function ProfileClient() {
 
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar/>
+            <Sidebar data={data}/>
 
             <div className={divGeneral}>
                

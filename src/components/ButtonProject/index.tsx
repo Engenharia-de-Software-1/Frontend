@@ -17,14 +17,27 @@ function ButtonProject({ project }: IProjectProps) {
         setStarButton(!starButton);
     }
 
-    return (   
-        <>
-        <button className='bg-transparent text-black'>
-            
+    return (          
+        <button className='bg-transparent text-black transition-all hover:bg-gray-50 duration-300'>
             <div className='rel flex justify-between mt-8 w-full '>
-                <h1 className="text-start text-2xl font-semibold">
-                    {project.nameProject}
-                </h1>
+                <div className='flex'>
+                    <h1 className="text-start text-2xl font-semibold mr-5">
+                        {project.title}
+                    </h1>
+
+                    { project.situation === 'pending' && (
+                        <Button
+                            bg='bg-warning' 
+                            rounded='rounded-full' 
+                            w='w-28' 
+                            h='h-8' 
+                            textColor='text-white' 
+                            textWeight='font-bold'
+                        >
+                            Pendente
+                        </Button> 
+                    ) }  
+                </div>
 
                 {userType !== 'admin' && (
                     <div className='abs'>
@@ -33,28 +46,13 @@ function ButtonProject({ project }: IProjectProps) {
                 
             )}   
             </div>
-            {userType !== 'admin' && (
-                <h1 className="text-justify pt-5">
-                    {project.description}    
-                </h1>              
-                
-            )} 
-           
-            {userType === 'admin' && (
-                <>
-                    <h1 className="text-justify pt-5">
-                        <b>Solução: </b> {project.description}    
-                    </h1>              
-                    <h1 className="text-justify pt-5">
-                        <b>Problema: </b> {project.problem}    
-                    </h1>   
-                </>
-                
-            )}  
-
+              
+            <h1 className="text-justify pt-5">
+                {project.solution.length > 500 ? project.solution.substring(0, 500) + '...' : project.solution}   
+            </h1>     
 
             <h2 className='text-black62 text-sm text-right pb-5'> 
-                Criado em {format(project.created_at, "dd/mm/yyyy")}
+                Criado em {format(new Date(), "dd/MM/yyyy")}
             </h2>
 
             {userType === 'admin' && (
@@ -83,9 +81,7 @@ function ButtonProject({ project }: IProjectProps) {
                 </div>                       
                 
             )}  
-        </button>       
-        
-        </>    
+        </button>         
     );
 }
 

@@ -1,8 +1,7 @@
 export interface IProject {
     id: string;
-    nameProject: string;
-    description: string;
+    title: string;
+    solution: string;
     problem: string;
-    created_at: Date;
-    isFavorite: boolean;
+    situation: string;
   }
