@@ -50,7 +50,7 @@ export default function ProfileAdmin() {
 
     useEffect(() => {
         refetch();
-    }, [router, refetch])
+    }, [router, refetch, data])
 
     return ( 
         <Stack bg='bg-white'>
