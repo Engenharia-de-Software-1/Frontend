@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { format } from 'date-fns';
 import { IProject } from "../../models/IProject";
 import { Button } from '../Button';
+import { useRouter } from 'next/router';
 
 interface IProjectProps {
     project: IProject;
@@ -11,15 +12,16 @@ interface IProjectProps {
     acceptProject?: () => void;
 }
 
-function ButtonProject({ project, userType, recuseProject, acceptProject }: IProjectProps) {   
-   const [starButton, setStarButton] = useState(false);
+function ButtonProject({ project, userType, recuseProject, acceptProject }: IProjectProps) {  
+    const router = useRouter();  
+    const [starButton, setStarButton] = useState(false);
 
     function useButtonStar() {
         setStarButton(!starButton);
     }
 
     return (          
-        <button className='bg-transparent text-black transition-all hover:bg-gray-50 duration-300'>
+        <button className='bg-transparent text-black transition-all hover:bg-gray-50 duration-300' onClick={() => router.push(`/projeto/${project.id}`)}>
             <div className='rel flex justify-between mt-8 w-full '>
                 <div className='flex'>
                     <h1 className="text-start text-2xl font-semibold mr-5">

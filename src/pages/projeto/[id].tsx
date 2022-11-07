@@ -1,54 +1,90 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import router from 'next/router';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { divGeneral, textStyle, textTitle } from './styles';
-import api from '../../services/api';
-import { IProject } from '../../models/IProject';
-import { ButtonProject } from '../../components/ButtonProject';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { Input } from '../../components/Input';
 import { TextArea } from '../../components/TextArea';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { useOneProject } from '../../services/queryClient/useOneProject';
+import api from '../../services/api';
+
+type ProjectType = {
+    title: string;
+    solution: string;
+    problem: string;
+    openEditModal: boolean;
+}
 
 export default function ProfileAdmin() {    
-    const [project, setProject] = useState<IProject[]>([] as IProject[]); 
-    const [buttonEditProject, setButtonEditProject] = useState(false);
-    const [nameProject, setNameProject] = useState<string>('');
-    const [solutionProject, setSolutionProject] = useState<string>('');
-    const [problemProject, setProblemProject] = useState<string>('');
+    const [projectStates, setProjectStates] = useState<ProjectType>({ } as ProjectType);
+
     const myData = useMyData();
+    const { data, isFetched, refetch } = useOneProject(router.query.id as string);
     
     
     /* const [starButton, setStarButton] = useState(false);
     function useButtonStar() {
         setStarButton(!starButton);
     } */
-    function useButtonEditProject(){
-        setButtonEditProject(true);
+    function handleButtonEditProject(){
+        setProjectStates({...projectStates, openEditModal: !projectStates.openEditModal});
     }
-    function goBack(){
-        router.push('/meusProjetos');
-    }
-    function getProjects() {
-        setTimeout(() => {
-            setProject([
-        {
-            id: '1',
-            title: 'Projeto 1',
-            solution: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim.',
-            situation: ''
-        }
 
-        ])
-        })
+    function goBack(){
+        router.back();
+    }
+
+    async function handleEditProject() {
+        if(projectStates.title && projectStates.problem && projectStates.solution){
+            const response = await api.put(`/project/${myData.data?.user.id}/${router.query.id}`, {
+                ...projectStates,
+                userId: myData.data?.user.id,
+                situation: 'pending'
+            });
+            if(response.status.toString().startsWith('2')){
+                setProjectStates({} as ProjectType);
+                refetch();
+                alert('Projeto editado com sucesso! Agora ele está aguardando a aprovação de um administrador.');
+            } else {
+                alert('Erro ao cadastrar projeto. Tente novamente mais tarde.');
+            }
+        } else {
+            alert('Por favor, preencha todos os campos.');
+        }
+        handleButtonEditProject();
+    }
+
+    async function handleDeleteProject() {
+        if(window.confirm('Tem certeza que deseja excluir este projeto?')){
+            if(myData.data?.user.id === data?.userId){
+                const response = await api.delete(`/project/${myData.data?.user.id}/${router.query.id}`);
+                if(response.status.toString().startsWith('2')){
+                    setProjectStates({} as ProjectType);
+                    refetch();
+                    alert('Projeto excluído com sucesso!');
+                    router.back();
+                } else {
+                    alert('Erro ao excluir projeto. Tente novamente mais tarde.');
+                }
+            } else {
+                alert('Você não pode deletar este projeto.');
+            }
+        }
     }
 
     useEffect(() => {
-        getProjects();
-    }, []);
+        if(isFetched && data){
+            setProjectStates({
+                title: data.title,
+                solution: data.solution,
+                problem: data.problem,
+                openEditModal: false
+            })
+        }
+    }, [data, isFetched])
     
     return ( 
         <Stack bg='bg-white'>
@@ -56,22 +92,22 @@ export default function ProfileAdmin() {
 
             <div className={divGeneral}>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
-                    {project.map((project) => (
+                    {isFetched && data && (
                         <div>
                             <div className='flex justify-between'>    
                                 <div className='flex items-center space-x-2'>
                                     <button onClick={goBack} className="ri-arrow-left-s-line ri-3x"/>                   
-                                    <h1 className={textTitle}>{project.title}</h1>   
+                                    <h1 className={textTitle}>{data.title}</h1>   
                                 </div> 
                                 {/* <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
-                                 */} 
+                                */} 
                             </div>
-                           
+                        
                             <h1 className={textStyle}>Solução:</h1>                            
-                            <h1>{project.solution}</h1>
+                            <h1>{data.solution}</h1>
 
                             <h1 className={textStyle}>Problema:</h1>
-                            <h1>{project.problem}</h1>
+                            <h1>{data.problem}</h1>
                             
                             <div className='pt-4 text-right space-x-5'>
                                 <Button
@@ -81,7 +117,7 @@ export default function ProfileAdmin() {
                                     h='h-12' 
                                     textColor='text-white' 
                                     textWeight='font-bold'
-                                    onClick={useButtonEditProject}
+                                    onClick={handleButtonEditProject}
                                 >
                                     EDITAR
                                 </Button>
@@ -93,6 +129,7 @@ export default function ProfileAdmin() {
                                     h='h-12' 
                                     textColor='text-white' 
                                     textWeight='font-bold'
+                                    onClick={handleDeleteProject}
                                 >
                                     EXCLUIR
                                 </Button>
@@ -100,8 +137,8 @@ export default function ProfileAdmin() {
                             
                         
                             <Modal 
-                                isOpen={buttonEditProject} 
-                                onClose={() => setButtonEditProject(false)} 
+                                isOpen={projectStates.openEditModal} 
+                                onClose={handleButtonEditProject} 
                                 title='Editar projeto'
                                 footer={
                                     <Button 
@@ -111,7 +148,7 @@ export default function ProfileAdmin() {
                                         h='h-12' 
                                         textColor='text-white' 
                                         textWeight='font-bold'
-                                        onClick={() => setButtonEditProject(false)}
+                                        onClick={handleEditProject}
                                     >
                                         Salvar
                                     </Button>
@@ -123,16 +160,16 @@ export default function ProfileAdmin() {
                                         label='Nome do projeto' 
                                         placeholder='ex: Agro' 
                                         bg='bg-grayBg'     
-                                        value={nameProject}
-                                        onChange={(e) => setNameProject(e.target.value)}   
+                                        value={projectStates.title}
+                                        onChange={(e) => setProjectStates({...projectStates, title: e.target.value})}    
                                     />
 
                                     <TextArea 
                                         haslabel 
                                         label='Solução' 
                                         placeholder='ex: Sistema de purificação de água'
-                                        value={solutionProject}
-                                        onChange={(e) => setSolutionProject(e.target.value)}
+                                        value={projectStates.solution}
+                                        onChange={(e) => setProjectStates({...projectStates, solution: e.target.value})}    
                                         top='mt-2'                                        
                                     />
 
@@ -140,18 +177,15 @@ export default function ProfileAdmin() {
                                         haslabel 
                                         label='Problema' 
                                         placeholder='ex: Água não putificada'
-                                        value={problemProject}
-                                        onChange={(e) => setProblemProject(e.target.value)}
+                                        value={projectStates.problem}
+                                        onChange={(e) => setProjectStates({...projectStates, problem: e.target.value})}    
                                         top='mt-2'
                                     />
                                 </div>
 
                             </Modal>
-
-
                         </div>
-                        
-                ))}         
+                    )}         
                 </div>
             </div> 
             
