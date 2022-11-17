@@ -10,9 +10,8 @@ interface IIdeaProps {
 
 function ButtonIdea({ idea }: IIdeaProps) {   
    const [starButton, setStarButton] = useState(false);
-   const [pendingButton, setPendingButton] = useState(false);
 
-   const [userType, setUserType] = useState('cliente');
+   const [userType, setUserType] = useState('admin');
 
 
     function useButtonStar() {
@@ -55,6 +54,34 @@ function ButtonIdea({ idea }: IIdeaProps) {
             <h2 className='text-black62 text-sm text-right pb-5'> 
                 Criado em {format(idea.created_at, "dd/mm/yyyy")}
             </h2>
+
+            {userType === 'admin' && (
+                <div className='pb-5 text-right space-x-5'>
+                    <Button
+                        bg='bg-greenDark' 
+                        rounded='rounded-lg' 
+                        w='w-36' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                       
+                    >
+                        APROVAR
+                    </Button>
+
+                    <Button
+                        bg='bg-warning' 
+                        rounded='rounded-lg' 
+                        w='w-36' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                       
+                    >
+                        RECUSAR
+                    </Button>
+                </div>    
+            )}  
         </button>       
     );
 }
