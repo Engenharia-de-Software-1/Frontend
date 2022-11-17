@@ -14,22 +14,12 @@ import { useMyData } from '../../../services/queryClient/useMyData';
 export default function ProfileAdmin() {    
     const { data, refetch } = useMyData();
     const [idea, setIdea] = useState<IIdea[]>([] as IIdea[]); 
-    const [buttonAddIdea, setButtonAddIdea] = useState(false);
-
-    const [nameIdea, setNameIdea] = useState<string>('');
-    const [descriptionIdea, setDescriptionIdea] = useState<string>('');
 
     const [buttonCheck, setButtonCheck] = useState(false);
     
-
-    function useButtonAddIdea(){
-        setButtonAddIdea(true);
-    }
-
     function useButtonCheck() {
         setButtonCheck(!buttonCheck);
     }
-
    
     function getIdeas() {
         setTimeout(() => {
