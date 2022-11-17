@@ -2,78 +2,65 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
-import api from '../../../services/api';
-import { Button } from '../../../components/Button';
-import { Modal } from '../../../components/Modal';
-import { Input } from '../../../components/Input';
-import { TextArea } from '../../../components/TextArea';
-import { ButtonIdea } from '../../../components/ButtonIdea';
-import { IIdea } from '../../../models/IIdea';
+import { IProject } from '../../../models/IProject';
 import { useMyData } from '../../../services/queryClient/useMyData';
+import { ButtonProject } from '../../../components/ButtonProject';
 
 export default function ProfileAdmin() {    
     const { data, refetch } = useMyData();
-    
-    const [idea, setIdea] = useState<IIdea[]>([] as IIdea[]); 
-    const [buttonAddIdea, setButtonAddIdea] = useState(false);
-
-    const [nameIdea, setNameIdea] = useState<string>('');
-    const [descriptionIdea, setDescriptionIdea] = useState<string>('');
-
+   
+    const [project, setProject] = useState<IProject[]>([] as IProject);
     const [buttonCheck, setButtonCheck] = useState(false);
     
 
-    function useButtonAddIdea(){
-        setButtonAddIdea(true);
-    }
 
     function useButtonCheck() {
         setButtonCheck(!buttonCheck);
     }
 
    
-    function getIdeas() {
+    function getProject() {
         setTimeout(() => {
-            setIdea([
+            setProject([
         {
             id: '1',
-            nameIdea: 'Ideia 1',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
+            title: 'Projeto 1',
+            solution: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
+            problem: 'jsgdshdjshdjshd',
+            situation: 'false',
+            userId: '1',
         },
         {
             id: '2',
-            nameIdea: 'Ideia 2',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
+            title: 'Projeto 2',
+            solution: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
+            problem: 'jsgdshdjshdjshd',
+            situation: 'false',
+            userId: '1',
         },
         {
             id: '3',
-            nameIdea: 'Ideia 3',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
+            title: 'Projeto 3',
+            solution: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
+            problem: 'jsgdshdjshdjshd',
+            situation: 'false',
+            userId: '1',
         },
         {
             id: '4',
-            nameIdea: 'Ideia 4',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
+            title: 'Projeto 4',
+            solution: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
+            problem: 'jsgdshdjshdjshd',
+            situation: 'false',
+            userId: '1',
         },
         {
             id: '5',
-            nameIdea: 'Ideia 5',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
+            title: 'Projeto 5',
+            solution: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
+            problem: 'jsgdshdjshdjshd',
+            situation: 'false',
+            userId: '1',
         }
 
         ])
@@ -81,7 +68,7 @@ export default function ProfileAdmin() {
     }
 
     useEffect(() => {
-        getIdeas();
+        getProject();
     }, []);
     
     return ( 
@@ -90,59 +77,20 @@ export default function ProfileAdmin() {
 
             <div className={divGeneral}>
                 <div className='flex justify-between items-center'>
-                    <h1 className={textTitle}>Lista de ideias</h1>
+                    <h1 className={textTitle}>Lista Projetos</h1>
 
                     <label className="flex items-center ">
                         <input onClick={useButtonCheck} type="checkbox" className="form-checkbox h-4 w-4 text-gray-600" defaultChecked={buttonCheck} />
                         <span className="ml-2 text-gray-600">filtrar por visualizados por último</span>
-                    </label>
-
+                    </label>        
                 </div>
+
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
-                    {idea.map((idea) => (
-                        <ButtonIdea idea={idea}/>
-                    ))}         
+                    {project.map((project) => (
+                        <ButtonProject project={project} userType={''}/>
+                    ))}                        
                 </div>
             </div> 
-            <Modal 
-                isOpen={buttonAddIdea} 
-                onClose={() => setButtonAddIdea(false)} 
-                title='Adicionar projeto'
-                footer={
-                    <Button 
-                        bg='bg-greenDark' 
-                        rounded='rounded' 
-                        w='w-full' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={() => setButtonAddIdea(false)}
-                    >
-                        Salvar
-                    </Button>
-                }
-            >
-                <div className='flex flex-col'>
-                    <Input 
-                        haslabel 
-                        label='Nome da ideia' 
-                        placeholder='ex: Agro' 
-                        bg='bg-grayBg'     
-                        value={nameIdea}
-                        onChange={(e) => setNameIdea(e.target.value)}   
-                    />
-
-                    <TextArea 
-                        haslabel 
-                        label='Descrição' 
-                        placeholder='ex: Sistema de purificação de água'
-                        value={descriptionIdea}
-                        onChange={(e) => setDescriptionIdea(e.target.value)}
-                        top='mt-2'                                        
-                    />                   
-                </div>
-
-            </Modal>
         </Stack>
     );
 }
