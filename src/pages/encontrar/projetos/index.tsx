@@ -13,6 +13,7 @@ import { useMyData } from '../../../services/queryClient/useMyData';
 
 export default function ProfileAdmin() {    
     const { data, refetch } = useMyData();
+    
     const [idea, setIdea] = useState<IIdea[]>([] as IIdea[]); 
     const [buttonAddIdea, setButtonAddIdea] = useState(false);
 
@@ -103,6 +104,45 @@ export default function ProfileAdmin() {
                     ))}         
                 </div>
             </div> 
+            <Modal 
+                isOpen={buttonAddIdea} 
+                onClose={() => setButtonAddIdea(false)} 
+                title='Adicionar projeto'
+                footer={
+                    <Button 
+                        bg='bg-greenDark' 
+                        rounded='rounded' 
+                        w='w-full' 
+                        h='h-12' 
+                        textColor='text-white' 
+                        textWeight='font-bold'
+                        onClick={() => setButtonAddIdea(false)}
+                    >
+                        Salvar
+                    </Button>
+                }
+            >
+                <div className='flex flex-col'>
+                    <Input 
+                        haslabel 
+                        label='Nome da ideia' 
+                        placeholder='ex: Agro' 
+                        bg='bg-grayBg'     
+                        value={nameIdea}
+                        onChange={(e) => setNameIdea(e.target.value)}   
+                    />
+
+                    <TextArea 
+                        haslabel 
+                        label='Descrição' 
+                        placeholder='ex: Sistema de purificação de água'
+                        value={descriptionIdea}
+                        onChange={(e) => setDescriptionIdea(e.target.value)}
+                        top='mt-2'                                        
+                    />                   
+                </div>
+
+            </Modal>
         </Stack>
     );
 }
