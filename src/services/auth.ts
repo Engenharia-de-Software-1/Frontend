@@ -2,6 +2,7 @@ import { IUser } from '../models/IUser';
 import api from './api';
 import jwtDecode, {JwtPayload} from 'jwt-decode';
 import { ICadastro } from '../pages/cadastro';
+import {set} from '../contexts/store';
 
 export interface ISignIn {
   email: string;
@@ -29,6 +30,7 @@ export interface IResponseSignUp {
 // Interface usada para decodificar o payload do token.
 interface IPayload extends JwtPayload {
   userId: string;
+  userType: string;
 }
 
 // Interface criada para saber o tipo do usuário. Isso será usado para
@@ -53,14 +55,16 @@ export async function signIn({
 }: ISignIn): Promise<IResponseSignIn | undefined> {
   const response = await api.post('/login', {
     email,
-    password,
+    password
   });
 
   if (response.status.toString().startsWith('2')) {
     const resp:IPayload = jwtDecode(response.data.token);
+    set('@agroi9:token', response.data?.token);
     const user = resp.userId;
     let type: string = '';
-    const respUser = await api.get<IType>(`/startup/${user}`);
+    const route = resp.userType == 'cliente' ? 'client' : resp.userType == 'startup' ? 'startup' : 'investor';
+    const respUser = await api.get<IType>(`/${route}`, {headers: {'Authorization': `Bearer ${response.data.token}`}});
     if (respUser.data.startup) {
       type = 'startup';
     } else if(respUser.data.investor) {
@@ -68,7 +72,7 @@ export async function signIn({
     } else if(respUser.data.client) {
       type = 'cliente';
     } else {
-      const respUser = await api.get<IType>(`/admin/${user}`);
+      const respUser = await api.get<IType>(`/admin/${user}`);  
       return {
         token: response.data.token,
         user: respUser.data.id,
