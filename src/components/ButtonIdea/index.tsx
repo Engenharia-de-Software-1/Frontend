@@ -1,11 +1,11 @@
 import 'remixicon/fonts/remixicon.css';
-import React, { useState } from "react";
+import React, { ButtonHTMLAttributes, useState } from "react";
 import { format } from 'date-fns';
 import { IIdea } from '../../models/IIdea';
 import { Button } from '../Button';
 import api from '../../services/api';
 
-interface IIdeaProps {
+interface IIdeaProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     idea: IIdea;
     userType: string; 
     favorite?: IIdea[];
@@ -14,7 +14,7 @@ interface IIdeaProps {
     acceptIdea?: () => void;
 }
 
-function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea }: IIdeaProps) {  
+function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, ...rest }: IIdeaProps) {  
    let starButton = favorite?.filter(el => el.id === idea.id).length === 0 ? false : true;
 
     async function handleButtonStar(id: string) {
@@ -23,8 +23,7 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea }:
     }
 
     return (          
-        <button className='relative bg-transparent text-black'>
-            
+        <button className='relative bg-transparent text-black' {...rest}>
             <div className='flex justify-between mt-8 w-full '>
                 <div className='flex gap-5'>
                     <h1 className="text-start text-2xl font-semibold">
