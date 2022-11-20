@@ -1,4 +1,3 @@
-import 'remixicon/fonts/remixicon.css';
 import React, { useState } from "react";
 import { format } from 'date-fns';
 import { IProject } from "../../models/IProject";
@@ -52,14 +51,7 @@ function ButtonProject({ project, userType, recuseProject, acceptProject }: IPro
                             Recusado
                         </Button> 
                     ) }  
-                </div>
-
-                {userType !== 'admin' && (
-                    <div className='abs'>
-                        <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
-                    </div>                  
-                
-            )}   
+                </div>  
             </div>
               
             <h1 className="text-justify pt-5">
