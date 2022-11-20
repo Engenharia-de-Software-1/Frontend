@@ -10,6 +10,7 @@ import { TextArea } from '../../components/TextArea';
 import { useMyData } from '../../services/queryClient/useMyData';
 import { useOneProject } from '../../services/queryClient/useOneProject';
 import api from '../../services/api';
+import { Preview } from '../../components/PreView';
 
 type ProjectType = {
     title: string;
@@ -117,12 +118,23 @@ export default function ProfileAdmin() {
                                 {/* <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
                                 */} 
                             </div>
-                        
-                            <h1 className={textStyle}>Solução:</h1>                            
-                            <h1>{data.solution}</h1>
+                            
+                            
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                                <div>
+                                    <h1 className={textStyle}>Solução:</h1>                            
+                                    <h1 className='line-clamp-3'>{data.solution}...</h1>
+                                    <h1 className={textStyle}>Problema:</h1>                                    
+                                    <h1 className='line-clamp-3'>{data.problem}</h1>
+                                </div>
+                            )}
+                            
+                            {/* 
+                            <h1 className={textStyle}>Solução:</h1> 
+                            <h1>{data.solution}</h1> */}                            
 
-                            <h1 className={textStyle}>Problema:</h1>
-                            <h1>{data.problem}</h1>
+{/*                         <h1 className={textStyle}>Problema:</h1> 
+                            <h1>{data.problem}</h1> */}
                             
                             { myData.data?.type === 'startup' && myData.data.user.id === data.userId && (
                                 <div className='pt-4 text-right space-x-5'>
@@ -195,6 +207,21 @@ export default function ProfileAdmin() {
                                 </div>
                             ) }                            
                         
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                                <div className='pt-8 text-center space-x-5'>
+                                    <Button
+                                        bg='bg-greenText' 
+                                        rounded='rounded-lg' 
+                                        w='w-96' 
+                                        h='h-16' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={handleButtonEditProject}
+                                    >
+                                        ASSINE PARA VER MAIS...
+                                    </Button>
+                                </div>
+                            ) } 
                             <Modal 
                                 isOpen={projectStates.openEditModal} 
                                 onClose={handleButtonEditProject} 
