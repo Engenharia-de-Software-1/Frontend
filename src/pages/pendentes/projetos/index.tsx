@@ -11,18 +11,7 @@ export default function ProfileAdmin() {
     const myData = useMyData();
     const { isLoading, isFetching, data, refetch } = useProjects();
 
-    async function handleActionProject(projectOwner: string, id: string, situation: string) {
-        if(myData.data?.type === 'admin'){
-            const response = await api.put(`/project/${projectOwner}/${id}`, { situation });
-            if(response.status.toString().startsWith('2')){
-                refetch();
-            } else {
-                alert('Erro ao recusar projeto. Tente novamente mais tarde.');
-            }
-        } else {
-            alert('Você não tem permissão para realizar essa ação.');
-        }
-    }
+
     
     return ( 
         <Stack bg='bg-white'>
@@ -39,8 +28,6 @@ export default function ProfileAdmin() {
                             key={project.id} 
                             project={project} 
                             userType={myData.data?.type as string}
-                            recuseProject={() => handleActionProject(project.userId, project.id, 'recused')}
-                            acceptProject={() => handleActionProject(project.userId, project.id, 'aproved')}
                         />
                     ))}         
                 </div>

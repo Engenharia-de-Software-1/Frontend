@@ -8,11 +8,9 @@ import { useRouter } from 'next/router';
 interface IProjectProps {
     project: IProject;
     userType: string;
-    recuseProject?: () => void;
-    acceptProject?: () => void;
 }
 
-function ButtonProject({ project, userType, recuseProject, acceptProject }: IProjectProps) {  
+function ButtonProject({ project, userType }: IProjectProps) {  
     const router = useRouter();  
     const [starButton, setStarButton] = useState(false);
 
@@ -69,35 +67,6 @@ function ButtonProject({ project, userType, recuseProject, acceptProject }: IPro
             <h2 className={`text-black62 text-sm text-right ${userType === 'admin' ? 'pb-24' : 'pb-5'}`}> 
                 Criado em {format(new Date(), "dd/MM/yyyy")}
             </h2>
-
-            {userType === 'admin' && (
-                <div className='absolute right-0 text-right space-x-5 bottom-8'>
-                    <Button
-                        bg='bg-greenDark' 
-                        rounded='rounded-lg' 
-                        w='w-36' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={() => acceptProject && acceptProject()}
-                    >
-                        APROVAR
-                    </Button>
-
-                    <Button
-                        bg='bg-warning' 
-                        rounded='rounded-lg' 
-                        w='w-36' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={() => recuseProject && recuseProject()}
-                    >
-                        RECUSAR
-                    </Button>
-                </div>                       
-                
-            )}  
         </button>         
     );
 }
