@@ -10,7 +10,6 @@ import { TextArea } from '../../components/TextArea';
 import { useMyData } from '../../services/queryClient/useMyData';
 import { useOneProject } from '../../services/queryClient/useOneProject';
 import api from '../../services/api';
-import { Preview } from '../../components/PreView';
 
 type ProjectType = {
     title: string;
