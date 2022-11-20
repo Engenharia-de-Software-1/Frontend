@@ -6,16 +6,33 @@ import { ButtonIdea } from '../../../components/ButtonIdea';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useIdeas } from '../../../services/queryClient/useIdea';
 import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
+import { get, set } from '../../../contexts/store';
+import { IIdea } from '../../../models/IIdea';
 
 export default function SearchIdea() {    
     const myData = useMyData();
     const { isLoading, isFetching, data, refetch } = useIdeas();
+    const [historyIdea, setHistoryIdea] = useState<IIdea[]>([]);
     const favs = useFavIdeas();
 
     const [buttonCheck, setButtonCheck] = useState(false);
 
     function useButtonCheck() {
+        let resp = get('@agroi9:historyIdea');
+        let aux = data?.filter(el => el.situation === 'aproved');
+        if(resp) {
+            setHistoryIdea(JSON.parse(resp))
+        } else if(aux && aux.length > 0) {
+            setHistoryIdea(aux)
+        }
         setButtonCheck(!buttonCheck);
+    }
+
+    function handleClickIdea(el: IIdea, index: number) {
+        let aux = historyIdea.filter((_, i) => i !== index);
+        aux.unshift(el);
+        set('@agroi9:historyIdea', JSON.stringify(aux));
+        setHistoryIdea(aux);
     }
     
     return ( 
@@ -34,8 +51,8 @@ export default function SearchIdea() {
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {isLoading || isFetching && (<h1>Carregando ideias...</h1>)}
-                    {!isLoading && !isFetching && (data?.length === 0 || data?.filter(el => el.situation !== 'aproved').length) && (<h1>Não há nenhuma ideia aqui</h1>)}
-                    {!isLoading && !isFetching && data?.filter(el => el.situation === 'aproved').map((idea) => (
+                    {!isLoading && !isFetching && (data?.length === 0 || data?.filter(el => el.situation === 'aproved').length === 0) && (<h1>Não há nenhuma ideia aqui</h1>)}
+                    {!isLoading && !isFetching && !buttonCheck && data?.filter(el => el.situation === 'aproved').reverse().map((idea, i) => (
                         <ButtonIdea 
                             key={idea.id} 
                             idea={idea} 
@@ -45,8 +62,22 @@ export default function SearchIdea() {
                                 favs.refetch();
                                 refetch();
                             }}
+                            onClick={() => handleClickIdea(idea, i)}
                         />
-                    ))}        
+                    ))}      
+                    {!isLoading && !isFetching && buttonCheck && historyIdea.filter(el => el.situation === 'aproved').map((idea, i) => (
+                        <ButtonIdea 
+                            key={idea.id} 
+                            idea={idea} 
+                            userType={myData.data?.type as string} 
+                            favorite={favs.data}
+                            final={() => {
+                                favs.refetch();
+                                refetch();
+                            }}
+                            onClick={() => handleClickIdea(idea, i)}
+                        />
+                    ))}       
                 </div>
             </div> 
         </Stack>
