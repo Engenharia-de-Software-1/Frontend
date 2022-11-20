@@ -96,7 +96,6 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea }:
                         RECUSAR
                     </Button>
                 </div>                       
-                
             )}  
         </button>       
     );

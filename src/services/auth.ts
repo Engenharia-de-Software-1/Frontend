@@ -48,7 +48,7 @@ export async function signIn({
 }: ISignIn): Promise<IResponseSignIn | undefined> {
   const response = await api.post('/login', {
     email,
-    password,
+    password
   });
 
   
@@ -61,6 +61,7 @@ export async function signIn({
         Authorization: `Bearer ${response.data.token}`,
       }
     });
+
     return {
       token: response.data.token,
       user: respUser.data.id,
