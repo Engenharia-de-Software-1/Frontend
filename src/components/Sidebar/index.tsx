@@ -67,6 +67,7 @@ export default function Sidebar({ data }: SidebarProps) {
                 {data?.type === 'investidor' && (
                     <NavSection title="Projetos">
                         <NavButton icon="ri-search-line" title="Encontrar projetos" href="/encontrar/projetos"/>
+                        <NavButton icon="ri-money-dollar-box-line" title="Projetos investidos" href="/projetosInvestidos"/>
                     </NavSection>
                 )}
                 
