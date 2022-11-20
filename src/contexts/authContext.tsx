@@ -22,7 +22,9 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
   }: auth.ISignIn): Promise<auth.IResponseSignIn | undefined> {
     const response = await auth.signIn({email, password});
     if (response) {
+      console.log(response);
       setUser(response?.user);
+      set('@agroi9:token', response?.token);
       set('@agroi9:user', JSON.stringify(response?.user));
       set('@agroi9:type', JSON.stringify(response?.type));
 
