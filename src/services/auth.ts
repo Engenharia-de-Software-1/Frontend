@@ -54,8 +54,7 @@ export async function signIn({
   
   if (response.status.toString().startsWith('2')) {
     const resp:IPayload = jwtDecode(response.data.token);
-    let type: string = resp.userType === 'startup' ? 'startup' : resp.userType === 'cliente' ? 'client' : resp.userType === 'investidor' ? 'investor' : `admin/${resp.userId}`;
-    console.log(type);
+    let type: string = resp.userType === 'startup' ? 'startup' : resp.userType === 'cliente' ? 'client' : resp.userType === 'investidor' ? 'investor' : `admin`;
     let respUser = await api.get<IType>(`${type}`, {
       headers: {
         Authorization: `Bearer ${response.data.token}`,

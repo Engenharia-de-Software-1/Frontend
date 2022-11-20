@@ -18,7 +18,7 @@ export default function ProfileAdmin() {
 
     const getUserInfo = useCallback(async () => {
         try {
-            const response = await api.get<IUser>(`/admin/${data?.user.id}`);
+            const response = await api.get<IUser>(`/admin`);
             setName(response.data.name);
             setEmail(response.data.email);
         } catch {}
@@ -27,7 +27,7 @@ export default function ProfileAdmin() {
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUser>(`admin/${data?.user.id}`, {
+            const output = await api.put<IUser>(`admin`, {
                 name,
                 email
             });

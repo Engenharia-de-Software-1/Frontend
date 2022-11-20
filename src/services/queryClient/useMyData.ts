@@ -15,7 +15,7 @@ export interface IResponse {
 }
 
 export async function getMyData(type: string, id: string): Promise<IResponse> {
-  const pathType = type === 'investidor' ? 'investor' : type === 'cliente' ? 'client' : type === 'startup' ? 'startup' : `admin/${id}`;
+  const pathType = type === 'investidor' ? 'investor' : type === 'cliente' ? 'client' : type === 'startup' ? 'startup' : `admin`;
   const respUser = await api.get<IType>(`/${pathType}`);
   return {
     user: respUser.data,
