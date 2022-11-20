@@ -91,7 +91,10 @@ export default function Sidebar({ data }: SidebarProps) {
 
                 <NavSection title='Outros'>
                     {data?.type === 'admin' && (
-                        <NavButton icon='ri-user-follow-line' title='Administradores' href='/administradores'/>
+                        <>
+                            <NavButton icon='ri-user-follow-line' title='Administradores' href='/administradores'/>
+                            <NavButton icon='ri-store-2-line' title='Planos' href='/planos'/>
+                        </>
                     )}
                     <NavButton icon='ri-user-smile-line' title='Minha conta' href={goToMyAccount()}/>
                     <NavButton icon='ri-tools-fill' title='Configurações' href='/configuracao'/>
