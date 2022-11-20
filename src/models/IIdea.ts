@@ -1,8 +1,10 @@
 export interface IIdea {
-    id: string;
-    nameIdea: string;
-    description: string;
-    created_at: Date;
-    isFavorite: boolean;
-    pending: boolean;
-  }
+  id: string;
+  title: string;
+  description: string;
+  userId: string;
+  situation: string;
+  favorite: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}

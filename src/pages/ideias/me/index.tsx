@@ -1,82 +1,72 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
-import api from '../../../services/api';
 import { Button } from '../../../components/Button';
 import { Modal } from '../../../components/Modal';
 import { Input } from '../../../components/Input';
 import { TextArea } from '../../../components/TextArea';
 import { ButtonIdea } from '../../../components/ButtonIdea';
-import { IIdea } from '../../../models/IIdea';
+import { useMyData } from '../../../services/queryClient/useMyData';
+import api from '../../../services/api';
+import { useMyIdeas } from '../../../services/queryClient/useMyIdeas';
+import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
+
+type IdeasType = {
+    title: string;
+    description: string;
+    userId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    openAddModal: boolean;
+}
 
 export default function ProfileAdmin() {    
-    const [idea, setIdea] = useState<IIdea[]>([] as IIdea[]); 
-    const [buttonAddIdea, setButtonAddIdea] = useState(false);
+    const myData = useMyData();
+    const { isLoading, isFetching, data, refetch } = useMyIdeas(myData.data?.user.id as string);
+    const favs = useFavIdeas();
+    const [ideasStates, setIdeasStates] = useState<IdeasType>({ } as IdeasType);
 
-    const [nameIdea, setNameIdea] = useState<string>('');
-    const [descriptionIdea, setDescriptionIdea] = useState<string>('');
+    function handleButtonAddIdea(){
+        setIdeasStates({...ideasStates, openAddModal: !ideasStates.openAddModal});
+    }
     
-
-    function useButtonAddIdea(){
-        setButtonAddIdea(true);
-    }
-   
-    function getIdeas() {
-        setTimeout(() => {
-            setIdea([
-        {
-            id: '1',
-            nameIdea: 'Ideia 1',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '2',
-            nameIdea: 'Ideia 2',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '3',
-            nameIdea: 'Ideia 3',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '4',
-            nameIdea: 'Ideia 4',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '5',
-            nameIdea: 'Ideia 5',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        }
-
-        ])
-        })
-    }
-
     useEffect(() => {
-        getIdeas();
-    }, []);
+        refetch()
+        favs.refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [myData.data, data])
+
+    let r = data?.filter((el1) => {
+        if(favs.data?.indexOf(el1) === -1) {
+            return el1;
+        }
+    })
+    console.log(r)
+
+    async function handleAddIdea() {
+        if(ideasStates.title && ideasStates.description){
+            const response = await api.post(`/idea`, {
+                ...ideasStates,
+                userId: myData.data?.user.id,
+                situation: 'pending'
+            });
+            if(response.status.toString().startsWith('2')){
+                setIdeasStates({} as IdeasType);
+                refetch();
+                alert('Ideia adicionada com sucesso! Agora ele está aguardando a aprovação de um administrador.');
+            } else {
+                alert('Erro ao cadastrar ideia. Tente novamente mais tarde.');
+            }
+        } else {
+            alert('Por favor, preencha todos os campos.');
+        }
+        handleButtonAddIdea();
+    }
     
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar/>
+            <Sidebar data={myData.data}/>
 
             <div className={divGeneral}>
                 <div className='flex justify-between'>
@@ -89,20 +79,31 @@ export default function ProfileAdmin() {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
-                        onClick={useButtonAddIdea}
+                        onClick={handleButtonAddIdea}
                     >
                         Adicionar ideia
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
-                    {idea.map((idea) => (
-                        <ButtonIdea idea={idea}/>
-                    ))}         
+                    {isLoading || isFetching && (<h1>Carregando ideias...</h1>)}
+                    {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhuma ideia aqui</h1>)}
+                    {!isLoading && !isFetching && data && data?.filter((el) => favs.data?.indexOf(el) === -1).map((idea) => (
+                        <ButtonIdea 
+                            key={idea.id} 
+                            idea={idea} 
+                            userType={myData.data?.type as string} 
+                            favorite={favs.data} 
+                            final={() => {
+                                favs.refetch();
+                                refetch();
+                            }}
+                        />
+                    ))} 
                 </div>
             </div> 
             <Modal 
-                isOpen={buttonAddIdea} 
-                onClose={() => setButtonAddIdea(false)} 
+                isOpen={ideasStates.openAddModal} 
+                onClose={handleButtonAddIdea} 
                 title='Adicionar ideia'
                 footer={
                     <Button 
@@ -112,7 +113,7 @@ export default function ProfileAdmin() {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
-                        onClick={() => setButtonAddIdea(false)}
+                        onClick={handleAddIdea}
                     >
                         Salvar
                     </Button>
@@ -124,16 +125,16 @@ export default function ProfileAdmin() {
                         label='Nome da ideia' 
                         placeholder='ex: Agro' 
                         bg='bg-grayBg'     
-                        value={nameIdea}
-                        onChange={(e) => setNameIdea(e.target.value)}   
+                        value={ideasStates.title}
+                        onChange={(e) => setIdeasStates({ ...ideasStates, title: e.target.value })}   
                     />
 
                     <TextArea 
                         haslabel 
                         label='Descrição' 
                         placeholder='ex: Sistema de purificação de água'
-                        value={descriptionIdea}
-                        onChange={(e) => setDescriptionIdea(e.target.value)}
+                        value={ideasStates.description}
+                        onChange={(e) => setIdeasStates({ ...ideasStates, description: e.target.value })}   
                         top='mt-2'                                        
                     />                   
                 </div>

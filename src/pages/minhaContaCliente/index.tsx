@@ -10,11 +10,9 @@ import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
-import { useRouter } from 'next/router';
 import { useMyData } from '../../services/queryClient/useMyData';
 
 export default function ProfileClient() {  
-    const router = useRouter();
     const { data, refetch } = useMyData();
 
     const [name, setName] = useState<string>('');
@@ -37,7 +35,7 @@ export default function ProfileClient() {
 
     const getUserInfo = useCallback(async () => {
         try {
-            const resp = await api.get<IUserClient>(`/client/${router.asPath.split('=')[1]}`);
+            const resp = await api.get<IUserClient>(`/client`);
             setName(resp.data.name);
             setEmail(resp.data.email);
             setPhone(resp.data.phone);
@@ -45,14 +43,15 @@ export default function ProfileClient() {
             setProfession(resp.data.client.profession);
             setState(resp.data.address.state);
             setCity(resp.data.address.city);   
+            refetch();
         } catch (error) {
             
         }
-    }, [router]);
+    }, []);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserClient>(`client/${router.asPath.split('=')[1]}`, {
+            const output = await api.put<IUserClient>(`client`, {
                 name,
                 email,
                 phone,

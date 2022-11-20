@@ -1,5 +1,5 @@
 import 'remixicon/fonts/remixicon.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from '../Stack';
 import { divGeneral } from './styles';
 import { NavSection } from './NavSection';
@@ -7,7 +7,7 @@ import { NavButton } from './NavButton';
 import { InfoNavSection } from './InfoNavSection';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../contexts/authContext';
-import { IResponse, useMyData } from '../../services/queryClient/useMyData';
+import { IResponse } from '../../services/queryClient/useMyData';
 
 interface SidebarProps {
     data: IResponse | undefined;
@@ -27,7 +27,7 @@ export default function Sidebar({ data }: SidebarProps) {
     };
 
     const goToMyAccount = () => {
-        return `/minhaConta${data?.type && data?.type.substring(0, 1).toUpperCase() + data?.type.substring(1)}?id=${user}`;
+        return `/minhaConta${data?.type && data?.type.substring(0, 1).toUpperCase() + data?.type.substring(1)}`;
     };
 
     const logout = () => {

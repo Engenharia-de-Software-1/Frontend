@@ -14,22 +14,9 @@ export interface IResponse {
   type: string;
 }
 
-export async function getMyData(user: string): Promise<IResponse> {
-  let type: string = '';
-  const respUser = await api.get<IType>(`/startup/${user}`);
-  if (respUser.data.startup) {
-    type = 'startup';
-  } else if(respUser.data.investor) {
-    type = 'investidor';
-  } else if(respUser.data.client) {
-    type = 'cliente';
-  } else {
-    const respUser = await api.get<IType>(`/admin/${user}`);
-    return {
-      user: respUser.data,
-      type: 'admin',
-    };
-  }
+export async function getMyData(type: string, id: string): Promise<IResponse> {
+  const pathType = type === 'investidor' ? 'investor' : type === 'cliente' ? 'client' : type === 'startup' ? 'startup' : `admin/${id}`;
+  const respUser = await api.get<IType>(`/${pathType}`);
   return {
     user: respUser.data,
     type
@@ -38,12 +25,13 @@ export async function getMyData(user: string): Promise<IResponse> {
 
 export function useMyData() {
   if(typeof window !== 'undefined') {
+    const type = localStorage.getItem('@agroi9:type');
     const user = localStorage.getItem('@agroi9:user');
-    return useQuery(['me'], () => getMyData(user?.replaceAll('"', '') as string), {
+    return useQuery(['me'], () => getMyData(type?.replaceAll('"', '') as string, user?.replaceAll('"', '') as string), {
         staleTime: 1000 * 60 * 10 // 10 minutes
     })
   } else {
-    return useQuery(['me'], () => getMyData(''), {
+    return useQuery(['me'], () => getMyData('', ''), {
       staleTime: 1000 * 60 * 10 // 10 minutes
     })
   }

@@ -21,8 +21,8 @@ function ButtonProject({ project, userType, recuseProject, acceptProject }: IPro
     }
 
     return (          
-        <button className='bg-transparent text-black transition-all hover:bg-gray-50 duration-300' onClick={() => router.push(`/projeto/${project.id}`)}>
-            <div className='rel flex justify-between mt-8 w-full '>
+        <button className='relative bg-transparent text-black transition-all hover:bg-gray-50 duration-300' onClick={() => router.push(`/projeto/${project.id}`)}>
+            <div className='relative flex justify-between mt-8 w-full '>
                 <div className='flex'>
                     <h1 className="text-start text-2xl font-semibold mr-5">
                         {project.title}
@@ -66,12 +66,12 @@ function ButtonProject({ project, userType, recuseProject, acceptProject }: IPro
                 {project.solution.length > 500 ? project.solution.substring(0, 500) + '...' : project.solution}   
             </h1>     
 
-            <h2 className='text-black62 text-sm text-right pb-5'> 
+            <h2 className={`text-black62 text-sm text-right ${userType === 'admin' ? 'pb-24' : 'pb-5'}`}> 
                 Criado em {format(new Date(), "dd/MM/yyyy")}
             </h2>
 
             {userType === 'admin' && (
-                <div className='pb-5 text-right space-x-5'>
+                <div className='absolute right-0 text-right space-x-5 bottom-8'>
                     <Button
                         bg='bg-greenDark' 
                         rounded='rounded-lg' 

@@ -1,81 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
-import api from '../../../services/api';
-import { Button } from '../../../components/Button';
-import { Modal } from '../../../components/Modal';
-import { Input } from '../../../components/Input';
-import { TextArea } from '../../../components/TextArea';
 import { ButtonIdea } from '../../../components/ButtonIdea';
-import { IIdea } from '../../../models/IIdea';
 import { useMyData } from '../../../services/queryClient/useMyData';
+import { useIdeas } from '../../../services/queryClient/useIdea';
+import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
 
-export default function ProfileAdmin() {    
-    const { data, refetch } = useMyData();
-    const [idea, setIdea] = useState<IIdea[]>([] as IIdea[]); 
+export default function SearchIdea() {    
+    const myData = useMyData();
+    const { isLoading, isFetching, data, refetch } = useIdeas();
+    const favs = useFavIdeas();
 
     const [buttonCheck, setButtonCheck] = useState(false);
-    
+
     function useButtonCheck() {
         setButtonCheck(!buttonCheck);
     }
-   
-    function getIdeas() {
-        setTimeout(() => {
-            setIdea([
-        {
-            id: '1',
-            nameIdea: 'Ideia 1',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '2',
-            nameIdea: 'Ideia 2',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '3',
-            nameIdea: 'Ideia 3',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '4',
-            nameIdea: 'Ideia 4',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        },
-        {
-            id: '5',
-            nameIdea: 'Ideia 5',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed euismod diam. Praesent cursus erat nec erat ornare varius. Praesent mattis ultrices nulla. Cras eu tortor tempus, tincidunt lorem vel, dignissim dolor. Morbi mollis risus ut mollis placerat. Nam sollicitudin iaculis tristique. Pellentesque at risus non nisl venenatis efficitur id sed magna. Nam a nisl consequat, iaculis dolor ac, consequat libero. Mauris tristique dui eget dapibus hendrerit. Vivamus a volutpat risus, id tincidunt sapien. Fusce nisi tellus, suscipit interdum magna non, interdum tincidunt ex. Aliquam at interdum mauris. Nunc vel nisi sit amet erat pretium mollis sit amet et leo. Cras convallis augue in urna fringilla, ac luctus quam fermentum. Proin mollis erat pellentesque odio tempus, eget convallis sapien dignissim. ',
-            created_at: new Date(),
-            isFavorite: false,
-            pending: false,
-        }
-
-        ])
-        })
-    }
-
-    useEffect(() => {
-        getIdeas();
-    }, []);
     
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar  data={data}/>
+            <Sidebar data={myData.data}/>
 
             <div className={divGeneral}>
                 <div className='flex justify-between items-center'>
@@ -88,9 +33,20 @@ export default function ProfileAdmin() {
 
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
-                    {idea.map((idea) => (
-                        <ButtonIdea idea={idea}/>
-                    ))}         
+                    {isLoading || isFetching && (<h1>Carregando ideias...</h1>)}
+                    {!isLoading && !isFetching && (data?.length === 0 || data?.filter(el => el.situation !== 'aproved').length) && (<h1>Não há nenhuma ideia aqui</h1>)}
+                    {!isLoading && !isFetching && data?.filter(el => el.situation === 'aproved').map((idea) => (
+                        <ButtonIdea 
+                            key={idea.id} 
+                            idea={idea} 
+                            userType={myData.data?.type as string} 
+                            favorite={favs.data}
+                            final={() => {
+                                favs.refetch();
+                                refetch();
+                            }}
+                        />
+                    ))}        
                 </div>
             </div> 
         </Stack>

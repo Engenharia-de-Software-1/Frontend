@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import 'remixicon/fonts/remixicon.css';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '../../components/Button';
@@ -7,25 +8,26 @@ import Sidebar from '../../components/Sidebar';
 import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
 import { IUser } from '../../models/IUser';
-import { useRouter } from 'next/router';
 import { useMyData } from '../../services/queryClient/useMyData';
 
 export default function ProfileAdmin() {     
-    const router = useRouter();
     const { data, refetch } = useMyData();
 
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUser>(`/admin/${router.asPath.split('=')[1]}`);
-        setName(response.data.name);
-        setEmail(response.data.email);
-    }, [router]);
+        try {
+            const response = await api.get<IUser>(`/admin/${data?.user.id}`);
+            setName(response.data.name);
+            setEmail(response.data.email);
+        } catch {}
+        refetch();
+    }, [data]);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUser>(`admin/${router.asPath.split('=')[1]}`, {
+            const output = await api.put<IUser>(`admin/${data?.user.id}`, {
                 name,
                 email
             });

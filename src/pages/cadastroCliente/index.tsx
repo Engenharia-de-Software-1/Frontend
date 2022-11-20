@@ -34,7 +34,7 @@ export default function Registration() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await api.put(`/client/`, cadastro);
+            await api.put(`/client`, cadastro);
             router.push('/minhaContaCliente');
         } catch (error) {
             console.error(error);

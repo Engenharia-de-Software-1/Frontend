@@ -8,6 +8,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     h?:string;
     textColor?: string;
     textWeight?: string;
+    others?: string;
 }
 function Button({
     bg='bg-transparent',
@@ -16,6 +17,7 @@ function Button({
     textWeight='font-normal',
     w, 
     h, 
+    others,
     ...rest 
 }: IButtonProps) {
     return (           
