@@ -109,31 +109,33 @@ export default function ProfileAdmin() {
                             <h1 className={textStyle}>Problema:</h1>
                             <h1>{data.problem}</h1>
                             
-                            <div className='pt-4 text-right space-x-5'>
-                                <Button
-                                    bg='bg-greenDark' 
-                                    rounded='rounded-lg' 
-                                    w='w-36' 
-                                    h='h-12' 
-                                    textColor='text-white' 
-                                    textWeight='font-bold'
-                                    onClick={handleButtonEditProject}
-                                >
-                                    EDITAR
-                                </Button>
+                            { myData.data?.type === 'startup' && myData.data.user.id === data.userId && (
+                                <div className='pt-4 text-right space-x-5'>
+                                    <Button
+                                        bg='bg-greenDark' 
+                                        rounded='rounded-lg' 
+                                        w='w-36' 
+                                        h='h-12' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={handleButtonEditProject}
+                                    >
+                                        EDITAR
+                                    </Button>
 
-                                <Button
-                                    bg='bg-warning' 
-                                    rounded='rounded-lg' 
-                                    w='w-36' 
-                                    h='h-12' 
-                                    textColor='text-white' 
-                                    textWeight='font-bold'
-                                    onClick={handleDeleteProject}
-                                >
-                                    EXCLUIR
-                                </Button>
-                            </div>
+                                    <Button
+                                        bg='bg-warning' 
+                                        rounded='rounded-lg' 
+                                        w='w-36' 
+                                        h='h-12' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={handleDeleteProject}
+                                    >
+                                        EXCLUIR
+                                    </Button>
+                                </div>
+                            ) }
                             
                         
                             <Modal 

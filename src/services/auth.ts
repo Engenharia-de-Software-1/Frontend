@@ -2,6 +2,7 @@ import { IUser } from '../models/IUser';
 import api from './api';
 import jwtDecode, {JwtPayload} from 'jwt-decode';
 import { ICadastro } from '../pages/cadastro';
+import { set } from '../contexts/store';
 
 export interface ISignIn {
   email: string;
@@ -19,16 +20,10 @@ export interface IResponseSignIn {
   type: string;
 }
 
-export interface IResponseSignUp {
-  token: string;
-  user: string;
-  type: string;
-  completed: boolean;
-}
-
 // Interface usada para decodificar o payload do token.
 interface IPayload extends JwtPayload {
   userId: string;
+  userType: string;
 }
 
 // Interface criada para saber o tipo do usuário. Isso será usado para
@@ -56,29 +51,20 @@ export async function signIn({
     password,
   });
 
+  
   if (response.status.toString().startsWith('2')) {
     const resp:IPayload = jwtDecode(response.data.token);
-    const user = resp.userId;
-    let type: string = '';
-    const respUser = await api.get<IType>(`/startup/${user}`);
-    if (respUser.data.startup) {
-      type = 'startup';
-    } else if(respUser.data.investor) {
-      type = 'investidor';
-    } else if(respUser.data.client) {
-      type = 'cliente';
-    } else {
-      const respUser = await api.get<IType>(`/admin/${user}`);
-      return {
-        token: response.data.token,
-        user: respUser.data.id,
-        type: 'admin',
-      };
-    }
+    let type: string = resp.userType === 'startup' ? 'startup' : resp.userType === 'cliente' ? 'client' : resp.userType === 'investidor' ? 'investor' : `admin/${resp.userId}`;
+    console.log(type);
+    let respUser = await api.get<IType>(`${type}`, {
+      headers: {
+        Authorization: `Bearer ${response.data.token}`,
+      }
+    });
     return {
       token: response.data.token,
       user: respUser.data.id,
-      type
+      type: resp.userType,
     };
   }
 }
@@ -87,33 +73,11 @@ export async function signIn({
 export async function signUp({
   path,
   data
-}: ISignUp): Promise<IResponseSignUp | undefined> {
-  const response = await api.post(path, {...data, phone: '0'});
+}: ISignUp): Promise<IResponseSignIn | undefined> {
+  const response = await api.post(path, {...data, phone: '0', profession: '_' });
 
   if (response.status.toString().startsWith('2')) {
-    const user = response.data.id;
-    let type: string = '';
-    const respUser = await api.get<IType>(`/startup/${user}`);
-    if (respUser.data.startup) {
-      type = 'startup';
-    } else if(respUser.data.investor) {
-      type = 'investor';
-    } else if(respUser.data.client) {
-      type = 'cliente';
-    } else {
-      const respUser = await api.get<IType>(`/admin/${user}`);
-      return {
-        token: response.data.token,
-        user: respUser.data.id,
-        type: 'admin',
-        completed: false
-      };
-    }
-    return {
-      token: response.data.token,
-      user: respUser.data.id,
-      type,
-      completed: false
-    };
+    const login = await signIn(data);
+    return login;
   }
 }

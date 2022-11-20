@@ -23,7 +23,7 @@ export default function Registration() {
     const [buttonInvestor, setButtonInvestor] = useState(false);
     const [buttonClient, setButtonClient] = useState(false);
     const [buttonCheck, setButtonCheck] = useState(true);
-    const { signIn, signUp } = useAuth();
+    const { signUp } = useAuth();
 
     const [cadastro, setCadastro] = useState<ICadastro>({} as ICadastro);
 
@@ -51,16 +51,6 @@ export default function Registration() {
 
     function goLoginPage(){
         router.push('/login')
-    }
-
-    function goRegister(){
-        if (buttonStartup == true){
-            router.push('/cadastroStartup')
-        } else if (buttonInvestor == true){
-            router.push('./cadastroInvestidor')
-        } else { 
-            router.push('/cadastroCliente')
-        }
     }
 
     const handleChange = (e: any) => {

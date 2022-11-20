@@ -14,7 +14,6 @@ import { useRouter } from 'next/router';
 import { useMyData } from '../../services/queryClient/useMyData';
 
 export default function ProfileInvestor() {  
-    const router = useRouter();
     const { data, refetch } = useMyData();
 
     const [name, setName] = useState<string>('');
@@ -39,7 +38,7 @@ export default function ProfileInvestor() {
     }, [])
 
     const getUserInfo = useCallback(async () => {
-        const response = await api.get<IUserInvestor>(`/investor/${router.asPath.split('=')[1]}`);
+        const response = await api.get<IUserInvestor>(`/investor`);
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -49,11 +48,12 @@ export default function ProfileInvestor() {
         setQtdMembers(response.data.investor.qtdMembers);
         setState(response.data.address.state);
         setCity(response.data.address.city);
-    }, [router]);
+        refetch();
+    }, []);
 
     async function handleEdit() {
         try {
-            const output = await api.put<IUserInvestor>(`investor/${router.asPath.split('=')[1]}`, {
+            const output = await api.put<IUserInvestor>(`investor`, {
                 name,
                 email,
                 phone,

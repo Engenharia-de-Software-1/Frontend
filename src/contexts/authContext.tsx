@@ -5,7 +5,7 @@ import {clear, get, set} from './store';
 interface AuthContextData {
   user: string;
   signIn(data: auth.ISignIn): Promise<auth.IResponseSignIn | undefined>;
-  signUp(data: auth.ISignUp): Promise<auth.IResponseSignUp | undefined>;
+  signUp(data: auth.ISignUp): Promise<auth.IResponseSignIn | undefined>;
   signOut(): void;
   type: string | null;
 }
@@ -36,7 +36,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
   async function signUp({
     path,
     data
-  }: auth.ISignUp): Promise<auth.IResponseSignUp | undefined> {
+  }: auth.ISignUp): Promise<auth.IResponseSignIn | undefined> {
     const response = await auth.signUp({path, data});
     if (response) {
       setUser(response?.user);

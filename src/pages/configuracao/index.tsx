@@ -19,7 +19,8 @@ export default function Settings() {
     async function goChangePassword() {
         if(password !== '' && newPassword !== '') {
             try {
-                const output = await api.put<IUser>(`${data?.type}/`, {
+                let type = data?.type === 'admin' ? 'admin' : data?.type === 'cliente' ? 'client' :  data?.type === 'investidor' ? 'investor' : 'startup';
+                const output = await api.put<IUser>(`${type}/`, {
                     password,
                     confirmPassword: newPassword
                 });
@@ -40,9 +41,10 @@ export default function Settings() {
     function goDelete() {
         if (window.confirm("Tem certeza que deseja deletar sua conta?")) {
             try {
-                api.delete(`${data?.type}/`);
+                let type = data?.type === 'admin' ? 'admin' : data?.type === 'cliente' ? 'client' :  data?.type === 'investidor' ? 'investor' : 'startup';
+                api.delete(`${type}/`);
                 alert('Conta deletada com sucesso!');
-                router.push("./cadastro");
+                router.push("/");
             } catch (error) {
                 alert('Erro retornado!');
             }

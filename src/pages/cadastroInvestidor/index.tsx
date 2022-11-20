@@ -21,7 +21,6 @@ class ICadastroInvestidor {
 
 export default function Registration() {    
     const router = useRouter();
-    const { userId } = router.query;
 
     const [cadastro, setCadastro] = useState<ICadastroInvestidor>(new ICadastroInvestidor());
     const handleChange = (e: any) => {
@@ -34,7 +33,7 @@ export default function Registration() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await api.put(`/investor/`, cadastro);
+            await api.put(`/investor`, cadastro);
             router.push('/minhaContaInvestidor');
         } catch (error) {
             console.error(error);
