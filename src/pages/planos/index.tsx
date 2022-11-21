@@ -15,7 +15,6 @@ type PlanType = {
     openAddModal: boolean;
 }
 
-
 export default function PlansAdmin() {    
     const myData = useMyData();
     const { isLoading, isFetching, data, refetch } = usePlans();
@@ -63,15 +62,17 @@ export default function PlansAdmin() {
                         textWeight='font-bold'
                         onClick={() => handleButtonAddPlan(true)}
                     >
-                        Adicionar planos
+                        Criar plano
                     </Button>
                 </div>  
 
-                <div className="grid grid-cols-1 divide-y divide-greenLine">
+                <div className="flex items-center justify-center h-full overflow-y-hidden overflow-x">
                     {isLoading || isFetching && (<h1>Carregando planos...</h1>)}
                     {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum plano aqui</h1>)}
-                    {!isLoading && !isFetching && data?.filter((el) => el.userId === myData.data?.user.id).map((plan) => (
-                        <h1 key={Math.random()}>Plano</h1>
+                    {!isLoading && !isFetching && data?.map((plan) => (
+                        <div key={plan.id} className='h-96 w-72 rounded bg-slate-100 p-10 ml-24'>
+                            <h1 className='font-semibold text-3xl w-462'>{plan.name}</h1>
+                        </div>
                     ))}         
                 </div>
             </div> 
@@ -79,7 +80,7 @@ export default function PlansAdmin() {
             <Modal 
                 isOpen={planStates.openAddModal} 
                 onClose={() => handleButtonAddPlan(false)} 
-                title='Adicionar projeto'
+                title='Criar plano'
                 footer={
                     <Button 
                         bg='bg-greenDark' 
@@ -97,7 +98,7 @@ export default function PlansAdmin() {
                 <div className='flex flex-col'>
                     <Input 
                         haslabel 
-                        label='Nome do projeto' 
+                        label='Nome do plano' 
                         placeholder='ex: Basic' 
                         bg='bg-grayBg'     
                         value={planStates.plan}
