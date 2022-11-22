@@ -70,8 +70,23 @@ export default function PlansAdmin() {
                     {isLoading || isFetching && (<h1>Carregando planos...</h1>)}
                     {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum plano aqui</h1>)}
                     {!isLoading && !isFetching && data?.map((plan) => (
-                        <div key={plan.id} className='h-96 w-72 rounded bg-slate-100 p-10 ml-24'>
+                        <div key={plan.id} className='flex flex-col h-96 w-72 rounded bg-slate-100 p-10 ml-24 justify-between'>
                             <h1 className='font-semibold text-3xl w-462'>{plan.name}</h1>
+                            <div className='mb-auto'>
+                                <ul>
+                                    <li className='text-lg font-semibold'>R$ {(plan.value/100).toFixed(2)}</li>
+                                    { plan.permissions.split(',').map((permission, index) => {
+                                        if(permission.trim() === 'read') {
+                                            return <li key={index} className='text-lg font-semibold'>Leitura</li>
+                                        } else if(permission.trim() === 'invest') {
+                                            return <li key={index} className='text-lg font-semibold'>Investimento</li>
+                                        } else {
+                                            return <li key={index} className='text-lg font-semibold'>Escrita</li>
+                                        }
+                                    }) }
+                                </ul>
+                            </div>
+                            <button className='flex h-10 rounded items-center justify-center w-full bg-[#F46262] text-white'>EXCLUIR</button>
                         </div>
                     ))}         
                 </div>
