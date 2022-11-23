@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { divGeneral, textStyle, textTitle } from './styles';
@@ -19,6 +19,7 @@ type ProjectType = {
 }
 
 export default function ProfileAdmin() {    
+    const router = useRouter();
     const [projectStates, setProjectStates] = useState<ProjectType>({ } as ProjectType);
 
     const myData = useMyData();
@@ -35,6 +36,20 @@ export default function ProfileAdmin() {
 
     function goBack(){
         router.back();
+    }
+
+    async function handleActionProject(projectOwner: string, id: string, situation: string) {
+        if(myData.data?.type === 'admin'){
+            const response = await api.put(`/project/${projectOwner}/${id}`, { situation });
+            if(!response.status.toString().startsWith('2')){
+                alert('Erro ao recusar projeto. Tente novamente mais tarde.');
+            } else {
+                router.push('/pendentes/projetos')
+            }
+        } else {
+            alert('Você não tem permissão para realizar essa ação.');
+        }
+        refetch();
     }
 
     async function handleEditProject() {
@@ -102,12 +117,23 @@ export default function ProfileAdmin() {
                                 {/* <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
                                 */} 
                             </div>
-                        
-                            <h1 className={textStyle}>Solução:</h1>                            
-                            <h1>{data.solution}</h1>
+                            
+                            
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                                <div>
+                                    <h1 className={textStyle}>Solução:</h1>                            
+                                    <h1 className='line-clamp-3'>{data.solution}...</h1>
+                                    <h1 className={textStyle}>Problema:</h1>                                    
+                                    <h1 className='line-clamp-3'>{data.problem}</h1>
+                                </div>
+                            )}
+                            
+                            {/* 
+                            <h1 className={textStyle}>Solução:</h1> 
+                            <h1>{data.solution}</h1> */}                            
 
-                            <h1 className={textStyle}>Problema:</h1>
-                            <h1>{data.problem}</h1>
+{/*                         <h1 className={textStyle}>Problema:</h1> 
+                            <h1>{data.problem}</h1> */}
                             
                             { myData.data?.type === 'startup' && myData.data.user.id === data.userId && (
                                 <div className='pt-4 text-right space-x-5'>
@@ -136,8 +162,65 @@ export default function ProfileAdmin() {
                                     </Button>
                                 </div>
                             ) }
-                            
+                            {myData.data?.type === 'admin' && myData.data.user.id !== data.userId  &&  (
+                                <div className='pt-4 text-right space-x-5'>
+                                    <Button
+                                        bg='bg-greenDark' 
+                                        rounded='rounded-lg' 
+                                        w='w-36' 
+                                        h='h-12' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={() => handleActionProject(data.userId, data.id, 'aproved')}
+                                    >
+                                        APROVAR
+                                    </Button>
+
+                                    <Button
+                                        bg='bg-warning' 
+                                        rounded='rounded-lg' 
+                                        w='w-36' 
+                                        h='h-12' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={() => handleActionProject(data.userId, data.id, 'recused')}
+                                    >
+                                        RECUSAR
+                                    </Button>
+                                </div>     
+                            )}  
+
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                                <div className='pt-4 text-right space-x-5'>
+                                    <Button
+                                        bg='bg-greenDark' 
+                                        rounded='rounded-lg' 
+                                        w='w-64' 
+                                        h='h-12' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={handleButtonEditProject}
+                                    >
+                                        INVESTIR
+                                    </Button>
+                                </div>
+                            ) }                            
                         
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                                <div className='pt-8 text-center space-x-5'>
+                                    <Button
+                                        bg='bg-greenText' 
+                                        rounded='rounded-lg' 
+                                        w='w-96' 
+                                        h='h-16' 
+                                        textColor='text-white' 
+                                        textWeight='font-bold'
+                                        onClick={handleButtonEditProject}
+                                    >
+                                        ASSINE PARA VER MAIS...
+                                    </Button>
+                                </div>
+                            ) } 
                             <Modal 
                                 isOpen={projectStates.openEditModal} 
                                 onClose={handleButtonEditProject} 

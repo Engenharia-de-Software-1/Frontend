@@ -19,7 +19,8 @@ module.exports = {
         "grayBg": "#EFEFEF",
         "warning": "#F46262",
         "Input":  "rgba(67, 65, 88, 0.13)",
-        "textBlack13": "rgba(0, 0, 0, 0.23);"
+        "textBlack13": "rgba(0, 0, 0, 0.23);",
+        "buttonPlans": "#F3D300"
       },
       fontSize: {
         
@@ -48,5 +49,7 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require( '@tailwindcss/line-clamp' ),
+  ],
 }
