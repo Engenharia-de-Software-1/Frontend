@@ -11,7 +11,7 @@ import api from '../../services/api';
 
 type PlanType = {
     plan: string;
-    userId: string;
+    value: number;
     openAddModal: boolean;
 }
 
@@ -20,12 +20,8 @@ export default function PlansAdmin() {
     const { isLoading, isFetching, data, refetch } = usePlans();
     const [planStates, setPlanStates] = useState<PlanType>({ } as PlanType);
 
-    async function handleButtonAddPlan(me: boolean) {
-        if(me && myData.data?.user.id){
-            setPlanStates({...planStates, openAddModal: !planStates.openAddModal, userId: myData.data?.user.id});
-        } else {
-            setPlanStates({...planStates, openAddModal: !planStates.openAddModal});
-        }
+    async function handleButtonAddPlan() {
+        setPlanStates({...planStates, openAddModal: !planStates.openAddModal});
     }
 
     async function handleAddNewPlan() {
@@ -42,7 +38,7 @@ export default function PlansAdmin() {
         } else {
             alert('Por favor, preencha todos os campos.');
         }
-        handleButtonAddPlan(false);
+        handleButtonAddPlan();
     }
     
     return ( 
@@ -60,17 +56,17 @@ export default function PlansAdmin() {
                         h='h-12' 
                         textColor='text-white' 
                         textWeight='font-bold'
-                        onClick={() => handleButtonAddPlan(true)}
+                        onClick={handleButtonAddPlan}
                     >
                         Criar plano
                     </Button>
                 </div>  
 
-                <div className="flex items-center justify-center h-full overflow-y-hidden overflow-x">
+                <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-3 mt-20">
                     {isLoading || isFetching && (<h1>Carregando planos...</h1>)}
                     {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum plano aqui</h1>)}
                     {!isLoading && !isFetching && data?.map((plan) => (
-                        <div key={plan.id} className='flex flex-col h-96 w-72 rounded bg-slate-100 p-10 ml-24 justify-between'>
+                        <div key={plan.id} className='flex flex-col h-96 w-72 rounded bg-slate-100 p-10 justify-between'>
                             <h1 className='font-semibold text-3xl w-462'>{plan.name}</h1>
                             <div className='mb-auto'>
                                 <ul>
@@ -94,7 +90,7 @@ export default function PlansAdmin() {
 
             <Modal 
                 isOpen={planStates.openAddModal} 
-                onClose={() => handleButtonAddPlan(false)} 
+                onClose={handleButtonAddPlan} 
                 title='Criar plano'
                 footer={
                     <Button 
@@ -118,6 +114,17 @@ export default function PlansAdmin() {
                         bg='bg-grayBg'     
                         value={planStates.plan}
                         onChange={(e) => setPlanStates({...planStates, plan: e.target.value})}   
+                    />
+                    <Input 
+                        haslabel 
+                        label='Valor do plano (em reais)' 
+                        placeholder='ex: 80' 
+                        top='mt-2'
+                        bg='bg-grayBg'     
+                        type='number'
+                        step='0.01'
+                        value={planStates.value}
+                        onChange={(e) => setPlanStates({...planStates, value: parseInt(e.target.value)})}   
                     />
                 </div>
             </Modal>
