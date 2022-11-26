@@ -57,7 +57,7 @@ export async function signIn({
     let type: string = resp.userType === 'startup' ? 'startup' : resp.userType === 'cliente' ? 'client' : resp.userType === 'investidor' ? 'investor' : `admin`;
     let respUser = await api.get<IType>(`${type}`, {
       headers: {
-        Authorization: `Bearer ${response.data.token}`,
+        authorization: `Bearer ${response.data.token}`,
       }
     });
 
