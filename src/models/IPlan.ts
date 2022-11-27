@@ -1,6 +1,7 @@
 export interface IPlan {
   id: string;
-  name: string;
-  permissions: string;
-  value: number;
+  plan: string;
+  permissions: {
+    [key: string]: boolean;
+  };
 }
