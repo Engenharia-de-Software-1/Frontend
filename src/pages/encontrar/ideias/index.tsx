@@ -28,11 +28,34 @@ export default function SearchIdea() {
         setButtonCheck(!buttonCheck);
     }
 
-    function handleClickIdea(el: IIdea, index: number) {
-        let aux = historyIdea.filter((_, i) => i !== index);
-        aux.unshift(el);
-        set('@agroi9:historyIdea', JSON.stringify(aux));
-        setHistoryIdea(aux);
+    function handleClickIdea(el: IIdea) {
+        let resp = get('@agroi9:historyIdea');
+        if(resp) {
+            let finded = JSON.parse(resp).findIndex((idea: any) => idea.id === el.id);
+            let aux = JSON.parse(resp);
+            console.log(aux, el);
+            if(finded === -1) {
+                aux.unshift(el);
+                setHistoryIdea(aux);
+            } else {
+                aux.splice(finded, 1);
+                aux.unshift(el);
+                setHistoryIdea(aux);
+            }
+            set('@agroi9:historyIdea', JSON.stringify(aux));
+        } else {
+            let finded = historyIdea.findIndex((idea: any) => idea.id === el.id);
+            let aux = historyIdea;
+            if(finded === -1) {
+                aux.unshift(el);
+                setHistoryIdea(aux);
+            } else {
+                aux.splice(finded, 1);
+                aux.unshift(el);
+                setHistoryIdea(aux);
+            }
+            set('@agroi9:historyIdea', JSON.stringify(aux));
+        }
     }
     
     return ( 
@@ -62,7 +85,7 @@ export default function SearchIdea() {
                                 favs.refetch();
                                 refetch();
                             }}
-                            onClick={() => handleClickIdea(idea, i)}
+                            onClick={() => handleClickIdea(idea)}
                         />
                     ))}      
                     {!isLoading && !isFetching && buttonCheck && historyIdea.filter(el => el.situation === 'aproved').map((idea, i) => (
@@ -75,7 +98,7 @@ export default function SearchIdea() {
                                 favs.refetch();
                                 refetch();
                             }}
-                            onClick={() => handleClickIdea(idea, i)}
+                            onClick={() => handleClickIdea(idea)}
                         />
                     ))}       
                 </div>

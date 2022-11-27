@@ -176,7 +176,7 @@ export default function ProfileClient() {
                         >
                             <option key = 'init'>Selecione o Estado</option>
                             {CityValues.estados.map((uf, index) => (
-                                <option key={index.toString()} value={uf.nome}>{uf.nome}</option>
+                                <option key={index.toString()} value={uf.sigla}>{uf.nome}</option>
                             ))}
                         </Select>
                         <Select 
@@ -187,7 +187,7 @@ export default function ProfileClient() {
                             top='mt-5'
                         >
                             <option key = 'init'>Selecione a cidade</option>
-                            {CityValues.estados.find((city) => city.nome == state)?.cidades.map((cities, index) => (
+                            {CityValues.estados.find((city) => city.sigla == state)?.cidades.map((cities, index) => (
                                 <option key ={index.toString()} value={cities}>{cities} </option>
                             ))}
                         </Select>

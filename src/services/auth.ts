@@ -46,6 +46,7 @@ export async function signIn({
   email,
   password,
 }: ISignIn): Promise<IResponseSignIn | undefined> {
+  localStorage.clear();
   const response = await api.post('/login', {
     email,
     password

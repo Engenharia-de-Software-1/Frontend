@@ -20,7 +20,44 @@ Tal incubadora tem o objetivo de promover a inovação aberta conectando startup
 Esse repositório foi feito para a disciplina de Engenharia de Software do segundo semestre de 2022 onde uma plataforma que abrange as funcionalidades de um MVP para a incubadora devem ser implementados.
 
 ## Features
-- Login de administradores da plataforma
+#### Geral
+- Login
+- Logout
+- Cadastro de investidores, startups e clientes (produtores rurais)
+#### Administradores
+- Edição dos dados de um administrador
+- Alteração de senha
+- Exclusão de conta
+- Aprovar ou rejeitar um projeto
+- Aprovar ou rejeitar uma ideia/oportunidade
+- Listagem de planos existentes para um investidor escolher
+#### Investidores
+- Edição dos dados de um investidor
+- Alteração de senha
+- Exclusão de conta
+- Listagem de projetos
+- Visualização de um projeto (desconsiderando planos)
+#### Startups
+- Edição dos dados de uma startup
+- Alteração de senha
+- Exclusão de conta
+- Listagem de ideias/oportunidades
+- Favoritar ideias/oportunidades
+- Visualização de ideias VISTAS por ultimo
+- Adicionar projeto
+- Mostrar situação do projeto (Pendente ou não)
+- Lista de projetos
+- Visualização de um projeto
+- Edição de um projeto
+- Exclusão de um projeto
+#### Clientes (Produtores Rurais)
+- Edição dos dados de um cliente
+- Alteração de senha
+- Exclusão de conta
+- Listagem de ideias/oportunidades
+- Favoritar ideias/oportunidades
+- Adicionar ideia/oportunidade
+- Mostrar situação da ideia/oportunidade (Pendente ou não)
 
 ## :warning: Arquivos importantes
 .env
