@@ -8,12 +8,14 @@ import { useIdeas } from '../../../services/queryClient/useIdea';
 import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
 import { get, set } from '../../../contexts/store';
 import { IIdea } from '../../../models/IIdea';
+import { useRouter } from 'next/router';
 
 export default function SearchIdea() {    
     const myData = useMyData();
     const { isLoading, isFetching, data, refetch } = useIdeas();
     const [historyIdea, setHistoryIdea] = useState<IIdea[]>([]);
     const favs = useFavIdeas();
+    const router = useRouter();
 
     const [buttonCheck, setButtonCheck] = useState(false);
 
@@ -33,6 +35,7 @@ export default function SearchIdea() {
         aux.unshift(el);
         set('@agroi9:historyIdea', JSON.stringify(aux));
         setHistoryIdea(aux);
+        router.push(`/ideias/dados/${el.id}`);
     }
     
     return ( 

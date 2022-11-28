@@ -11,6 +11,8 @@ import { useMyData } from '../../../services/queryClient/useMyData';
 import api from '../../../services/api';
 import { useMyIdeas } from '../../../services/queryClient/useMyIdeas';
 import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
+import { IIdea } from '../../../models/IIdea';
+import { useRouter } from 'next/router';
 
 type IdeasType = {
     title: string;
@@ -26,6 +28,7 @@ export default function ProfileAdmin() {
     const { isLoading, isFetching, data, refetch } = useMyIdeas(myData.data?.user.id as string);
     const favs = useFavIdeas();
     const [ideasStates, setIdeasStates] = useState<IdeasType>({ } as IdeasType);
+    const router = useRouter();
 
     function handleButtonAddIdea(){
         setIdeasStates({...ideasStates, openAddModal: !ideasStates.openAddModal});
@@ -42,7 +45,6 @@ export default function ProfileAdmin() {
             return el1;
         }
     })
-    console.log(r)
 
     async function handleAddIdea() {
         if(ideasStates.title && ideasStates.description){
@@ -62,6 +64,10 @@ export default function ProfileAdmin() {
             alert('Por favor, preencha todos os campos.');
         }
         handleButtonAddIdea();
+    }
+
+    function handleClickIdea(el: IIdea, index: number) {
+        router.push(`/ideias/dados/${el.id}`);
     }
     
     return ( 
@@ -93,6 +99,7 @@ export default function ProfileAdmin() {
                             idea={idea} 
                             userType={myData.data?.type as string} 
                             favorite={favs.data} 
+                            onClick={() => handleClickIdea(idea, 0)}
                             final={() => {
                                 favs.refetch();
                                 refetch();

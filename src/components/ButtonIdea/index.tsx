@@ -69,7 +69,7 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, .
                 Criado em {idea.updatedAt ? format(new Date(idea.updatedAt), "dd/MM/yyyy") : format(new Date(), "dd/MM/yyyy")}
             </h2>
 
-            {/* {userType === 'admin' && (
+            {userType === 'admin' && (
                 <div className='pb-5 text-right space-x-5'>
                     <Button
                         bg='bg-greenDark' 
@@ -95,7 +95,7 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, .
                         RECUSAR
                     </Button>
                 </div>                       
-            )}   */}
+            )}  
         </button>       
     );
 }
