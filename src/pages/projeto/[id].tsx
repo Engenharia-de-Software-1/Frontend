@@ -11,6 +11,7 @@ import { useMyData } from '../../services/queryClient/useMyData';
 import { useOneProject } from '../../services/queryClient/useOneProject';
 import api from '../../services/api';
 import { usePlans } from '../../services/queryClient/usePlans';
+import { useProjects } from '../../services/queryClient/useProject';
 
 type ProjectType = {
     title: string;
@@ -28,6 +29,7 @@ export default function Project() {
     const { data, isFetched, refetch } = useOneProject(router.query.id as string);
     const [canInvest, setCanInvest] = useState(false);
     const [canRead, setCanRead] = useState(false);
+    const projects = useProjects();
     
     function handleButtonEditProject(){
         setProjectStates({...projectStates, openEditModal: !projectStates.openEditModal});
@@ -37,8 +39,8 @@ export default function Project() {
         alert('Você clicou em investir')
     }
 
-    function handleGoToPlan(){
-        alert('Redirecionar para a pagina de planos')
+    async function handleGoToPlan(){
+        router.push(`/assinaturas`);
     }
 
     function goBack(){
@@ -47,7 +49,7 @@ export default function Project() {
 
     async function handleActionProject(projectOwner: string, id: string, situation: string) {
         if(myData.data?.type === 'admin'){
-            const response = await api.put(`/project/${projectOwner}/${id}`, { situation });
+            const response = await api.put(`/project/${projectOwner}/${router.query.id}`, { situation });
             if(!response.status.toString().startsWith('2')){
                 alert('Erro ao recusar projeto. Tente novamente mais tarde.');
             } else {
@@ -57,6 +59,7 @@ export default function Project() {
             alert('Você não tem permissão para realizar essa ação.');
         }
         refetch();
+        projects.refetch();
     }
 
     async function handleEditProject() {
@@ -107,7 +110,6 @@ export default function Project() {
                 if(plan.permissions['read']) {
                     setCanRead(true);
                 }
-                console.log(plan);
             }
         }
     }
@@ -122,7 +124,7 @@ export default function Project() {
             })
             getPermissions();
         }
-    }, [data, isFetched, plans.data])
+    }, [data, isFetched, plans.data, router])
     
     return ( 
         <Stack bg='bg-white'>
@@ -148,6 +150,24 @@ export default function Project() {
                                     { !canRead ? (<h1 className='line-clamp-3'>{data.solution}...</h1>) : (<h1>{data.solution}</h1>) }
                                     <h1 className={textStyle}>Problema:</h1>                                    
                                     { !canRead ? (<h1 className='line-clamp-3'>{data.problem}...</h1>) : (<h1>{data.problem}</h1>) }
+                                </div>
+                            )}
+
+                            { myData.data && myData.data.user.id === data.userId && (
+                                <div>
+                                    <h1 className={textStyle}>Solução:</h1>                            
+                                    <h1>{data.solution}</h1>
+                                    <h1 className={textStyle}>Problema:</h1>                                    
+                                    <h1>{data.problem}</h1>
+                                </div>
+                            )}
+
+                            { myData.data?.type === 'admin' && (
+                                <div>
+                                    <h1 className={textStyle}>Solução:</h1>                            
+                                    <h1>{data.solution}</h1>
+                                    <h1 className={textStyle}>Problema:</h1>                                    
+                                    <h1>{data.problem}</h1>
                                 </div>
                             )}
                             
@@ -222,7 +242,7 @@ export default function Project() {
                                 </div>
                             ) }                            
                         
-                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (!canInvest || !canRead) && (
                                 <div className='pt-8 text-center space-x-5'>
                                     <Button
                                         bg='bg-greenText' 

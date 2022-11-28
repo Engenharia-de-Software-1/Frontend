@@ -7,23 +7,16 @@ import { useMyData } from '../../../services/queryClient/useMyData';
 import { useIdeas } from '../../../services/queryClient/useIdea';
 import { ButtonIdea } from '../../../components/ButtonIdea';
 import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
+import { useRouter } from 'next/router';
 
 export default function ProfileAdmin() {    
+    const router = useRouter();
     const myData = useMyData();
     const { isLoading, isFetching, data, refetch } = useIdeas();
     const favs = useFavIdeas();
 
-    async function handleActionIdea(id: string, situation: string) {
-        if(myData.data?.type === 'admin'){
-            const response = await api.put(`/idea/situation/${id}`, { situation });
-            if(response.status.toString().startsWith('2')){
-                refetch();
-            } else {
-                alert('Erro ao recusar ideia. Tente novamente mais tarde.');
-            }
-        } else {
-            alert('Você não tem permissão para realizar essa ação.');
-        }
+    function goToIdeas(id: string) {
+        router.push(`/ideias/dados/${id}`);
     }
     
     return ( 
@@ -35,14 +28,13 @@ export default function ProfileAdmin() {
                
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {isLoading || isFetching && (<h1>Carregando ideias...</h1>)}
-                    {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhuma ideia aqui</h1>)}
-                    {!isLoading && !isFetching && data?.filter(el => el.situation !== 'aproved').map((idea) => (
+                    {!isLoading && !isFetching && data?.filter(el => el.situation !== 'aproved' && el.situation !== 'recused').length === 0 && (<h1>Não há nenhuma ideia aqui</h1>)}
+                    {!isLoading && !isFetching && data?.filter(el => el.situation !== 'aproved' && el.situation !== 'recused').map((idea) => (
                         <ButtonIdea
                             key={idea.id} 
                             idea={idea} 
                             userType={myData.data?.type as string}
-                            recuseIdea={() => handleActionIdea(idea.id, 'recused')}
-                            acceptIdea={() => handleActionIdea(idea.id, 'aproved')}
+                            onClick={() => goToIdeas(idea.id)}
                             final={() => {
                                 favs.refetch();
                                 refetch();
