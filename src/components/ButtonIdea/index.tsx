@@ -61,11 +61,11 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, .
                 </div>
             ) }
               
-            <h1 className="text-justify pt-5">
+            <h1 className="text-justify line-clamp-3 pt-5">
                 {idea.description}    
             </h1>     
 
-            <h2 className='text-black62 text-sm text-right pb-5'> 
+            <h2 className='text-black62 text-sm text-right pb-5 pt-5'> 
                 Criado em {idea.updatedAt ? format(new Date(idea.updatedAt), "dd/MM/yyyy") : format(new Date(), "dd/MM/yyyy")}
             </h2>
 
