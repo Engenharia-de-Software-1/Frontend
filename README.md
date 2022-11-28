@@ -38,7 +38,8 @@ Esse repositório foi feito para a disciplina de Engenharia de Software do segun
 - Alteração de senha
 - Exclusão de conta
 - Listagem de projetos
-- Visualização de um projeto (desconsiderando planos)
+- Visualização de um projeto de acordo com o plano adquirido
+- Possibilidade de investimento de acordo com o plano adquirido
 #### Startups
 - Edição dos dados de uma startup
 - Alteração de senha
