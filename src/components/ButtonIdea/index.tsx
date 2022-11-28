@@ -10,11 +10,9 @@ interface IIdeaProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     userType: string; 
     favorite?: IIdea[];
     final: () => void;
-    recuseIdea?: () => void;
-    acceptIdea?: () => void;
 }
 
-function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, ...rest }: IIdeaProps) {  
+function ButtonIdea({ idea, userType, favorite, final, ...rest }: IIdeaProps) {  
    let starButton = favorite?.filter(el => el.id === idea.id).length === 0 ? false : true;
 
     async function handleButtonStar(id: string) {
@@ -29,7 +27,7 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, .
                     <h1 className="text-start text-2xl font-semibold">
                         {idea.title}
                     </h1>
-                    {userType === 'cliente' && idea.situation === 'pending' && (
+                    {idea.situation === 'pending' && (
                         <Button
                             bg='bg-warning' 
                             rounded='rounded-full' 
@@ -41,7 +39,7 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, .
                             Pendente
                         </Button>
                     )}
-                    {userType === 'cliente' && idea.situation === 'recused' && (
+                    {idea.situation === 'recused' && (
                         <Button
                             bg='bg-warning' 
                             rounded='rounded-full' 
@@ -68,34 +66,6 @@ function ButtonIdea({ idea, userType, favorite, final, recuseIdea, acceptIdea, .
             <h2 className='text-black62 text-sm text-right pb-5 pt-5'> 
                 Criado em {idea.updatedAt ? format(new Date(idea.updatedAt), "dd/MM/yyyy") : format(new Date(), "dd/MM/yyyy")}
             </h2>
-
-            {userType === 'admin' && (
-                <div className='pb-5 text-right space-x-5'>
-                    <Button
-                        bg='bg-greenDark' 
-                        rounded='rounded-lg' 
-                        w='w-36' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={() => acceptIdea && acceptIdea()}
-                    >
-                        APROVAR
-                    </Button>
-
-                    <Button
-                        bg='bg-warning' 
-                        rounded='rounded-lg' 
-                        w='w-36' 
-                        h='h-12' 
-                        textColor='text-white' 
-                        textWeight='font-bold'
-                        onClick={() => recuseIdea && recuseIdea()}
-                    >
-                        RECUSAR
-                    </Button>
-                </div>                       
-            )}  
         </button>       
     );
 }

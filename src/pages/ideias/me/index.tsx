@@ -54,16 +54,15 @@ export default function ProfileAdmin() {
                 situation: 'pending'
             });
             if(response.status.toString().startsWith('2')){
-                setIdeasStates({} as IdeasType);
                 refetch();
                 alert('Ideia adicionada com sucesso! Agora ele está aguardando a aprovação de um administrador.');
+                setIdeasStates({...ideasStates, openAddModal: false, title: '', description: '' });
             } else {
                 alert('Erro ao cadastrar ideia. Tente novamente mais tarde.');
             }
         } else {
             alert('Por favor, preencha todos os campos.');
         }
-        handleButtonAddIdea();
     }
 
     function handleClickIdea(el: IIdea, index: number) {

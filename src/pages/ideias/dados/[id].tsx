@@ -10,6 +10,8 @@ import { TextArea } from '../../../components/TextArea';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import api from '../../../services/api';
 import { useOneIdea } from '../../../services/queryClient/useOneIdea';
+import { usePlans } from '../../../services/queryClient/usePlans';
+import { useIdeas } from '../../../services/queryClient/useIdea';
 
 type IdeaType = {
     title: string;
@@ -20,9 +22,11 @@ type IdeaType = {
 export default function ProfileAdmin() {    
     const router = useRouter();
     const [ideaStates, setIdeaStates] = useState<IdeaType>({ } as IdeaType);
-
+    const plans = usePlans();
     const myData = useMyData();
+    const [canRead, setCanRead] = useState(false);
     const { data, isFetched, refetch } = useOneIdea(router.query.id as string);
+    const ideas = useIdeas();
     
 
     function handleButtonEditIdea(){
@@ -45,6 +49,7 @@ export default function ProfileAdmin() {
             alert('Você não tem permissão para realizar essa ação.');
         }
         refetch();
+        ideas.refetch();
     }
 
     async function handleEditIdea() {
@@ -57,6 +62,7 @@ export default function ProfileAdmin() {
             if(response.status.toString().startsWith('2')){
                 setIdeaStates({} as IdeaType);
                 refetch();
+                await api.put(`/idea/situation/${router.query.id}`, { situation: 'pending' });
                 alert('Ideia editada com sucesso! Agora ela está aguardando a aprovação de um administrador.');
             } else {
                 alert('Erro ao cadastrar ideia. Tente novamente mais tarde.');
@@ -86,7 +92,18 @@ export default function ProfileAdmin() {
     }
 
     async function handleGoToPlans() {
-        alert('Em breve!');
+        router.push(`/assinaturas`);
+    }
+
+    async function getPermissions() {
+        if(plans.data && myData.data){
+            const plan = plans.data.find(plan => plan.plan === myData.data.user.planName);
+            if(plan){
+                if(plan.permissions['read']) {
+                    setCanRead(true);
+                }
+            }
+        }
     }
 
     useEffect(() => {
@@ -96,8 +113,9 @@ export default function ProfileAdmin() {
                 description: data.description,
                 openEditModal: false
             })
+            getPermissions();
         }
-    }, [data, isFetched])
+    }, [data, isFetched, plans.data, router])
     
     return ( 
         <Stack bg='bg-white'>
@@ -120,24 +138,24 @@ export default function ProfileAdmin() {
                             { myData.data?.type === 'startup' && myData.data.user.id !== data.userId && (
                                 <div>
                                     <h1 className={textStyle}>Descrição:</h1>                            
-                                    <h1 className='line-clamp-3'>{data.description}...</h1>
+                                    { !canRead ? (<h1 className='line-clamp-3'>{data.description}...</h1>) : (<h1>{data.description}</h1>) }
                                 </div>
                             )}
 
-                            { myData.data && myData.data.user.id === data.userId && (
+                            { myData.data?.type === 'admin' && (
                                 <div>
                                     <h1 className={textStyle}>Descrição:</h1>                            
                                     <h1>{data.description}</h1>
                                 </div>
                             ) }
-                            
-                            {/* 
-                            <h1 className={textStyle}>Solução:</h1> 
-                            <h1>{data.solution}</h1> */}                            
 
-{/*                         <h1 className={textStyle}>Problema:</h1> 
-                            <h1>{data.problem}</h1> */}
-                            
+                            { myData.data?.type === 'cliente' && (
+                                <div>
+                                    <h1 className={textStyle}>Descrição:</h1>                            
+                                    <h1>{data.description}</h1>
+                                </div>
+                            ) }
+                                                        
                             { myData.data?.type === 'cliente' && myData.data.user.id === data.userId && (
                                 <div className='pt-4 text-right space-x-5'>
                                     <Button
@@ -193,7 +211,7 @@ export default function ProfileAdmin() {
                                 </div>     
                             )}                            
                         
-                            { myData.data?.type === 'startup' && myData.data.user.id !== data.userId && (
+                            { myData.data?.type === 'startup' && myData.data.user.id !== data.userId && !canRead && (
                                 <div className='pt-8 text-center space-x-5'>
                                     <Button
                                         bg='bg-greenText' 

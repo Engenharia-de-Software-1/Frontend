@@ -22,8 +22,8 @@ export default function ProfileAdmin() {
                
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {isLoading || isFetching && (<h1>Carregando projetos...</h1>)}
-                    {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum projeto aqui</h1>)}
-                    {!isLoading && !isFetching && data?.filter(el => el.situation !== 'aproved').map((project) => (
+                    {!isLoading && !isFetching && data?.filter(el => el.situation !== 'aproved' && el.situation !== 'recused').length === 0 && (<h1>Não há nenhum projeto aqui</h1>)}
+                    {!isLoading && !isFetching && data?.filter(el => el.situation !== 'aproved' && el.situation !== 'recused').map((project) => (
                         <ButtonProject 
                             key={project.id} 
                             project={project} 

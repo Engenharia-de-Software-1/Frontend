@@ -37,15 +37,14 @@ export default function ProfileAdmin() {
                 userId: router.query.id
             });
             if(response.status.toString().startsWith('2')){
-                setProjectStates({} as ProjectType);
                 refetch();
+                setProjectStates({...projectStates, openAddModal: false, title: '', solution: '', problem: '' });
             } else {
                 alert('Erro ao cadastrar projeto. Tente novamente mais tarde.');
             }
         } else {
             alert('Por favor, preencha todos os campos.');
         }
-        handleButtonAddProject();
     }
 
     useEffect(() => {

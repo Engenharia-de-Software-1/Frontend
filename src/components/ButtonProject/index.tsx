@@ -52,12 +52,12 @@ function ButtonProject({ project, userType }: IProjectProps) {
                     ) }  
                 </div>
 
-                {userType !== 'admin' && userType !== 'startup' && (
+                {/* {userType !== 'admin' && userType !== 'startup' && (
                     <div className='abs'>
                         <button onClick={useButtonStar} className={`${starButton ? 'ri-star-fill text-orange-300' : 'ri-star-line text-stone-700'} ri-2x`}/>
                     </div>                  
                 
-            )}   
+                )} */}
             </div>
               
             <h1 className="text-justify pt-5">
