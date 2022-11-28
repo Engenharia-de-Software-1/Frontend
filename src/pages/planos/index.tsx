@@ -12,6 +12,9 @@ import api from '../../services/api';
 type PlanType = {
     plan: string;
     value: number;
+    read: boolean;
+    invest: boolean;
+    other: boolean;
     openAddModal: boolean;
 }
 
@@ -62,22 +65,23 @@ export default function PlansAdmin() {
                     </Button>
                 </div>  
 
-                <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-3 mt-20">
+                <div className="grid grid-flow-row-dense grid-cols-3 mt-20">
                     {isLoading || isFetching && (<h1>Carregando planos...</h1>)}
                     {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum plano aqui</h1>)}
                     {!isLoading && !isFetching && data?.map((plan) => (
                         <div key={plan.id} className='flex flex-col h-96 w-72 rounded bg-slate-100 p-10 justify-between'>
-                            <h1 className='font-semibold text-3xl w-462'>{plan.name}</h1>
+                            <h1 className='font-semibold text-xl w-462'>{plan.name}</h1>
                             <div className='mb-auto'>
-                                <ul>
-                                    <li className='text-lg font-semibold'>R$ {(plan.value/100).toFixed(2)}</li>
+                                <ul className='flex flex-col'>
+                                    <li className='text-5xl font-semibold'>R$ {(plan.value/100)}</li>
+                                    <span className='mt-5'>Esse plano inclui:</span>
                                     { plan.permissions.split(',').map((permission, index) => {
                                         if(permission.trim() === 'read') {
-                                            return <li key={index} className='text-lg font-semibold'>Leitura</li>
+                                            return <li key={index} className='text-lg font-semibold'>- Leitura</li>
                                         } else if(permission.trim() === 'invest') {
-                                            return <li key={index} className='text-lg font-semibold'>Investimento</li>
+                                            return <li key={index} className='text-lg font-semibold'>- Investimento</li>
                                         } else {
-                                            return <li key={index} className='text-lg font-semibold'>Escrita</li>
+                                            return <li key={index} className='text-lg font-semibold'>- Escrita</li>
                                         }
                                     }) }
                                 </ul>
@@ -126,6 +130,24 @@ export default function PlansAdmin() {
                         value={planStates.value}
                         onChange={(e) => setPlanStates({...planStates, value: parseInt(e.target.value)})}   
                     />
+                    <div className='flex flex-col mt-2'>
+                        <span className='text-sm'>Permissões</span>
+
+                        <div className='flex flex-col mt-2'>
+                            <div className='flex items-center'>
+                                <input type='checkbox' checked={planStates.read} onChange={(e) => setPlanStates({...planStates, read: e.target.checked})} className='mr-2 form-checkbox h-4 w-4'/>
+                                <span>Leitura de ideias e projetos</span>
+                            </div>
+                            <div className='flex items-center'>
+                                <input type='checkbox' checked={planStates.invest} onChange={(e) => setPlanStates({...planStates, invest: e.target.checked})} className='mr-2 form-checkbox h-4 w-4'/>
+                                <span>Poder investir em projetos</span>
+                            </div>
+                            <div className='flex items-center'>
+                                <input type='checkbox' checked={planStates.other} onChange={(e) => setPlanStates({...planStates, other: e.target.checked})} className='mr-2 form-checkbox h-4 w-4'/>
+                                <span>Outra permissão</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Modal>
         </Stack>
