@@ -2,6 +2,7 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
+  planName: string;
 }
 
 export interface IUserClient {

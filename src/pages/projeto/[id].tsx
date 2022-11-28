@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
 import { divGeneral, textStyle, textTitle } from './styles';
@@ -10,6 +10,7 @@ import { TextArea } from '../../components/TextArea';
 import { useMyData } from '../../services/queryClient/useMyData';
 import { useOneProject } from '../../services/queryClient/useOneProject';
 import api from '../../services/api';
+import { usePlans } from '../../services/queryClient/usePlans';
 
 type ProjectType = {
     title: string;
@@ -18,20 +19,26 @@ type ProjectType = {
     openEditModal: boolean;
 }
 
-export default function ProfileAdmin() {    
+export default function Project() {    
     const router = useRouter();
     const [projectStates, setProjectStates] = useState<ProjectType>({ } as ProjectType);
 
     const myData = useMyData();
+    const plans = usePlans();
     const { data, isFetched, refetch } = useOneProject(router.query.id as string);
+    const [canInvest, setCanInvest] = useState(false);
+    const [canRead, setCanRead] = useState(false);
     
-    
-    /* const [starButton, setStarButton] = useState(false);
-    function useButtonStar() {
-        setStarButton(!starButton);
-    } */
     function handleButtonEditProject(){
         setProjectStates({...projectStates, openEditModal: !projectStates.openEditModal});
+    }
+
+    function handleInvestment(){
+        alert('Você clicou em investir')
+    }
+
+    function handleGoToPlan(){
+        alert('Redirecionar para a pagina de planos')
     }
 
     function goBack(){
@@ -90,6 +97,21 @@ export default function ProfileAdmin() {
         }
     }
 
+    async function getPermissions() {
+        if(plans.data && myData.data){
+            const plan = plans.data.find(plan => plan.plan === myData.data.user.planName);
+            if(plan){
+                if(plan.permissions['invest']) {
+                    setCanInvest(true);
+                }
+                if(plan.permissions['read']) {
+                    setCanRead(true);
+                }
+                console.log(plan);
+            }
+        }
+    }
+
     useEffect(() => {
         if(isFetched && data){
             setProjectStates({
@@ -98,8 +120,9 @@ export default function ProfileAdmin() {
                 problem: data.problem,
                 openEditModal: false
             })
+            getPermissions();
         }
-    }, [data, isFetched])
+    }, [data, isFetched, plans.data])
     
     return ( 
         <Stack bg='bg-white'>
@@ -122,18 +145,11 @@ export default function ProfileAdmin() {
                             { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
                                 <div>
                                     <h1 className={textStyle}>Solução:</h1>                            
-                                    <h1 className='line-clamp-3'>{data.solution}...</h1>
+                                    { !canRead ? (<h1 className='line-clamp-3'>{data.solution}...</h1>) : (<h1>{data.solution}</h1>) }
                                     <h1 className={textStyle}>Problema:</h1>                                    
-                                    <h1 className='line-clamp-3'>{data.problem}</h1>
+                                    { !canRead ? (<h1 className='line-clamp-3'>{data.problem}...</h1>) : (<h1>{data.problem}</h1>) }
                                 </div>
                             )}
-                            
-                            {/* 
-                            <h1 className={textStyle}>Solução:</h1> 
-                            <h1>{data.solution}</h1> */}                            
-
-{/*                         <h1 className={textStyle}>Problema:</h1> 
-                            <h1>{data.problem}</h1> */}
                             
                             { myData.data?.type === 'startup' && myData.data.user.id === data.userId && (
                                 <div className='pt-4 text-right space-x-5'>
@@ -190,7 +206,7 @@ export default function ProfileAdmin() {
                                 </div>     
                             )}  
 
-                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && (
+                            { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && canInvest && (
                                 <div className='pt-4 text-right space-x-5'>
                                     <Button
                                         bg='bg-greenDark' 
@@ -199,7 +215,7 @@ export default function ProfileAdmin() {
                                         h='h-12' 
                                         textColor='text-white' 
                                         textWeight='font-bold'
-                                        onClick={handleButtonEditProject}
+                                        onClick={handleInvestment}
                                     >
                                         INVESTIR
                                     </Button>
@@ -215,9 +231,9 @@ export default function ProfileAdmin() {
                                         h='h-16' 
                                         textColor='text-white' 
                                         textWeight='font-bold'
-                                        onClick={handleButtonEditProject}
+                                        onClick={handleGoToPlan}
                                     >
-                                        ASSINE PARA VER MAIS...
+                                        { !canInvest && !canRead ? 'ASSINE PARA VER MAIS E INVESTIR...' : !canInvest ? 'ASSINE PARA INVESTIR...' : 'ASSINE PARA VER MAIS...' }
                                     </Button>
                                 </div>
                             ) } 

@@ -31,12 +31,15 @@ Esse repositório foi feito para a disciplina de Engenharia de Software do segun
 - Aprovar ou rejeitar um projeto
 - Aprovar ou rejeitar uma ideia/oportunidade
 - Listagem de planos existentes para um investidor escolher
+- Criação de um plano para um investidor
+- Exclusão de um plano
 #### Investidores
 - Edição dos dados de um investidor
 - Alteração de senha
 - Exclusão de conta
 - Listagem de projetos
-- Visualização de um projeto (desconsiderando planos)
+- Visualização de um projeto de acordo com o plano adquirido
+- Possibilidade de investimento de acordo com o plano adquirido
 #### Startups
 - Edição dos dados de uma startup
 - Alteração de senha
