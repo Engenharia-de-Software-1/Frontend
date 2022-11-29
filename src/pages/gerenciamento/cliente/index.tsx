@@ -6,7 +6,7 @@ export default function Admin() {
 
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar/>
+            <Sidebar data={undefined}/>
         </Stack>
     );
 }

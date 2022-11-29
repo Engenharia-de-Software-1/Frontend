@@ -7,7 +7,7 @@ export default function Investor() {
 
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar/>
+            <Sidebar data={undefined}/>
         </Stack>
     );
 }

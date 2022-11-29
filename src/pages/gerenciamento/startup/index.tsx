@@ -6,7 +6,7 @@ export default function Startup() {
 
     return ( 
         <Stack bg='bg-white'>
-            <Sidebar/>
+            <Sidebar data={undefined}/>
         </Stack>
     );
 }
