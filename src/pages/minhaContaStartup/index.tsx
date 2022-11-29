@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
-import { divGeneral, divInput, textStyle3, textTitle } from './styles';
+import { divGeneral, divInput, textStyle3, textTitle } from '../../styles/minhaContaStartup.styles';
 import { Select } from '../../components/Select';
 import CityValues from '../../contents/city';
 import api from '../../services/api';

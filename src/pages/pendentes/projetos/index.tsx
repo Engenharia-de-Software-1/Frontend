@@ -1,11 +1,11 @@
 import React from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
-import { divGeneral, textTitle } from './styles';
 import api from '../../../services/api';
 import { ButtonProject } from '../../../components/ButtonProject';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useProjects } from '../../../services/queryClient/useProject';
+import { divGeneral, textTitle } from '../../../styles/pending.project.styles';
 
 export default function ProfileAdmin() {    
     const myData = useMyData();

@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
-import { divGeneral, textTitle } from './styles';
+import { divGeneral, textTitle } from '../../styles/cadastro.client.styles';
 import api from '../../services/api';
 
 class ICadastroCliente {

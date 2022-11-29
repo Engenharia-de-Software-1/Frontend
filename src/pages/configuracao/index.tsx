@@ -4,7 +4,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
-import { divGeneral, textStyle3, textTitle } from './styles';
+import { divGeneral, textStyle3, textTitle } from '../../styles/configuracao.styles';
 import router from 'next/router';
 import api from '../../services/api';
 import { IUser } from '../../models/IUser';

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
-import { divGeneral, textTitle } from './styles';
+import { divGeneral, textTitle } from '../../../styles/encontrar.projetos.styles';
 import { ButtonProject } from '../../../components/ButtonProject';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useProjects } from '../../../services/queryClient/useProject';
