@@ -65,7 +65,7 @@ export default function SearchIdea() {
                                 favs.refetch();
                                 refetch();
                             }}
-                            onClick={() => handleClickIdea(idea)}
+                            onClick={() => handleClickIdea(idea, 0)}
                         />
                     ))}      
                     {!isLoading && !isFetching && buttonCheck && historyIdea.filter(el => el.situation === 'aproved').map((idea, i) => (
@@ -78,7 +78,7 @@ export default function SearchIdea() {
                                 favs.refetch();
                                 refetch();
                             }}
-                            onClick={() => handleClickIdea(idea)}
+                            onClick={() => handleClickIdea(idea, 0)}
                         />
                     ))}       
                 </div>
