@@ -5,6 +5,7 @@ const nextConfig = {
 }
 
 module.exports = {
+  pageExtensions: ['tsx'],
   reactStrictMode: true,
   swcMinify: true,
   env:{
