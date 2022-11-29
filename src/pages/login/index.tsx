@@ -5,6 +5,7 @@ import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { buttonForgotPassword, buttonRegister, divGeneral, textTitle } from './styles';
 import { useAuth } from '../../contexts/authContext';
+import { Spinner } from '@chakra-ui/react';
 
 interface ILogin {
     email: string;
@@ -15,6 +16,7 @@ export default function Login() {
     const { signIn } = useAuth();
 
     const [login, setLogin] = useState<ILogin>({} as ILogin);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: any) => {
         setLogin({
@@ -28,9 +30,11 @@ export default function Login() {
     }
     async function goLoginPage(e: any) {
         e.preventDefault();
+        setLoading(true);
         try {
             const response = await signIn(login);
             if(response) {
+                setLoading(false);
                 if(response.type === 'admin') {
                     router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user}`)
                 } else {
@@ -38,9 +42,11 @@ export default function Login() {
                     router.push(`/minhaConta${response.type.split('')[0].toUpperCase() + response.type.split('').slice(1).join('')}?id=${response.user}`);
                 }
             } else {
+                setLoading(false);
                 alert('Erro ao fazer login. Por favor, verifique seus dados e tente novamente.');
             }
         } catch {
+            setLoading(false);
             alert('Erro ao fazer login. Por favor, verifique seus dados e tente novamente.');
         }
     }
@@ -68,8 +74,10 @@ export default function Login() {
                         </div>
 
                         <div className='pt-5'>
-                            <Button type="submit" bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
-                                ENTRAR
+                            <Button disabled={loading} type="submit" bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
+                                { loading ? (
+                                    <Spinner size='sm'/>
+                                ) : 'ENTRAR' }
                             </Button>  
                             
                         </div> 

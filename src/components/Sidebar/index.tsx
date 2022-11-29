@@ -36,7 +36,7 @@ export default function Sidebar({ data }: SidebarProps) {
     }
 
     return ( 
-        <Stack bg=' bg-white'>
+        <Stack bg='bg-white'>
             <div className={divGeneral}> 
                 <a href={goToByLogo()}>
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo m-9"/>
