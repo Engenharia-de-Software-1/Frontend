@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
-import { divGeneral, textTitle } from '../../styles/minhaContaAdmin.styles';
+import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
 import { IUser } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';

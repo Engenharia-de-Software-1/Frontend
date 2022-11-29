@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
-import { buttonForgotPassword, buttonRegister, divGeneral, textTitle } from '../../styles/login.styles';
+import { buttonForgotPassword, buttonRegister, divGeneral, textTitle } from './styles';
 import { useAuth } from '../../contexts/authContext';
 
 interface ILogin {

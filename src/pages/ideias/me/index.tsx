@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
-import { divGeneral, textTitle } from '../../../styles/ideias.me.styles';
+import { divGeneral, textTitle } from './styles';
 import { Button } from '../../../components/Button';
 import { Modal } from '../../../components/Modal';
 import { Input } from '../../../components/Input';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
-import { divGeneral, textTitle } from '../../../styles/encontrar.ideias.styles';
+import { divGeneral, textTitle } from './styles';
 import { ButtonIdea } from '../../../components/ButtonIdea';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useIdeas } from '../../../services/queryClient/useIdea';

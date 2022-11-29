@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import router, { useRouter } from 'next/router';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
-import { divGeneral, textStyle, textTitle } from '../../../styles/ideias.dados.styles';
+import { divGeneral, textStyle, textTitle } from './styles';
 import { Button } from '../../../components/Button';
 import { Modal } from '../../../components/Modal';
 import { Input } from '../../../components/Input';

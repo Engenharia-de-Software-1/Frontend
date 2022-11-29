@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Stack } from '../../components/Stack';
 import Sidebar from '../../components/Sidebar';
+import { divGeneral, textTitle } from './styles';
 import { useMyData } from '../../services/queryClient/useMyData';
 import { Button } from '../../components/Button';
 import { usePlans } from '../../services/queryClient/usePlans';
 import { Modal } from '../../components/Modal';
 import { Input } from '../../components/Input';
 import api from '../../services/api';
-import { divGeneral, textTitle } from '../../styles/plans.styles';
 
 type PlanType = {
     plan: string;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stack } from '../../../components/Stack';
 import Sidebar from '../../../components/Sidebar';
-import { divGeneral, textTitle } from '../../../styles/pending.idea.styles';
+import { divGeneral, textTitle } from './styles';
 import api from '../../../services/api';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useIdeas } from '../../../services/queryClient/useIdea';
