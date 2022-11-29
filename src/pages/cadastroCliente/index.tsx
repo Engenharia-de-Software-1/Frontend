@@ -20,8 +20,6 @@ class ICadastroCliente {
 export default function Registration() {    
     const router = useRouter();
     const { userId } = router.query;
-
-    if(!userId) router.push('/cadastro');
     
     const [cadastro, setCadastro] = useState<ICadastroCliente>(new ICadastroCliente());
     const handleChange = (e: any) => {
