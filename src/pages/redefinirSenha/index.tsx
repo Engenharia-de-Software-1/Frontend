@@ -5,7 +5,6 @@ import { Input } from '../../components/Input';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 
-
 export default function Login() {    
     
     return ( 
