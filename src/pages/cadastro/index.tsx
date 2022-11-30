@@ -105,7 +105,6 @@ export default function Registration() {
         <Stack bg='bg-white'>
             <div className="h-screen w-3/5 bg-agro bg-cover bg-center"/>
 
-
             <div className={divGeneral}>
 
                 <div>
@@ -179,11 +178,11 @@ export default function Registration() {
                                 CADASTRAR
                             </Button>
                             
-                            <button onClick={goLoginPage} className={buttonStyle}>
-                                Já tenho uma conta na Incubadora Agro I9
-                            </button>
                         </div>
-                    </form>        
+                    </form>                            
+                    <button onClick={goLoginPage} className={buttonStyle}>
+                        Já tenho uma conta na Incubadora Agro I9
+                    </button>
                 </div>
             </div>  
         </Stack>
