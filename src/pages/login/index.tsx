@@ -67,11 +67,6 @@ export default function Login() {
                             <Input haslabel name="password" label='Senha' placeholder='*******' type='password' top='mt-10' value={login.password || ''} onChange={(e) => handleChange(e)}/>
                         </div>
 
-                        <div className="pt-3 ">
-                            <button  className={buttonForgotPassword}>
-                                Esqueci minha senha!
-                            </button> 
-                        </div>
 
                         <div className='pt-5'>
                             <Button disabled={loading} type="submit" bg='bg-greenDark' rounded='rounded-lg' w='w-full' h='h-12' textColor='text-white' textWeight='font-bold'>
@@ -82,6 +77,11 @@ export default function Login() {
                             
                         </div> 
                     </form>                     
+                                        
+                    <button  className={buttonForgotPassword}>
+                        Esqueci minha senha!
+                    </button>                   
+                  
                     <button onClick={goRegisterPage} className={buttonRegister}>
                         Quero me cadastrar na Incubadora Agro I9
                     </button> 
