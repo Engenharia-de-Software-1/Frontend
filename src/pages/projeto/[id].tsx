@@ -49,11 +49,14 @@ export default function Project() {
 
     async function handleActionProject(projectOwner: string, id: string, situation: string) {
         if(myData.data?.type === 'admin'){
-            const response = await api.put(`/project/${projectOwner}/${router.query.id}`, { situation });
-            if(!response.status.toString().startsWith('2')){
-                alert('Erro ao recusar projeto. Tente novamente mais tarde.');
-            } else {
-                router.push('/pendentes/projetos')
+            let text = situation === 'aproved' ? 'aprovar' : 'recusar';
+            if(window.confirm(`Tem certeza que deseja ${text} esse projeto?`)) {
+                const response = await api.put(`/project/${projectOwner}/${router.query.id}`, { situation });
+                if(!response.status.toString().startsWith('2')){
+                    alert('Erro ao recusar projeto. Tente novamente mais tarde.');
+                } else {
+                    router.push('/pendentes/projetos')
+                }
             }
         } else {
             alert('Você não tem permissão para realizar essa ação.');

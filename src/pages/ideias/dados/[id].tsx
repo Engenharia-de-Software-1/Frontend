@@ -39,11 +39,14 @@ export default function ProfileAdmin() {
 
     async function handleActionIdea(ideaOwner: string, id: string, situation: string) {
         if(myData.data?.type === 'admin'){
-            const response = await api.put(`/idea/situation/${id}`, { situation });
-            if(!response.status.toString().startsWith('2')){
-                alert('Erro ao recusar ideia. Tente novamente mais tarde.');
-            } else {
-                router.push('/pendentes/ideias')
+            let text = situation === 'aproved' ? 'aprovar' : 'recusar';
+            if(window.confirm(`Tem certeza que deseja ${text} essa ideia?`)) {
+                const response = await api.put(`/idea/situation/${id}`, { situation });
+                if(!response.status.toString().startsWith('2')){
+                    alert('Erro ao recusar ideia. Tente novamente mais tarde.');
+                } else {
+                    router.push('/pendentes/ideias')
+                }
             }
         } else {
             alert('Você não tem permissão para realizar essa ação.');
