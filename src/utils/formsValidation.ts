@@ -1,11 +1,38 @@
 /**
- * @desc Valida um CPF comparando-o com um valor regex.
+ * @desc Valida um CPF comparando-o com um valor regex e aplicando o algoritmo de validação.
  * @param cpf CPF a ser validado.
  * @returns valor booleano, verdadeiro para CPF válido ou falso para inválido.
  */
 export const validCPF = (cpf: string) => {
     const cpfRegex = new RegExp('^\d{3}.?\d{3}.?\d{3}\-?\d{2}$');
-    return cpfRegex.test(cpf);
+    if (!cpfRegex.test(cpf))
+        return false;
+    
+    cpf = cpf.replace(/[^a-zA-Z0-9 ]/g, '');
+    var soma = 0, resto, i;
+
+    // Valida o primeiro dígito
+    for(i = 0; i < 9; i++)
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+
+    resto = 11 - (soma % 11);
+    if (resto == 10 || resto == 11)
+        resto = 0;
+    if (resto != parseInt(cpf.charAt(9)))
+        return false;
+
+    // Valida o segundo dígito
+    soma = 0;
+    for(i = 0; i < 10; i++)
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+    
+    resto = 11 - (soma % 11);
+    if (resto == 10 || resto == 11)
+        resto = 0;
+    if (resto != parseInt(cpf.charAt(10)))
+        return false;
+
+    return true;
 }
 
 /**
@@ -38,4 +65,7 @@ export const validEmail = (email: string) => {
     return emailRegex.test(email);
 }
 
-// Fonte dos códigos regex utilizados: https://github.com/osintbrazuca/osint-brazuca-regex
+/*
+Fonte dos códigos regex utilizados: https://github.com/osintbrazuca/osint-brazuca-regex
+Algoritmo de validação do CPF: https://www.geradorcpf.com/algoritmo_do_cpf.htm
+*/
