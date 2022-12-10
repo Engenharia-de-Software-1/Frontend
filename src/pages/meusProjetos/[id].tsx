@@ -11,6 +11,7 @@ import { useMyProjects } from '../../services/queryClient/useMyProject';
 import { useRouter } from 'next/router';
 import api from '../../services/api';
 import { useMyData } from '../../services/queryClient/useMyData';
+import SearchBar from '../../components/SearchBar/indext';
 
 type ProjectType = {
     title: string;
@@ -22,6 +23,7 @@ type ProjectType = {
 export default function ProfileAdmin() {  
     const router = useRouter();  
     const myData = useMyData();
+    const [searchQuery, setSearchQuery] = useState('');
     const { isLoading, isFetching, data, refetch } = useMyProjects(router.query.id as string);
 
     const [projectStates, setProjectStates] = useState<ProjectType>({ } as ProjectType);
@@ -71,15 +73,18 @@ export default function ProfileAdmin() {
                         Adicionar projeto
                     </Button>
                 </div>
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {isLoading || isFetching && (<h1>Carregando projetos...</h1>)}
                     {!isLoading && !isFetching && data?.length === 0 && (<h1>Não há nenhum projeto aqui</h1>)}
-                    {!isLoading && !isFetching && data?.map((project) => (
+                    {!isLoading && 
+                    !isFetching && 
+                    data?.filter((project) => project.title.toLowerCase().includes(searchQuery.toLowerCase()))?.map((project) => (
                         <ButtonProject key={project.id} project={project} userType={myData.data?.type as string}/>
-                    ))}         
+                    ))}
                 </div>
             </div> 
-            <Modal 
+            <Modal
                 isOpen={projectStates.openAddModal} 
                 onClose={handleButtonAddProject} 
                 title='Adicionar projeto'
