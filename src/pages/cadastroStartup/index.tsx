@@ -65,7 +65,7 @@ export default function Registration() {
                         <div className="w-462 mt-5">
                             <Input haslabel label='Nome do representante' placeholder='Ex: José da Silva'/>
                             <Input haslabel name='startupName' onChange={(e) => handleChange(e)} value={cadastro.startupName} label='Nome da startup' placeholder='Ex: Doe sangue' top='mt-10'/>
-                            <Input haslabel name='phone' onChange={(e) => handleChange(e)} value={cadastro.phone} label='Número de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
+                            <Input haslabel name='phone' onChange={(e) => handleChange(e)} value={cadastro.phone} label='Telefone para contato' placeholder='(00) 0 0000-0000' top='mt-10'/>
                             <Input haslabel name='cnpj' onChange={(e) => handleChange(e)} value={cadastro.cnpj} label='CNPJ' placeholder='00000000000000' top='mt-10'/>
                             <Input haslabel name='employees' onChange={(e) => handleChange(e)} value={cadastro.employees} label='Quantidade de pessoas na startup' placeholder='0' type='number' min='0' top='mt-10'/>                
 

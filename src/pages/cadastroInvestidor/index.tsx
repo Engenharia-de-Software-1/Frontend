@@ -62,7 +62,7 @@ export default function Registration() {
                     <form onSubmit={handleSubmit}>
                         <div className="w-462 mt-5">
                             <Input haslabel value={cadastro.companyName} onChange={(e) => handleChange(e)} name='companyName' label='Nome da startup ou equipe' placeholder='Ex: José da Silva'/>
-                            <Input haslabel value={cadastro.phone} onChange={(e) => handleChange(e)} name='phone' label='Telefone celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
+                            <Input haslabel value={cadastro.phone} onChange={(e) => handleChange(e)} name='phone' label='Telefone para contato' placeholder='(00) 0 0000-0000' top='mt-10'/>
                             <Input haslabel value={cadastro.cnpj} onChange={(e) => handleChange(e)} name='cnpj' label='CNPJ' placeholder='00000000000000' top='mt-10'/>
                             <Input haslabel value={cadastro.qtdMembers} onChange={(e) => handleChange(e)} name='qtdMembers' label='Quantidade de membros/sócios' placeholder='0' type='number' min='0' top='mt-10'/>                
                             <Input haslabel value={cadastro.profession} onChange={(e) => handleChange(e)} name='profession' label='Formação em  quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>
