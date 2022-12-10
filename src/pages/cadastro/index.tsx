@@ -6,6 +6,7 @@ import { Stack } from '../../components/Stack';
 import { buttonStyle, divGeneral, selectStyle, textTitle } from './styles';
 import api from '../../services/api';
 import { useAuth } from '../../contexts/authContext';
+import { validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export interface ICadastro {
     name: string;
@@ -62,6 +63,9 @@ export default function Registration() {
 
     async function handleSubmit(e: any) {
         e.preventDefault();
+        if (!validEmail(cadastro.email))
+            return alert('Endereço de e-mail inserido não é válido.');
+
         let pathname = '';
         if(buttonClient) pathname = '/client';
         if(buttonStartup) pathname = '/startup';

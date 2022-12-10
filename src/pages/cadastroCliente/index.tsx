@@ -7,6 +7,7 @@ import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
+import { validCNPJ, validPhoneNumber } from '../../utils/formsValidation';
 
 class ICadastroCliente {
     companyName: string = '';
@@ -31,6 +32,11 @@ export default function Registration() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        if (!validCNPJ(cadastro.cnpj))
+            return alert('Número de CNPJ inserido não é válido.');
+        if (!validPhoneNumber(cadastro.phone))
+            return alert('Número de telefone inserido não é válido.');
+
         try {
             await api.put(`/client`, cadastro);
             router.push('/minhaContaCliente');

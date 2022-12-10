@@ -1,58 +1,71 @@
 /**
- * @desc Valida um CPF comparando-o com um valor regex e aplicando o algoritmo de validação.
+ * @desc Valida um CPF aplicando o algoritmo de validação.
  * @param cpf CPF a ser validado.
  * @returns valor booleano, verdadeiro para CPF válido ou falso para inválido.
  */
-export const validCPF = (cpf: string) => {
-    const cpfRegex = new RegExp('^\d{3}.?\d{3}.?\d{3}\-?\d{2}$');
-    if (!cpfRegex.test(cpf))
-        return false;
-    
-    cpf = cpf.replace(/[^a-zA-Z0-9 ]/g, '');
-    var soma = 0, resto, i;
-
-    // Valida o primeiro dígito
-    for(i = 0; i < 9; i++)
-        soma += parseInt(cpf.charAt(i)) * (10 - i);
-
-    resto = 11 - (soma % 11);
-    if (resto == 10 || resto == 11)
-        resto = 0;
-    if (resto != parseInt(cpf.charAt(9)))
-        return false;
-
-    // Valida o segundo dígito
-    soma = 0;
-    for(i = 0; i < 10; i++)
-        soma += parseInt(cpf.charAt(i)) * (11 - i);
-    
-    resto = 11 - (soma % 11);
-    if (resto == 10 || resto == 11)
-        resto = 0;
-    if (resto != parseInt(cpf.charAt(10)))
-        return false;
-
-    return true;
-}
+export const validCPF = (cpf: string) => {	
+    cpf = cpf.replace(/[^\d]+/g,'');	
+    if(cpf == '') return false;	
+  
+    if (cpf.length != 11 || 
+        cpf == "00000000000" || 
+        cpf == "11111111111" || 
+        cpf == "22222222222" || 
+        cpf == "33333333333" || 
+        cpf == "44444444444" || 
+        cpf == "55555555555" || 
+        cpf == "66666666666" || 
+        cpf == "77777777777" || 
+        cpf == "88888888888" || 
+        cpf == "99999999999")
+            return false;
+  
+    // Validação do primeiro dígito
+    let add = 0, rev, i;
+    for (i=0; i < 9; i ++)		
+        add += parseInt(cpf.charAt(i)) * (10 - i);	
+        rev = 11 - (add % 11);	
+        if (rev == 10 || rev == 11)		
+            rev = 0;	
+        if (rev != parseInt(cpf.charAt(9)))		
+            return false;	
+  
+    // Validação do segundo dígito
+    add = 0;	
+    for (i = 0; i < 10; i ++)		
+        add += parseInt(cpf.charAt(i)) * (11 - i);	
+    rev = 11 - (add % 11);	
+    if (rev == 10 || rev == 11)	
+        rev = 0;	
+    if (rev != parseInt(cpf.charAt(10)))
+        return false;		
+    return true;   
+  }
 
 /**
- * @desc Valida um CNPJ comparando-o com um valor regex.
+ * @desc Valida um CNPJ verificando o número de caracteres.
  * @param cnpj CNPJ a ser validado.
  * @returns valor booleano, verdadeiro para CNPJ válido ou falso para inválido.
  */
-export const validCNPJ = (cnpj: string) => {
-    const cnpjRegex = new RegExp('^(\d{2}.?\d{3}.?\d{3}\/?\d{4}\-?\d{2})$');
-    return cnpjRegex.test(cnpj);
+export const validCNPJ = (cnpj: string | undefined) => {
+    if (cnpj == undefined)
+        return false;
+
+    cnpj = cnpj.replace(/[^\d]+/g,'');
+    return cnpj.length == 14;
 }
 
 /**
- * @desc Valida um número de telefone comparando-o com um valor regex.
+ * @desc Valida um número de telefone verificando o número de caracteres.
  * @param phoneNumber número de telefone a ser validado.
  * @returns valor booleano, verdadeiro para telefone válido ou falso para inválido.
  */
-export const validPhoneNumber = (phoneNumber: string) => {
-    const phoneNumberRegex = new RegExp('(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))');
-    return phoneNumberRegex.test(phoneNumber);
+export const validPhoneNumber = (phoneNumber: string | undefined) => {
+    if (phoneNumber === undefined)
+        return false;
+    
+    phoneNumber = phoneNumber.replace(/[^\d]+/g,'');
+    return phoneNumber.length == 10 || phoneNumber.length == 11;
 }
 
 /**
@@ -61,6 +74,9 @@ export const validPhoneNumber = (phoneNumber: string) => {
  * @returns valor booleano, verdadeiro para email válido ou falso para inválido.
  */
 export const validEmail = (email: string) => {
+    if (email === undefined)
+        return false;
+        
     const emailRegex = new RegExp('[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+');
     return emailRegex.test(email);
 }

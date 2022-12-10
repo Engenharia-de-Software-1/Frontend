@@ -8,6 +8,7 @@ import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import { useRouter } from 'next/router';
 import api from '../../services/api';
+import { validCNPJ, validPhoneNumber } from '../../utils/formsValidation';
 
 class ICadastroInvestidor {
     phone?: string = '';
@@ -32,6 +33,11 @@ export default function Registration() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        if (!validPhoneNumber(cadastro.phone))
+            return alert('Número de telefone inserido não é válido.');
+        if (!validCNPJ(cadastro.cnpj))
+            return alert('Número de CNPJ inserido não é válido.');
+
         try {
             await api.put(`/investor`, cadastro);
             router.push('/minhaContaInvestidor');
