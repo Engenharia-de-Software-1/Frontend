@@ -1,6 +1,6 @@
 import { Spinner, Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from '../../../components/Modal';
 import Sidebar from '../../../components/Sidebar';
 import { Stack } from '../../../components/Stack';
@@ -9,11 +9,24 @@ import { useMyData } from '../../../services/queryClient/useMyData';
 import { useProjects } from '../../../services/queryClient/useProject';
 import { divGeneral, textTitle } from '../styles';
 
-export default function Startup() {  
-    const router = useRouter();
+export default function Startup() { 
+    const router = useRouter(); 
+    const [id, setId] = useState('');
     const myData = useMyData();
     const { isLoading, isFetching, data } = useAllUsers();
     const { data: project, isLoading: projectLoading, isFetching: projectFetching } = useProjects();
+    const [isOpen, setIsOpen] = useState(false);
+
+    function handleOpenModal(id: string) {
+        setId(id);
+        setIsOpen(true);
+    }
+
+    function goToProject(id: string) {
+        router.push(`/projeto/${id}`);
+    }
+
+    console.log(data)
 
     return ( 
         <Stack bg='bg-white'>
@@ -58,6 +71,7 @@ export default function Startup() {
                                                 <Th>
                                                     <div className='flex'>
                                                         <button 
+                                                            onClick={() => handleOpenModal(user.id)}
                                                             className='flex mr-2 bg-greenText p-2 px-5 rounded text-white'
                                                         >
                                                             Ver projetos
@@ -73,8 +87,24 @@ export default function Startup() {
                     </div>    
                 </div> 
             </div> 
-            <Modal isOpen={true} footer={undefined} onClose={() => {}} title='Projetos da startup' size='5xl'>
-                
+            <Modal isOpen={isOpen} footer={undefined} onClose={() => setIsOpen(false)} title='Projetos da startup' size='5xl'>
+                {projectLoading || projectFetching || !id ? (<Spinner/>) : project?.filter(el => el.userId === id && (el.situation === 'aproved' || el.situation === 'recused')).map((project) => (
+                    <div key={project.id} className='w-full mt-5'>
+                        <div className='flex items-center'>
+                            <h1 className='text-lg font-semibold'>{project.title}</h1>
+                            <div className={project.situation === 'aproved' ? 'flex ml-2 bg-greenLight text-greenText p-1 px-5 rounded-full' : ''}>
+                                <h1>{project.situation === 'aproved' ? 'Aprovado' : 'Recusado' }</h1>
+                            </div>
+                        </div>
+                        <p className='text-md font-regular mb-5'>{project.solution.substring(0, 100)}</p>
+                        <div>
+                            <button className='flex bg-greenText p-2 px-5 rounded text-white text-sm mb-5' onClick={() => goToProject(project.id)}>
+                                Ver projeto
+                            </button>
+                        </div>
+                        <div className='w-full h-px bg-[#f2f2f2]'/>
+                    </div>
+                ))}
             </Modal>
         </Stack>
     );
