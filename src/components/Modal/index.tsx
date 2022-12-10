@@ -15,6 +15,7 @@ interface IModalProps {
   title: string;
   children: ReactNode;
   footer: ReactNode;
+  size?: string;
 }
 
 function Modal({
@@ -23,9 +24,10 @@ function Modal({
   title,
   children,
   footer,
+  size,
 }: IModalProps) {
   return(
-    <ChakraModal isOpen={isOpen} onClose={onClose}>
+    <ChakraModal isOpen={isOpen} onClose={onClose} size={size}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>

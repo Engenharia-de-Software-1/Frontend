@@ -42,7 +42,7 @@ export default function Sidebar({ data }: SidebarProps) {
                     <div className="w-36 h-8 bg-no-repeat bg-agroLogo m-9"/>
                 </a>
 
-                {(data?.type === 'startup' || data?.type === 'investidor' || 'cliente') && (
+                {(data?.type === 'startup' || data?.type === 'investidor' || data?.type === 'cliente') && (
                     <NavSection title="Geral">
                         <NavButton icon="ri-dashboard-line" title="Dashboard" href="/dashboard"/>
                     </NavSection>
