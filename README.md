@@ -91,10 +91,6 @@ let myVar = process.env.NEXT_PUBLIC_MY_VAR
 - [x] Instalar dependências com `yarn` ou `npm install`
 
 ## Rodando o frontend
-Execute o backend com
-```javascript
-yarn dev
-```
 Execute o frontend com
 ```javascript
 yarn dev
