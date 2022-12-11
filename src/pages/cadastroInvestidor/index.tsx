@@ -82,7 +82,7 @@ export default function Registration() {
                         </div>
 
                         <div className='pt-12 flex space-x-10'>
-                            <Button 
+                            {/* <Button 
                                 bg='bg-green65' 
                                 rounded='rounded' 
                                 w='w-full' 
@@ -92,7 +92,7 @@ export default function Registration() {
                                 onClick={goBack}
                                 >
                                 VOLTAR
-                            </Button> 
+                            </Button> */} 
                             <Button 
                                 bg='bg-greenDark' 
                                 rounded='rounded' 

@@ -7,4 +7,5 @@ export interface IIdea {
   favorite: boolean;
   createdAt: Date;
   updatedAt: Date;
+  views: number;
 }
