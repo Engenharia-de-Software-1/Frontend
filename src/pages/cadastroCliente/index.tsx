@@ -7,6 +7,7 @@ import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
+import { validCNPJ, validPhoneNumber } from '../../utils/formsValidation';
 
 class ICadastroCliente {
     companyName: string = '';
@@ -31,6 +32,11 @@ export default function Registration() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        if (!validCNPJ(cadastro.cnpj))
+            return alert('Número de CNPJ inserido não é válido.');
+        if (!validPhoneNumber(cadastro.phone))
+            return alert('Número de telefone inserido não é válido.');
+
         try {
             await api.put(`/client`, cadastro);
             router.push('/minhaContaCliente');
@@ -55,7 +61,7 @@ export default function Registration() {
                     <form onSubmit={handleSubmit}>
                         <div className="w-462 mt-5">
                             <Input haslabel value={cadastro.companyName} onChange={(e) => handleChange(e)} name='companyName' label='Nome da propriedade rural ou empresa rural' placeholder='Ex: José da Silva'/>
-                            <Input haslabel value={cadastro.phone} onChange={(e) => handleChange(e)} name='phone' label='Némero de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
+                            <Input haslabel value={cadastro.phone} onChange={(e) => handleChange(e)} name='phone' label='Telefone para contato' placeholder='(00) 0 0000-0000' top='mt-10'/>
                             <Input haslabel value={cadastro.cnpj} onChange={(e) => handleChange(e)} name='cnpj' label='CNPJ' placeholder='00000000000000' top='mt-10'/>
                             <Input haslabel value={cadastro.profession} onChange={(e) => handleChange(e)} name='profession' label='Formações em quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>
                             

@@ -11,6 +11,7 @@ import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileClient() {  
     const { data, refetch } = useMyData();
@@ -50,6 +51,11 @@ export default function ProfileClient() {
     }, []);
 
     async function handleEdit() {
+        if (!validPhoneNumber(phone))
+            return alert('Número de telefone inserido não é válido.');
+        if (!validEmail(email))
+            return alert('Endereço de e-mail inserido não é válido.');
+
         try {
             const output = await api.put<IUserClient>(`client`, {
                 name,

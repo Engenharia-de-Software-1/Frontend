@@ -12,6 +12,7 @@ import api from '../../services/api';
 import { IUserInvestor } from '../../models/IUser';
 import { useRouter } from 'next/router';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { validCNPJ, validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileInvestor() {  
     const { data, refetch } = useMyData();
@@ -52,6 +53,13 @@ export default function ProfileInvestor() {
     }, []);
 
     async function handleEdit() {
+        if (!validPhoneNumber(phone))
+            return alert('Número de telefone inserido não é válido.');
+        if (!validEmail(email))
+            return alert('Endereço de e-mail inserido não é válido.');
+        if (!validCNPJ(cnpj))
+            return alert('Número de CNPJ inserido não é válido.');
+
         try {
             const output = await api.put<IUserInvestor>(`investor`, {
                 name,
