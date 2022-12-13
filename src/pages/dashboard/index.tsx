@@ -72,7 +72,7 @@ export default function Dashboard({ data }: DashboarProps) {
                                     let readOption = myData.data?.type === 'investidor' ? 'Ler projetos' : 'Ler ideias';
                                     let investOption = myData.data?.type === 'investidor' ? 'Investir em projetos' : 'Poder receber investimentos';
                                     return(
-                                        <div>
+                                        <div key={plan.id}>
                                             {plan.permissions['read'] && (
                                                 <div className='mt-2 flex items-center'>
                                                     <div className='w-2 h-2 bg-greenText rounded-full mr-2'/> <span>{readOption}</span>
@@ -160,7 +160,7 @@ export default function Dashboard({ data }: DashboarProps) {
                                 let readOption = myData.data?.type === 'investidor' ? 'Ler projetos' : 'Ler ideias';
                                 let investOption = myData.data?.type === 'investidor' ? 'Investir em projetos' : 'Poder receber investimentos';
                                 return(
-                                    <div>
+                                    <div key={plan.id}>
                                         {plan.permissions['read'] && (
                                             <div className='mt-2 flex items-center'>
                                                 <div className='w-2 h-2 bg-greenText rounded-full mr-2'/> <span>{readOption}</span>
