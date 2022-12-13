@@ -215,7 +215,7 @@ export default function Dashboard({ data }: DashboarProps) {
                                         )}
                                         </Td>
                                         <Td isNumeric>{idea.views}</Td>
-                                        <Td isNumeric>0</Td>
+                                        <Td isNumeric>{idea.favorites}</Td>
                                     </Tr>
                                 ))}
                             </Tbody>                        
