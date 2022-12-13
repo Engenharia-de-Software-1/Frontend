@@ -113,7 +113,7 @@ export default function Registration() {
             <div className={divGeneral}>
 
                 <div>
-                    <div className="w-36 h-8 bg-no-repeat bg-agroLogo "/>
+                    <div className="w-36 h-8 bg-no-repeat bg-agroLogo"/>
 
                     <h1 className={textTitle}>Cadastro</h1>
 
@@ -151,7 +151,7 @@ export default function Registration() {
                             h='h-8' 
                             onClick={useClientButton}
                         >
-                            Cliente
+                            Produtor Rural
                         </Button>  
                     </div>
 
@@ -183,11 +183,11 @@ export default function Registration() {
                                 CADASTRAR
                             </Button>
                             
-                            <button onClick={goLoginPage} className={buttonStyle}>
-                                Já tenho uma conta na Incubadora Agro I9
-                            </button>
                         </div>
                     </form>        
+                    <button onClick={goLoginPage} className={buttonStyle}>
+                        Já tenho uma conta na Incubadora Agro I9
+                    </button>
                 </div>
             </div>  
         </Stack>

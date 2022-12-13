@@ -5,4 +5,5 @@ export interface IProject {
     problem: string;
     situation: string;
     userId: string;
+    views: number;
   }
