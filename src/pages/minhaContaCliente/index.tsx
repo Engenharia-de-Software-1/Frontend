@@ -11,6 +11,7 @@ import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { maskTelefone } from '../../utils/maks';
 import { validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileClient() {  
@@ -39,7 +40,7 @@ export default function ProfileClient() {
             const resp = await api.get<IUserClient>(`/client`);
             setName(resp.data.name);
             setEmail(resp.data.email);
-            setPhone(resp.data.phone);
+            setPhone(maskTelefone(resp.data.phone));
             setCompanyName(resp.data.client.companyName);
             setProfession(resp.data.client.profession);
             setState(resp.data.address.state);
@@ -51,16 +52,16 @@ export default function ProfileClient() {
     }, []);
 
     async function handleEdit() {
-        if (!validPhoneNumber(phone))
+        if (!validPhoneNumber(phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
-        if (!validEmail(email))
+        if (!validEmail(email.replace(/\D/g, '')))
             return alert('Endereço de e-mail inserido não é válido.');
 
         try {
             const output = await api.put<IUserClient>(`client`, {
                 name,
                 email,
-                phone,
+                phone: phone.replace(/\D/g, ''),
                 companyName,
                 profession,
                 state,
@@ -104,8 +105,9 @@ export default function ProfileClient() {
                             label='Telefone celular' 
                             placeholder='(00) 0 0000-0000)' 
                             top='mt-5'
+                            maxLength={16}
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => setPhone(maskTelefone(e.target.value))}
                         />
                     </div>
 

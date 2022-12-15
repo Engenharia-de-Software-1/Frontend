@@ -17,24 +17,31 @@ export default function Settings() {
     const [newPassword, setNewPassword] = useState<string>('');
 
     async function goChangePassword() {
-        if(password !== '' && newPassword !== '') {
-            try {
-                let type = data?.type === 'admin' ? 'admin' : data?.type === 'cliente' ? 'client' :  data?.type === 'investidor' ? 'investor' : 'startup';
-                const output = await api.put<IUser>(`${type}/`, {
-                    password,
-                    confirmPassword: newPassword
-                });
-                if(output.data && output.data.id) {
-                    alert('Senha alterada com sucesso!');
-                } else {
-                    console.log(output);
+        if (password !== newPassword ) {
+            alert('As senhas não são iguais!');
+        } else  if (password.length < 7 && newPassword.length < 7) {
+            alert('A senha deve ter no mínimo 8 caracteres!');
+           
+        } else if(password !== '' && newPassword !== '') {
+            if(window.confirm('Tem certeza que deseja mudar a senha')){
+                try {
+                    let type = data?.type === 'admin' ? 'admin' : data?.type === 'cliente' ? 'client' :  data?.type === 'investidor' ? 'investor' : 'startup';
+                    const output = await api.put<IUser>(`${type}/`, {
+                        password,
+                        confirmPassword: newPassword
+                    });
+                    if(output.data && output.data.id) {
+                        alert('Senha alterada com sucesso!');
+                    } else {
+                        console.log(output);
+                        alert('Erro ao alterar senha!');
+                    }
+                } catch (error) {
                     alert('Erro ao alterar senha!');
                 }
-            } catch (error) {
-                alert('Error retornado!');
+            } else {
+                alert('Preencha todos os campos!');
             }
-        } else {
-            alert('Preencha todos os campos!');
         }
     }
     
