@@ -14,6 +14,7 @@ import { useAllUsers } from '../../../services/queryClient/useAllUsers';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useProjects } from '../../../services/queryClient/useProject';
 import { validCNPJ, validEmail, validPhoneNumber } from '../../../utils/formsValidation';
+import { maskCNPJ, maskTelefone } from '../../../utils/maks';
 import { divGeneral, divInput, textStyle2, textStyle3, textTitle } from '../styles';
 
 class IUpdateStartup {
@@ -39,10 +40,22 @@ export default function Startup() {
 
 
     const handleChange = (e: any) => {
-        setUpdateStartup({
-          ...updateStartup,
-          [e.target.name]: e.target.value //edit
-        });
+        if(e.target.name === 'cnpj') {
+            setUpdateStartup({
+              ...updateStartup,
+              [e.target.name]: maskCNPJ(e.target.value) //edit
+            });
+        } else if(e.target.name === 'phone') {
+            setUpdateStartup({
+              ...updateStartup,
+              [e.target.name]: maskTelefone(e.target.value) //edit
+            });
+        } else {
+            setUpdateStartup({
+              ...updateStartup,
+              [e.target.name]: e.target.value //edit
+            });
+        }
     };
 
     function handleOpenModal(id: string) {
@@ -142,7 +155,7 @@ export default function Startup() {
                                                         </button>
                                                         <button 
                                                             onClick={() => handleOpenEditModal(user)}
-                                                            className='flex mr-2 bg-greenText p-2 px-5 rounded text-white'
+                                                            className='flex mr-2 bg-greenText65 p-2 px-5 rounded text-white'
                                                         >
                                                             Editar
                                                         </button>
@@ -242,7 +255,7 @@ export default function Startup() {
                         <Input 
                             haslabel 
                             label='CNPJ' 
-                            placeholder='00000000000000' 
+                            placeholder='00.000.000/0000-00' 
                             top='mt-5'
                             name='cnpj'
                             onChange={(e) => handleChange(e)}

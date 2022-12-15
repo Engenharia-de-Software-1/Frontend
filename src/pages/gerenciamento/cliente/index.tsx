@@ -15,6 +15,7 @@ import CityValues from '../../../contents/city';
 import { validCNPJ, validEmail, validPhoneNumber } from '../../../utils/formsValidation';
 import { IUserClient } from '../../../models/IUser';
 import api from '../../../services/api';
+import { maskCNPJ, maskTelefone } from '../../../utils/maks';
 
 class IUpdateClient {
     name: string = '';
@@ -38,10 +39,22 @@ export default function Cliente() {
     const [updateClient, setUpdateClient] = useState<IUpdateClient>(new IUpdateClient());
 
     const handleChange = (e: any) => {
-        setUpdateClient({
-          ...updateClient,
-          [e.target.name]: e.target.value //edit
-        });
+        if(e.target.name === 'cnpj') {
+            setUpdateClient({
+              ...updateClient,
+              [e.target.name]: maskCNPJ(e.target.value) //edit
+            });
+        } else if(e.target.name === 'phone') {
+            setUpdateClient({
+              ...updateClient,
+              [e.target.name]: maskTelefone(e.target.value) //edit
+            });
+        } else {
+            setUpdateClient({
+              ...updateClient,
+              [e.target.name]: e.target.value //edit
+            });
+        }
     };
 
     function handleOpenModal(id: string) {
@@ -139,7 +152,7 @@ export default function Cliente() {
                                                         </button>
                                                         <button 
                                                             onClick={() => handleOpenEditModal(user)}
-                                                            className='flex mr-2 bg-greenText p-2 px-5 rounded text-white'
+                                                            className='flex mr-2 bg-greenText65 p-2 px-5 rounded text-white'
                                                         >
                                                             Editar
                                                         </button>
