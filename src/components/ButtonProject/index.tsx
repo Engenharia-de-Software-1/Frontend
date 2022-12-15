@@ -28,7 +28,7 @@ function ButtonProject({ project, userType }: IProjectProps) {
 
                     { project.situation === 'pending' && (
                         <Button
-                            bg='bg-warning' 
+                            bg='bg-buttonPlans' 
                             rounded='rounded-full' 
                             w='w-28' 
                             h='h-8' 
