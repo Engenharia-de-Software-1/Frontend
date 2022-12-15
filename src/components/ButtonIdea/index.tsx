@@ -29,7 +29,7 @@ function ButtonIdea({ idea, userType, favorite, final, ...rest }: IIdeaProps) {
                     </h1>
                     {idea.situation === 'pending' && (
                         <Button
-                            bg='bg-warning' 
+                            bg='bg-buttonPlans' 
                             rounded='rounded-full' 
                             w='w-28' 
                             h='h-8' 
