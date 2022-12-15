@@ -13,6 +13,7 @@ import { IUserInvestor } from '../../models/IUser';
 import { useRouter } from 'next/router';
 import { useMyData } from '../../services/queryClient/useMyData';
 import { maskCNPJ, maskTelefone } from '../../utils/maks';
+import { validCNPJ, validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileInvestor() {  
     const { data, refetch } = useMyData();
@@ -53,11 +54,11 @@ export default function ProfileInvestor() {
     }, []);
 
     async function handleEdit() {
-        if (!validPhoneNumber(phone))
+        if (!validPhoneNumber(phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
         if (!validEmail(email))
             return alert('Endereço de e-mail inserido não é válido.');
-        if (!validCNPJ(cnpj))
+        if (!validCNPJ(cnpj.replace(/\D/g, '')))
             return alert('Número de CNPJ inserido não é válido.');
 
         try {

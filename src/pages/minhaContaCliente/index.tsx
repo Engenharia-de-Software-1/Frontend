@@ -12,6 +12,7 @@ import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';
 import { maskTelefone } from '../../utils/maks';
+import { validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileClient() {  
     const { data, refetch } = useMyData();
@@ -51,9 +52,9 @@ export default function ProfileClient() {
     }, []);
 
     async function handleEdit() {
-        if (!validPhoneNumber(phone))
+        if (!validPhoneNumber(phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
-        if (!validEmail(email))
+        if (!validEmail(email.replace(/\D/g, '')))
             return alert('Endereço de e-mail inserido não é válido.');
 
         try {

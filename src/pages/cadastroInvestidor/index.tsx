@@ -9,6 +9,7 @@ import { divGeneral, textTitle } from './styles';
 import { useRouter } from 'next/router';
 import api from '../../services/api';
 import { maskCNPJ, maskTelefone } from '../../utils/maks';
+import { validCNPJ, validPhoneNumber } from '../../utils/formsValidation';
 
 class ICadastroInvestidor {
     phone: string = '';
@@ -45,9 +46,9 @@ export default function Registration() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (!validPhoneNumber(cadastro.phone))
+        if (!validPhoneNumber(cadastro.phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
-        if (!validCNPJ(cadastro.cnpj))
+        if (!validCNPJ(cadastro.cnpj.replace(/\D/g, '')))
             return alert('Número de CNPJ inserido não é válido.');
 
         try {
