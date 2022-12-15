@@ -16,6 +16,7 @@ export default function Assinaturas({}: IAssinaturasProps) {
   const ideas = useIdeas();
 
   async function subscribe(planName: string) {
+    if(window.confirm('Tem certeza que deseja adquirir esse plano?')){
     try {
       const link = myData.data?.type === 'startup' ? 'startup' : myData.data?.type === 'investidor' ? 'investor' : 'client';
       const output = await api.put(`${link}`, {
@@ -39,6 +40,7 @@ export default function Assinaturas({}: IAssinaturasProps) {
       alert('Erro retornado!');
     }
   }
+}
 
   function goBack() {
     router.back();
