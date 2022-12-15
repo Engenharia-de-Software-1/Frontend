@@ -89,12 +89,12 @@ export default function Startup() {
             </div> 
             <Modal isOpen={isOpen} footer={undefined} onClose={() => setIsOpen(false)} title='Projetos da startup' size='5xl'>
                 <button onClick={() => refetch()}>Atualizar</button>
-                {projectLoading || projectFetching || !id ? (<Spinner/>) : project?.filter(el => el.userId === id && (el.situation === 'aproved' || el.situation === 'recused')).map((project) => (
+                {projectLoading || projectFetching || !id ? (<Spinner/>) : project?.filter(el => el.userId === id && (el.situation === 'aproved' || el.situation === 'recused' || el.situation === 'pending')).map((project) => (
                     <div key={project.id} className='w-full mt-5'>
                         <div className='flex items-center'>
                             <h1 className='text-lg font-semibold'>{project.title}</h1>
-                            <div className={project.situation === 'aproved' ? 'flex ml-2 bg-greenLight text-greenText p-1 px-5 rounded-full' : 'flex ml-2 bg-warning text-white p-1 px-5 rounded-full'}>
-                                <h1>{project.situation === 'aproved' ? 'Aprovado' : 'Recusado' }</h1>
+                            <div className={project.situation === 'aproved' ? 'flex ml-2 bg-greenLight text-greenText p-1 px-5 rounded-full' : project.situation === 'recused' ? 'flex ml-2 bg-warning text-white p-1 px-5 rounded-full' : 'flex ml-2 bg-buttonPlans text-white p-1 px-5 rounded-full'}>
+                                <h1>{project.situation === 'aproved' ? 'Aprovado' : project.situation === 'recused' ? 'Recusado' : 'Pendente' }</h1>
                             </div>
                         </div>
                         <p className='text-md font-regular mb-5'>{project.solution.substring(0, 100)}</p>

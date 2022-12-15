@@ -14,7 +14,7 @@ export default function Cliente() {
     const [id, setId] = useState('');
     const myData = useMyData();
     const { isLoading, isFetching, data } = useAllUsers();
-    const { data: ideas, isLoading: ideasLoading, isFetching: ideasFetching } = useIdeas();
+    const { data: ideas, isLoading: ideasLoading, isFetching: ideasFetching, refetch } = useIdeas();
     const [isOpen, setIsOpen] = useState(false);
 
     function handleOpenModal(id: string) {
@@ -84,12 +84,13 @@ export default function Cliente() {
                 </div> 
             </div> 
             <Modal isOpen={isOpen} footer={undefined} onClose={() => setIsOpen(false)} title='Ideias do produtor rural' size='5xl'>
-                {ideasLoading || ideasFetching || !id ? (<Spinner/>) : ideas?.filter(el => el.userId === id && (el.situation === 'aproved' || el.situation === 'recused')).map((idea) => (
+                <button onClick={() => refetch()}>Atualizar</button>
+                {ideasLoading || ideasFetching || !id ? (<Spinner/>) : ideas?.filter(el => el.userId === id && (el.situation === 'aproved' || el.situation === 'recused' || el.situation === 'pending')).map((idea) => (
                     <div key={idea.id} className='w-full mt-5'>
                         <div className='flex items-center'>
                             <h1 className='text-lg font-semibold'>{idea.title}</h1>
-                            <div className={idea.situation === 'aproved' ? 'flex ml-2 bg-greenLight text-greenText p-1 px-5 rounded-full' : 'flex ml-2 bg-[#ffc9bb] text-warning p-1 px-5 rounded-full'}>
-                                <h1>{idea.situation === 'aproved' ? 'Aprovado' : 'Recusado' }</h1>
+                            <div className={idea.situation === 'aproved' ? 'flex ml-2 bg-greenLight text-greenText p-1 px-5 rounded-full' : idea.situation === 'recused' ? 'flex ml-2 bg-warning text-white p-1 px-5 rounded-full' : 'flex ml-2 bg-buttonPlans text-white p-1 px-5 rounded-full'}>
+                                <h1>{idea.situation === 'aproved' ? 'Aprovado' : idea.situation === 'recused' ? 'Recusado' : 'Pendente' }</h1>
                             </div>
                         </div>
                         <p className='text-md font-regular mb-5'>{idea.description.substring(0, 100)}</p>
