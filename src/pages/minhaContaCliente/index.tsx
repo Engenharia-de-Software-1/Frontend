@@ -11,6 +11,7 @@ import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserClient } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { maskTelefone } from '../../utils/maks';
 
 export default function ProfileClient() {  
     const { data, refetch } = useMyData();
@@ -38,7 +39,7 @@ export default function ProfileClient() {
             const resp = await api.get<IUserClient>(`/client`);
             setName(resp.data.name);
             setEmail(resp.data.email);
-            setPhone(resp.data.phone);
+            setPhone(maskTelefone(resp.data.phone));
             setCompanyName(resp.data.client.companyName);
             setProfession(resp.data.client.profession);
             setState(resp.data.address.state);
@@ -54,7 +55,7 @@ export default function ProfileClient() {
             const output = await api.put<IUserClient>(`client`, {
                 name,
                 email,
-                phone,
+                phone: phone.replace(/\D/g, ''),
                 companyName,
                 profession,
                 state,
@@ -98,8 +99,9 @@ export default function ProfileClient() {
                             label='Telefone celular' 
                             placeholder='(00) 0 0000-0000)' 
                             top='mt-5'
+                            maxLength={16}
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => setPhone(maskTelefone(e.target.value))}
                         />
                     </div>
 

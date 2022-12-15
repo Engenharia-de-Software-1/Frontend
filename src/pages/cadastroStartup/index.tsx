@@ -7,6 +7,7 @@ import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
+import { maskCNPJ, maskTelefone } from '../../utils/maks';
 
 class ICadastroStartup{
     startupName: string = '';
@@ -24,16 +25,32 @@ export default function Registration() {
     const { userId } = router.query;
 
     const handleChange = (e: any) => {
-        setCadastro({
-          ...cadastro,
-          [e.target.name]: e.target.value //edit
-        });
+        if(e.target.name === 'cnpj') {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: maskCNPJ(e.target.value) //edit
+            });
+        } else if(e.target.name === 'phone') {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: maskTelefone(e.target.value) //edit
+            });
+        } else {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: e.target.value //edit
+            });
+        }
     };
         
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
         try {
-            await api.put(`/startup`, cadastro)
+            await api.put(`/startup`, {
+                ...cadastro,
+                cnpj: cadastro.cnpj.replace(/\D/g, ''),
+                phone: cadastro.phone.replace(/\D/g, ''),
+            })
             router.push(`/minhaContaStartup?id=${userId}`)
         }
         catch (error) {
@@ -59,8 +76,8 @@ export default function Registration() {
                         <div className="w-462 mt-5">
                             <Input haslabel label='Nome do representante' placeholder='Ex: José da Silva'/>
                             <Input haslabel name='startupName' onChange={(e) => handleChange(e)} value={cadastro.startupName} label='Nome da startup' placeholder='Ex: Doe sangue' top='mt-10'/>
-                            <Input haslabel name='phone' onChange={(e) => handleChange(e)} value={cadastro.phone} label='Número de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
-                            <Input haslabel name='cnpj' onChange={(e) => handleChange(e)} value={cadastro.cnpj} label='CNPJ' placeholder='00000000000000' top='mt-10'/>
+                            <Input haslabel name='phone' maxLength={16} onChange={(e) => handleChange(e)} value={cadastro.phone} label='Número de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
+                            <Input haslabel name='cnpj' maxLength={18} onChange={(e) => handleChange(e)} value={cadastro.cnpj} label='CNPJ' placeholder='00000000000000' top='mt-10'/>
                             <Input haslabel name='employees' onChange={(e) => handleChange(e)} value={cadastro.employees} label='Quantidade de pessoas na startup' placeholder='0' type='number' min='0' top='mt-10'/>                
 
                             <div className='flex space-x-10'>
