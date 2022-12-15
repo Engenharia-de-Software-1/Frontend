@@ -29,14 +29,17 @@ export default function Project() {
     const { data, isFetched, refetch } = useOneProject(router.query.id as string);
     const [canInvest, setCanInvest] = useState(false);
     const [canRead, setCanRead] = useState(false);
+    const [email, setEmail] = useState('');
     const projects = useProjects();
     
     function handleButtonEditProject(){
         setProjectStates({...projectStates, openEditModal: !projectStates.openEditModal});
     }
 
-    function handleInvestment(){
-        alert('Você clicou em investir')
+    async function getEmail(){
+        await api.get(`/startup/${data?.userId}`).then(response => {
+            setEmail(response.data.email);
+        })
     }
 
     async function handleGoToPlan(){
@@ -126,6 +129,7 @@ export default function Project() {
                 openEditModal: false
             })
             getPermissions();
+            getEmail();
         }
     }, [data, isFetched, plans.data, router])
     
@@ -230,18 +234,8 @@ export default function Project() {
                             )}  
 
                             { myData.data?.type === 'investidor' && myData.data.user.id !== data.userId && canInvest && (
-                                <div className='pt-4 text-right space-x-5'>
-                                    <Button
-                                        bg='bg-greenDark' 
-                                        rounded='rounded-lg' 
-                                        w='w-64' 
-                                        h='h-12' 
-                                        textColor='text-white' 
-                                        textWeight='font-bold'
-                                        onClick={handleInvestment}
-                                    >
-                                        INVESTIR
-                                    </Button>
+                                <div className='pt-4 text-right space-x-5 mb-10'>
+                                    <p>Para contato com a startup: {email}</p>
                                 </div>
                             ) }                            
                         
