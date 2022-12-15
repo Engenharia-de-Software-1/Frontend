@@ -85,6 +85,8 @@ export default function Startup() {
             return alert('Endereço de e-mail inserido não é válido.');
         if (!validCNPJ(updateStartup.cnpj))
             return alert('Número de CNPJ inserido não é válido.');
+        if(!window.confirm('Tem certeza que deseja editar esta startup?'))
+            return;
 
         try {
             const output = await api.put<IUserStartup>(`startup/${id}`, updateStartup);
@@ -231,7 +233,7 @@ export default function Startup() {
                         haslabel 
                         label='E-mail' 
                         placeholder='e-mail' 
-                        top='mt-10'
+                        top='mt-5'
                         name='email'
                         onChange={(e) => handleChange(e)}
                         value={updateStartup.email}

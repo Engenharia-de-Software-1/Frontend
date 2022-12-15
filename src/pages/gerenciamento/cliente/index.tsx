@@ -85,6 +85,8 @@ export default function Cliente() {
             return alert('Endereço de e-mail inserido não é válido.');
         if (!validCNPJ(updateClient.cnpj))
             return alert('Número de CNPJ inserido não é válido.');
+        if(!window.confirm('Tem certeza que deseja editar este produtor rural?'))
+            return;
 
         try {
             const output = await api.put<IUserClient>(`client/${id}`, updateClient);
@@ -228,7 +230,7 @@ export default function Cliente() {
                         haslabel 
                         label='E-mail' 
                         placeholder='e-mail' 
-                        top='mt-10'
+                        top='mt-5'
                         name='email'
                         onChange={(e) => handleChange(e)}
                         value={updateClient.email}
