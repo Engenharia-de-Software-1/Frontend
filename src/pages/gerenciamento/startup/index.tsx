@@ -35,8 +35,6 @@ export default function Startup() {
     const { data: project, isLoading: projectLoading, isFetching: projectFetching } = useProjects();
     const [isOpen, setIsOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const [state, setState] = useState<string>('');
-    const [city, setCity] = useState<string>('');  
     const [updateStartup, setUpdateStartup] = useState<IUpdateStartup>(new IUpdateStartup());
 
 
@@ -46,14 +44,6 @@ export default function Startup() {
           [e.target.name]: e.target.value //edit
         });
     };
-
-    const handleUF = useCallback((state:string) => {
-        setState(state)
-    }, [])
-
-    const handleCity = useCallback((city:string) => {
-        setCity(city)
-    }, [])
 
     function handleOpenModal(id: string) {
         setId(id);
@@ -253,7 +243,7 @@ export default function Startup() {
                             haslabel 
                             label='CNPJ' 
                             placeholder='00000000000000' 
-                            top='mt-10'
+                            top='mt-5'
                             name='cnpj'
                             onChange={(e) => handleChange(e)}
                             value={updateStartup.cnpj}
@@ -264,7 +254,7 @@ export default function Startup() {
                             placeholder='0'
                             type='number' 
                             min='0' 
-                            top='mt-10'
+                            top='mt-5'
                             name='employees'
                             onChange={(e) => handleChange(e)}
                             value={updateStartup.employees}
