@@ -1,4 +1,4 @@
-import { Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Spinner, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
@@ -15,25 +15,31 @@ import { divGeneral } from './styles';
 } 
 
 export default function Dashboard({ data }: DashboarProps) {  
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const myData = useMyData();
     const { data: project } = useProjects();
     const { data: idea } = useIdeas();
-    const { data: plans } = usePlans();
+    const { data: plans, refetch } = usePlans();
 
     function handleGoToSubscriptions() {
         router.push('/assinaturas');
     }
 
     async function handleCancelPlan() {
-        try {
-            const link = myData.data?.type === 'startup' ? 'startup' : myData.data?.type === 'investidor' ? 'investor' : 'client';
-            await api.put(`${link}`, {
-                planName: 'default'
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        if(confirm('Tem certeza que deseja cancelar seu plano?'))
+            try {
+                setLoading(true)
+                const link = myData.data?.type === 'startup' ? 'startup' : myData.data?.type === 'investidor' ? 'investor' : 'client';
+                await api.put(`${link}`, {
+                    planName: 'default'
+                }).then(() => {
+                    refetch();
+                    myData.refetch();
+                });
+            } catch (error) {
+                console.log(error);
+            }
     }
 
     return ( 
@@ -60,7 +66,9 @@ export default function Dashboard({ data }: DashboarProps) {
                                         onClick={handleCancelPlan}
                                         className='mt-2 bg-warning w-full text-white text-sm p-2 px-5 rounded transition-all duration-300 hover:opacity-75'
                                     >
-                                        Cancelar plano
+                                        {loading ? (
+                                            <Spinner size='sm'/>
+                                        ) : 'Cancelar plano'}
                                     </button>
                                 ) }
                             </div>
