@@ -32,7 +32,7 @@ export default function Startup() {
     const router = useRouter(); 
     const [id, setId] = useState('');
     const myData = useMyData();
-    const { isLoading, isFetching, data } = useAllUsers();
+    const { isLoading, isFetching, data, refetch: refetchUsers } = useAllUsers();
     const { data: project, isLoading: projectLoading, isFetching: projectFetching, refetch } = useProjects();
     const [isOpen, setIsOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -92,7 +92,7 @@ export default function Startup() {
             const output = await api.put<IUserStartup>(`startup/${id}`, updateStartup);
             if(output.data && output.data.id) {
                 alert('Dados atualizados com sucesso!');
-                refetch();
+                refetchUsers();
                 setIsEditOpen(false);
             } else {
                 alert('Erro ao atualizar dados!');
