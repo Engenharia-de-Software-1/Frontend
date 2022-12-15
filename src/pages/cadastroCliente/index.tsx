@@ -44,6 +44,11 @@ export default function Registration() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        if (!validCNPJ(cadastro.cnpj))
+            return alert('Número de CNPJ inserido não é válido.');
+        if (!validPhoneNumber(cadastro.phone))
+            return alert('Número de telefone inserido não é válido.');
+
         try {
             await api.put(`/client`, {
                 ...cadastro,
@@ -97,7 +102,7 @@ export default function Registration() {
                         </div>
 
                         <div className='pt-12 flex space-x-10'>
-                            <Button 
+                            {/* <Button 
                                 bg='bg-green65' 
                                 rounded='rounded' 
                                 w='w-full' 
@@ -107,7 +112,7 @@ export default function Registration() {
                                 onClick={goBack}
                                 >
                                 VOLTAR
-                            </Button> 
+                            </Button> */} 
                             <Button 
                                 bg='bg-greenDark' 
                                 rounded='rounded' 

@@ -39,6 +39,18 @@ function ButtonIdea({ idea, userType, favorite, final, ...rest }: IIdeaProps) {
                             Pendente
                         </Button>
                     )}
+                    {idea.situation === 'aproved' && (
+                        <Button
+                            bg='bg-greenDark'
+                            rounded='rounded-full'
+                            w='w-28'
+                            h='h-8'
+                            textColor='text-white'
+                            textWeight='font-bold'
+                        >
+                            Aprovado
+                        </Button>
+                    ) }  
                     {idea.situation === 'recused' && (
                         <Button
                             bg='bg-warning' 

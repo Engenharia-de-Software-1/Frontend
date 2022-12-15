@@ -4,7 +4,8 @@ export interface IIdea {
   description: string;
   userId: string;
   situation: string;
-  favorite: boolean;
+  favorites: number;
   createdAt: Date;
   updatedAt: Date;
+  views: number;
 }

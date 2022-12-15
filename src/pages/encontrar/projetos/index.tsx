@@ -6,11 +6,12 @@ import { divGeneral, textTitle } from './styles';
 import { ButtonProject } from '../../../components/ButtonProject';
 import { useMyData } from '../../../services/queryClient/useMyData';
 import { useProjects } from '../../../services/queryClient/useProject';
+import SearchBar from '../../../components/SearchBar/indext';
 
 export default function SearchProject() {    
     const myData = useMyData();
     const { isLoading, isFetching, data, refetch } = useProjects();
-
+    const [searchQuery, setSearchQuery] = useState('');
     const [buttonCheck, setButtonCheck] = useState(false);
 
     function useButtonCheck() {
@@ -31,10 +32,13 @@ export default function SearchProject() {
                     </label> */}
 
                 </div>
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {isLoading || isFetching && (<h1>Carregando projetos...</h1>)}
                     {!isLoading && !isFetching && (data?.length === 0 || data?.filter(el => el.situation === 'aproved').length === 0) && (<h1>Não há nenhum projeto aqui</h1>)}
-                    {!isLoading && !isFetching && data?.filter(el => el.situation === 'aproved').map((project) => (
+                    {!isLoading 
+                    && !isFetching 
+                    && data?.filter(el => el.situation === 'aproved' && el.title.toLowerCase().includes(searchQuery)).map((project) => (
                         <ButtonProject 
                             key={project.id} 
                             project={project} 

@@ -49,6 +49,13 @@ export default function ProfileStartup() {
     }, []);
 
     async function handleEdit() {
+        if (!validPhoneNumber(phone))
+            return alert('Número de telefone inserido não é válido.');
+        if (!validEmail(email))
+            return alert('Endereço de e-mail inserido não é válido.');
+        if (!validCNPJ(cnpj))
+            return alert('Número de CNPJ inserido não é válido.');
+
         try {
             const output = await api.put<IUserStartup>(`startup`, {
                 name,

@@ -9,9 +9,11 @@ import { useFavIdeas } from '../../../services/queryClient/useFavIdeas';
 import { get, set } from '../../../contexts/store';
 import { IIdea } from '../../../models/IIdea';
 import { useRouter } from 'next/router';
+import SearchBar from '../../../components/SearchBar/indext';
 
 export default function SearchIdea() {    
     const myData = useMyData();
+    const [searchQuery, setSearchQuery] = useState('');
     const { isLoading, isFetching, data, refetch } = useIdeas();
     const [historyIdea, setHistoryIdea] = useState<IIdea[]>([]);
     const favs = useFavIdeas();
@@ -52,10 +54,14 @@ export default function SearchIdea() {
                     </label>
 
                 </div>
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                 <div className="grid grid-cols-1 divide-y divide-greenLine">
                     {isLoading || isFetching && (<h1>Carregando ideias...</h1>)}
                     {!isLoading && !isFetching && (data?.length === 0 || data?.filter(el => el.situation === 'aproved').length === 0) && (<h1>Não há nenhuma ideia aqui</h1>)}
-                    {!isLoading && !isFetching && !buttonCheck && data?.filter(el => el.situation === 'aproved').reverse().map((idea, i) => (
+                    {!isLoading 
+                    && !isFetching 
+                    && !buttonCheck 
+                    && data?.filter(el => el.situation === 'aproved' && el.title.toLowerCase().includes(searchQuery)).reverse().map((idea, i) => (
                         <ButtonIdea 
                             key={idea.id} 
                             idea={idea} 
@@ -68,7 +74,10 @@ export default function SearchIdea() {
                             onClick={() => handleClickIdea(idea, 0)}
                         />
                     ))}      
-                    {!isLoading && !isFetching && buttonCheck && historyIdea.filter(el => el.situation === 'aproved').map((idea, i) => (
+                    {!isLoading 
+                    && !isFetching 
+                    && buttonCheck 
+                    && historyIdea.filter(el => el.situation === 'aproved' && el.title.toLowerCase().includes(searchQuery)).map((idea, i) => (
                         <ButtonIdea 
                             key={idea.id} 
                             idea={idea} 

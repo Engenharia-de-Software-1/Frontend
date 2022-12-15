@@ -9,6 +9,7 @@ import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
 import { IUser } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { validEmail } from '../../utils/formsValidation';
 
 export default function ProfileAdmin() {     
     const { data, refetch } = useMyData();
@@ -26,6 +27,9 @@ export default function ProfileAdmin() {
     }, [data]);
 
     async function handleEdit() {
+        if (!validEmail(email))
+            return alert('Endereço de e-mail inserido não é válido.');
+
         try {
             const output = await api.put<IUser>(`admin`, {
                 name,

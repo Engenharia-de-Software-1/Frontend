@@ -37,6 +37,18 @@ function ButtonProject({ project, userType }: IProjectProps) {
                         >
                             Pendente
                         </Button> 
+                    )}
+                    { project.situation === 'aproved' && (
+                        <Button
+                            bg='bg-greenDark'
+                            rounded='rounded-full'
+                            w='w-28'
+                            h='h-8'
+                            textColor='text-white'
+                            textWeight='font-bold'
+                        >
+                            Aprovado
+                        </Button>
                     ) }  
                     { project.situation === 'recused' && (
                         <Button
