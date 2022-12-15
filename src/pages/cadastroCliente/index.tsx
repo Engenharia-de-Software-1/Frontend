@@ -7,6 +7,7 @@ import { Select } from '../../components/Select';
 import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import api from '../../services/api';
+import { maskCNPJ, maskTelefone } from '../../utils/maks';
 import { validCNPJ, validPhoneNumber } from '../../utils/formsValidation';
 
 class ICadastroCliente {
@@ -24,21 +25,37 @@ export default function Registration() {
     
     const [cadastro, setCadastro] = useState<ICadastroCliente>(new ICadastroCliente());
     const handleChange = (e: any) => {
-        setCadastro({
-          ...cadastro,
-          [e.target.name]: e.target.value //edit
-        });
+        if(e.target.name === 'cnpj') {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: maskCNPJ(e.target.value) //edit
+            });
+        } else if(e.target.name === 'phone') {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: maskTelefone(e.target.value) //edit
+            });
+        } else {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: e.target.value //edit
+            });
+        }
     };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (!validCNPJ(cadastro.cnpj))
+        if (!validCNPJ(cadastro.cnpj.replace(/\D/g, '')))
             return alert('Número de CNPJ inserido não é válido.');
-        if (!validPhoneNumber(cadastro.phone))
+        if (!validPhoneNumber(cadastro.phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
 
         try {
-            await api.put(`/client`, cadastro);
+            await api.put(`/client`, {
+                ...cadastro,
+                cnpj: cadastro.cnpj.replace(/\D/g, ''),
+                phone: cadastro.phone.replace(/\D/g, ''),
+            });
             router.push('/minhaContaCliente');
         } catch (error) {
             console.error(error);
@@ -61,8 +78,8 @@ export default function Registration() {
                     <form onSubmit={handleSubmit}>
                         <div className="w-462 mt-5">
                             <Input haslabel value={cadastro.companyName} onChange={(e) => handleChange(e)} name='companyName' label='Nome da propriedade rural ou empresa rural' placeholder='Ex: José da Silva'/>
-                            <Input haslabel value={cadastro.phone} onChange={(e) => handleChange(e)} name='phone' label='Telefone para contato' placeholder='(00) 0 0000-0000' top='mt-10'/>
-                            <Input haslabel value={cadastro.cnpj} onChange={(e) => handleChange(e)} name='cnpj' label='CNPJ' placeholder='00000000000000' top='mt-10'/>
+                            <Input haslabel value={cadastro.phone} maxLength={16} onChange={(e) => handleChange(e)} name='phone' label='Némero de celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
+                            <Input haslabel value={cadastro.cnpj} maxLength={18} onChange={(e) => handleChange(e)} name='cnpj' label='CNPJ' placeholder='00000000000000' top='mt-10'/>
                             <Input haslabel value={cadastro.profession} onChange={(e) => handleChange(e)} name='profession' label='Formações em quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>
                             
                             <div className='flex space-x-10'>

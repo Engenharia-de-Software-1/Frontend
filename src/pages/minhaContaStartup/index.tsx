@@ -11,6 +11,7 @@ import CityValues from '../../contents/city';
 import api from '../../services/api';
 import { IUserStartup } from '../../models/IUser';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { maskCNPJ, maskTelefone } from '../../utils/maks';
 import { validCNPJ, validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileStartup() {    
@@ -39,9 +40,9 @@ export default function ProfileStartup() {
         const response = await api.get<IUserStartup>(`/startup`);
         setName(response.data.name);
         setEmail(response.data.email);
-        setPhone(response.data.phone);
+        setPhone(maskTelefone(response.data.phone));
         setStartupName(response.data.startup.startupName);
-        setCnpj(response.data.startup.cnpj);
+        setCnpj(maskCNPJ(response.data.startup.cnpj));
         setEmployees(response.data.startup.employees);
         setState(response.data.address.state);
         setCity(response.data.address.city);
@@ -49,22 +50,22 @@ export default function ProfileStartup() {
     }, []);
 
     async function handleEdit() {
-        if (!validPhoneNumber(phone))
+        if (!validPhoneNumber(phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
         if (!validEmail(email))
             return alert('Endereço de e-mail inserido não é válido.');
-        if (!validCNPJ(cnpj))
+        if (!validCNPJ(cnpj.replace(/\D/g, '')))
             return alert('Número de CNPJ inserido não é válido.');
 
         try {
             const output = await api.put<IUserStartup>(`startup`, {
                 name,
                 email,
-                phone,
+                phone: phone.replace(/\D/g, ''),
                 startupName,
                 state,
                 city,
-                cnpj,
+                cnpj: cnpj.replace(/\D/g, ''),
                 employees
             });
             if(output.data && output.data.id) {
@@ -107,8 +108,9 @@ export default function ProfileStartup() {
                             label='Telefone celular' 
                             placeholder='(00) 0 0000-0000' 
                             top='mt-2'
+                            maxLength={16}
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => setPhone(maskTelefone(e.target.value))}
                         />
                     </div>
 
@@ -154,8 +156,9 @@ export default function ProfileStartup() {
                             label='CNPJ' 
                             placeholder='00000000000000' 
                             top='mt-10'
+                            maxLength={18}
                             value={cnpj}
-                            onChange={(e) => setCnpj(e.target.value)}
+                            onChange={(e) => setCnpj(maskCNPJ(e.target.value))}
                         />
                         <Input 
                             haslabel 

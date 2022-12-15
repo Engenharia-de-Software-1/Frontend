@@ -12,6 +12,7 @@ import api from '../../services/api';
 import { IUserInvestor } from '../../models/IUser';
 import { useRouter } from 'next/router';
 import { useMyData } from '../../services/queryClient/useMyData';
+import { maskCNPJ, maskTelefone } from '../../utils/maks';
 import { validCNPJ, validEmail, validPhoneNumber } from '../../utils/formsValidation';
 
 export default function ProfileInvestor() {  
@@ -42,10 +43,10 @@ export default function ProfileInvestor() {
         const response = await api.get<IUserInvestor>(`/investor`);
         setName(response.data.name);
         setEmail(response.data.email);
-        setPhone(response.data.phone);
+        setPhone(maskTelefone(response.data.phone));
         setCompanyName(response.data.investor.companyName);
         setProfession(response.data.investor.profession);
-        setCnpj(response.data.investor.cnpj);
+        setCnpj(maskCNPJ(response.data.investor.cnpj));
         setQtdMembers(response.data.investor.qtdMembers);
         setState(response.data.address.state);
         setCity(response.data.address.city);
@@ -53,23 +54,23 @@ export default function ProfileInvestor() {
     }, []);
 
     async function handleEdit() {
-        if (!validPhoneNumber(phone))
+        if (!validPhoneNumber(phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
         if (!validEmail(email))
             return alert('Endereço de e-mail inserido não é válido.');
-        if (!validCNPJ(cnpj))
+        if (!validCNPJ(cnpj.replace(/\D/g, '')))
             return alert('Número de CNPJ inserido não é válido.');
 
         try {
             const output = await api.put<IUserInvestor>(`investor`, {
                 name,
                 email,
-                phone,
+                phone: phone.replace(/\D/g, ''),
                 companyName,
                 profession,
                 state,
                 city,
-                cnpj,
+                cnpj: cnpj.replace(/\D/g, ''),
                 qtdMembers
             });
             if(output.data && output.data.id) {
@@ -110,8 +111,9 @@ export default function ProfileInvestor() {
                             label='Telefone celular' 
                             placeholder='(00) 0 0000-0000)' 
                             top='mt-5'
+                            maxLength={16}
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => setPhone(maskTelefone(e.target.value))}
                         />
                     </div>
                         <Input 
@@ -153,8 +155,9 @@ export default function ProfileInvestor() {
                             label='CNPJ' 
                             placeholder='00000000000000' 
                             top='mt-5'
+                            maxLength={18}
                             value={cnpj}
-                            onChange={(e) => setCnpj(e.target.value)}
+                            onChange={(e) => setCnpj(maskCNPJ(e.target.value))}
                         />                            
                     </div>
 

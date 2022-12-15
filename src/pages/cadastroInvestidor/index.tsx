@@ -8,13 +8,14 @@ import { Stack } from '../../components/Stack';
 import { divGeneral, textTitle } from './styles';
 import { useRouter } from 'next/router';
 import api from '../../services/api';
+import { maskCNPJ, maskTelefone } from '../../utils/maks';
 import { validCNPJ, validPhoneNumber } from '../../utils/formsValidation';
 
 class ICadastroInvestidor {
-    phone?: string = '';
-    qtdMembers?: number= 0;
+    phone: string = '';
+    qtdMembers?: number= 1;
     companyName?: string= '';
-    cnpj?: string= '';
+    cnpj: string= '';
     profession?: string= '';
     city?: string= '';
     state?: string= '';
@@ -25,21 +26,37 @@ export default function Registration() {
 
     const [cadastro, setCadastro] = useState<ICadastroInvestidor>(new ICadastroInvestidor());
     const handleChange = (e: any) => {
-        setCadastro({
-          ...cadastro,
-          [e.target.name]: e.target.value //edit
-        });
+        if(e.target.name === 'cnpj') {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: maskCNPJ(e.target.value) //edit
+            });
+        } else if(e.target.name === 'phone') {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: maskTelefone(e.target.value) //edit
+            });
+        } else {
+            setCadastro({
+              ...cadastro,
+              [e.target.name]: e.target.value //edit
+            });
+        }
     };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (!validPhoneNumber(cadastro.phone))
+        if (!validPhoneNumber(cadastro.phone.replace(/\D/g, '')))
             return alert('Número de telefone inserido não é válido.');
-        if (!validCNPJ(cadastro.cnpj))
+        if (!validCNPJ(cadastro.cnpj.replace(/\D/g, '')))
             return alert('Número de CNPJ inserido não é válido.');
 
         try {
-            await api.put(`/investor`, cadastro);
+            await api.put(`/investor`, {
+                ...cadastro,
+                cnpj: cadastro.cnpj.replace(/\D/g, ''),
+                phone: cadastro.phone.replace(/\D/g, ''),
+            });
             router.push('/minhaContaInvestidor');
         } catch (error) {
             console.error(error);
@@ -62,9 +79,9 @@ export default function Registration() {
                     <form onSubmit={handleSubmit}>
                         <div className="w-462 mt-5">
                             <Input haslabel value={cadastro.companyName} onChange={(e) => handleChange(e)} name='companyName' label='Nome da startup ou equipe' placeholder='Ex: José da Silva'/>
-                            <Input haslabel value={cadastro.phone} onChange={(e) => handleChange(e)} name='phone' label='Telefone para contato' placeholder='(00) 0 0000-0000' top='mt-10'/>
-                            <Input haslabel value={cadastro.cnpj} onChange={(e) => handleChange(e)} name='cnpj' label='CNPJ' placeholder='00000000000000' top='mt-10'/>
-                            <Input haslabel value={cadastro.qtdMembers} onChange={(e) => handleChange(e)} name='qtdMembers' label='Quantidade de membros/sócios' placeholder='0' type='number' min='0' top='mt-10'/>                
+                            <Input haslabel value={cadastro.phone} maxLength={16} onChange={(e) => handleChange(e)} name='phone' label='Telefone celular' placeholder='(00) 0 0000-0000' top='mt-10'/>
+                            <Input haslabel value={cadastro.cnpj} maxLength={18} onChange={(e) => handleChange(e)} name='cnpj' label='CNPJ' placeholder='00000000000000' top='mt-10'/>
+                            <Input haslabel value={cadastro.qtdMembers} onChange={(e) => handleChange(e)} name='qtdMembers' label='Quantidade de membros/sócios' placeholder='1' type='number' min='1' top='mt-10'/>                
                             <Input haslabel value={cadastro.profession} onChange={(e) => handleChange(e)} name='profession' label='Formação em  quais áreas (membros/sócios)' placeholder='formações' top='mt-10'/>
 
                             <div className='flex space-x-10'>
