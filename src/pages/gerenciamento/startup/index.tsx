@@ -154,14 +154,14 @@ export default function Startup() {
                                                             className='flex mr-2 bg-greenText hover:bg-green65 p-2 rounded text-white'
                                                         >
                                                             <i className="ri-booklet-line px-3"></i>
-                                                            Ver projetos
+                                                            {/* Ver projetos */}
                                                         </button>
                                                         <button 
                                                             onClick={() => handleOpenEditModal(user)}
                                                             className='flex mr-2 bg-greenText hover:bg-green65 p-2 rounded text-white'
                                                         >
                                                             <i className="ri-edit-2-fill px-3"></i>
-                                                            Editar
+                                                            {/* Editar */}
                                                         </button>
                                                     </div>
                                                 </Th>
